@@ -2,17 +2,27 @@ import jwt from "jsonwebtoken";
 import User from "../models/User.js";
 
 export default async function requireAuth(req, res, next) {
-  const token = req.cookies?.token; // or from header
-  if (!token) return res.status(401).json({ error: "No token" });
+  const token =
+    req.cookies?.token ||
+    (req.headers.authorization?.startsWith("Bearer") &&
+      req.headers.authorization.split(" ")[1]);
+
+  if (!token) return res.status(401).json({ message: "No token provided" });
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = await User.findById(decoded.id).select("_id email");
-    if (!req.user) return res.status(401).json({ error: "User not found" });
+
+    // Normalize userId across app
+    req.userId = decoded.userId || decoded.id || decoded._id;
+
+    // Attach minimal user info if needed
+    req.user = await User.findById(req.userId).select("_id email");
+    if (!req.user) return res.status(401).json({ message: "User not found" });
+
     next();
-  } catch (e) {
-    console.error("Auth error:", e);
-    res.status(401).json({ error: "Unauthorized" });
+  } catch (err) {
+    console.error("Auth error:", err);
+    res.status(401).json({ message: "Unauthorized" });
   }
 }
 

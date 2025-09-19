@@ -77,7 +77,7 @@ export const login = async (req, res) => {
           username: user.username,
           email: user.email,
           profilePicture: user.profilePicture,
-          description: user.description, 
+          description: user.description,
         },
         message: "Logged in.",
       });
@@ -101,101 +101,63 @@ export const me = async (req, res) => {
       username: user.username,
       email: user.email,
       profilePicture: user.profilePicture,
-      description: user.description, 
+      description: user.description,
     },
   });
 };
 
+// --- PATCH /api/auth/profile ---
 export const updateProfile = async (req, res) => {
   try {
-    const { username, profilePicture } = req.body;
+    const userId = req.user.id; // comes from auth middleware
+    const { username, description, profilePicture } = req.body;
 
-    const update = {};
-    if (typeof username === "string") update.username = username;
-    if (typeof profilePicture === "string")
-      update.profilePicture = profilePicture;
+    const updates = {};
+    if (username !== undefined) updates.username = username.trim();
+    if (description !== undefined) updates.description = description.trim();
+    if (profilePicture !== undefined) updates.profilePicture = profilePicture;
 
     const user = await User.findByIdAndUpdate(
-      req.userId,
-      { $set: update },
-      { new: true, runValidators: true, select: "-password" }
-    );
+      userId,
+      { $set: updates },
+      { new: true, runValidators: true }
+    ).select("-password");
 
     if (!user) return res.status(404).json({ message: "User not found" });
 
-    res.json({
-      token,
-      user: {
-        _id: user._id,
-        username: user.username,
-        email: user.email,
-        profilePicture: user.profilePicture,
-        description: user.description,
-      },
-      message: "Profile updated",
-    });
+    res.json({ message: "Profile updated", user });
   } catch (err) {
-    console.error(err);
+    console.error("updateProfile error:", err);
     res.status(500).json({ message: "Server error" });
   }
 };
 
+// --- POST /api/auth/upload-profile ---
 export const uploadProfilePic = async (req, res) => {
   try {
-    if (!req.file) return res.status(400).json({ message: "No file uploaded" });
+    const userId = req.user.id;
 
-    const baseUrl =
-      process.env.SERVER_URL || `http://localhost:${process.env.PORT || 4000}`;
-    const fileUrl = `${baseUrl}/uploads/${req.file.filename}`;
-
-    // if you use requireAuth, req.userId is available; otherwise pass userId in body
-    const userId = req.userId;
-    if (!userId) {
-      return res.status(401).json({ message: "Not authenticated" });
+    if (!req.file) {
+      return res.status(400).json({ message: "No file uploaded" });
     }
+
+    const baseUrl = process.env.BASE_URL || "http://localhost:4000";
+    const imageUrl = `${baseUrl}/uploads/profiles/${req.file.filename}`;
 
     const user = await User.findByIdAndUpdate(
       userId,
-      { profilePicture: fileUrl },
-      { new: true, select: "-password" }
-    );
+      { profilePicture: imageUrl },
+      { new: true }
+    ).select("-password");
 
-    res.json({
-      profilePicture: fileUrl,
-      user: {
-        id: user._id,
-        username: user.username,
-        email: user.email,
-        profilePicture: user.profilePicture,
-        description: user.description, 
-      },
-    });
+    if (!user) {
+      fs.unlinkSync(req.file.path);
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.json({ message: "Profile picture updated", user });
   } catch (err) {
-    console.error("Upload error:", err);
-    res.status(500).json({ message: "Upload failed", error: err.message });
+    console.error("uploadProfilePic error:", err);
+    res.status(500).json({ message: "Server error" });
   }
 };
-
-
-
-
-// export const updateProfile = async (req, res) => {
-//   try {
-//     const { username, profilePicture } = req.body;
-//     const update = {};
-//     if (typeof username === "string") update.username = username;
-//     if (typeof profilePicture === "string") update.profilePicture = profilePicture;
-
-//     const user = await User.findByIdAndUpdate(
-//       req.userId,
-//       { $set: update },
-//       { new: true, runValidators: true, select: "-password" }
-//     );
-//     if (!user) return res.status(404).json({ message: "User not found" });
-
-//     res.json({ user: { id: user._id, username: user.username, email: user.email, profilePicture: user.profilePicture }, message: "Profile updated" });
-//   } catch (err) {
-//     console.error(err);
-//     res.status(500).json({ message: "Server error" });
-//   }
-// };

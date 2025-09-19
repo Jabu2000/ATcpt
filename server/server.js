@@ -11,7 +11,6 @@ import { connectDB } from "./configs/db.js";
 import authRoutes from "./routes/auth.routes.js";
 import restaurantRoutes from "./routes/restaurants.js";
 import activityRoutes from "./routes/activities.js";
-import portfolioRoutes from "./routes/profileRoutes.js";
 import postRoutes from "./routes/createpostRoutes.js";
 import savedRoutes from "./routes/savedRoutes.js";
 import storeRoutes from "./routes/stores.js";
@@ -38,7 +37,17 @@ app.use(cors({
 
 // Ensure uploads folders exist
 const uploadsDir = path.join(process.cwd(), "uploads");
-const dirs = ["posts", "restaurants", "activities", "comments", "stores", "places", "events", "accommodation", "profiles"];
+const dirs = [
+  "posts",
+  "restaurants",
+  "activities",
+  "comments",
+  "stores",
+  "places",
+  "events",
+  "accommodation",
+  "profiles", // ✅ fixed to plural
+];
 dirs.forEach((d) => {
   const dirPath = path.join(uploadsDir, d);
   if (!fs.existsSync(dirPath)) fs.mkdirSync(dirPath, { recursive: true });
@@ -56,7 +65,6 @@ app.use("/api/stores", storeRoutes);
 app.use("/api/places", placeRoutes);
 app.use("/api/events", eventRoutes);
 app.use("/api/accommodations", accommodationRoutes);
-app.use("/api/portfolio", portfolioRoutes);
 app.use("/api/saved", savedRoutes);
 app.use("/api/posts", postRoutes);
 app.use("/api/adventures", adventureRoutes);

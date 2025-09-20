@@ -35,7 +35,7 @@ const navigate = useNavigate();
 
   return (
     <div className="w-full h-screen p-6 flex justify-center items-center">
-      <div className="w-full h-[80vh] flex flex-row rounded-3xl shadow-2xl shadow-black overflow-hidden">
+      <div className="w-full h-[750px] flex flex-row rounded-3xl shadow-2xl shadow-[#5f5f5f] overflow-hidden">
         {/* Left Side Panel */}
         <div className="hidden md:flex w-full justify-center items-center bg-[#FF0000]">
           <div className="flex flex-col justify-center items-center px-6 text-center">
@@ -47,7 +47,7 @@ const navigate = useNavigate();
             </p>
             <Link
               to="/login"
-              className="flex justify-center text-sm font-semibold bg-white mt-6 py-2 px-8 rounded-3xl hover:bg-white/90"
+              className="flex justify-center text-sm font-semibold text-black hover:text-white bg-white hover:bg-[#AEFF53] mt-6 py-2 px-8 rounded-3xl "
             >
               Sign In
             </Link>
@@ -55,7 +55,7 @@ const navigate = useNavigate();
         </div>
 
         {/* Signup Form */}
-        <div className="w-full flex flex-col justify-center items-center px-6">
+        <div className="w-full bg-white flex flex-col justify-center items-center px-6">
           <h1 className="text-3xl md:text-5xl font-bold">Create Account</h1>
           <div className="flex flex-row gap-4 mt-2">
             <FaInstagram className="text-[28px]" />

@@ -31,9 +31,9 @@ const Login = () => {
 
   return (
       <div className="w-full h-screen p-6 flex justify-center items-center">
-      <div className="w-full h-[80vh] flex flex-row rounded-3xl shadow-2xl shadow-black overflow-hidden">
+      <div className="w-full h-[750px] flex flex-row rounded-3xl shadow-2xl shadow-[#5f5f5f] overflow-hidden">
         {/* Login Form */}
-        <div className="w-full flex flex-col justify-center items-center px-6">
+        <div className="w-full bg-white flex flex-col justify-center items-center px-6">
           <h1 className="text-3xl md:text-5xl font-bold">Sign In</h1>
           <div className="flex flex-row gap-4 mt-2">
             <FaInstagram className="text-[28px]" />
@@ -110,7 +110,7 @@ const Login = () => {
             </p>
             <Link
               to="/signup"
-              className="flex justify-center text-sm font-semibold bg-white mt-6 py-2 px-8 rounded-3xl hover:bg-white/90"
+              className="flex justify-center text-sm font-semibold bg-white hover:bg-[#FF0000] text-black hover:text-white mt-6 py-2 px-8 rounded-3xl "
             >
               Sign Up
             </Link>

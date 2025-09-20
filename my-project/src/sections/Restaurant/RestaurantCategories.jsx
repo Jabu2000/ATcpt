@@ -94,7 +94,7 @@ const RestaurantCategories = () => {
         const catRestaurants = filterByCategory(cat.key);
         return (
           <div key={cat.key} className="flex flex-col mt-[50px]">
-            <h2 className="text-[30px] font-semibold">{cat.title}</h2>
+            <h2 className="text-[30px] text-white font-semibold">{cat.title}</h2>
             {loading ? (
               <p className="text-gray-500 mt-2">
                 Loading {cat.title.toLowerCase()}…

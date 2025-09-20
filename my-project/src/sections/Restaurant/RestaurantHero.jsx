@@ -86,20 +86,15 @@ const RestaurantHero = () => {
               style={{ backgroundImage: `url(${restaurant.images})` }}
             >
               <div className="content">
-                <h2 className="title text-[150px] font-extrabold">
+                <h2 className="title  w-[80%] 2xl:text-[150px] md:text-[100px] text-[50px] text-[#AEFF53] font-extrabold">
                   {restaurant.name}
                 </h2>
-                <div className="des">
+                <div className="des w-[60%] text-[#FF0000] font-semibold">
                   {restaurant.cuisine} — {restaurant.address}
                 </div>
               </div>
             </div>
           ))}
-        </div>
-
-        <div className="arrows">
-          <button className="prev" onClick={() => showSlider("prev")}></button>
-          <button className="next" onClick={() => showSlider("next")}></button>
         </div>
 
         <div className="timeRunning" ref={timeRunningRef}></div>

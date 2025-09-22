@@ -11,6 +11,7 @@ const StoresHero = () => {
   const [search, setSearch] = useState("");
   const [stores, setStores] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [searchResults, setSearchResults] = useState([]);
 
   // --- Carousel Refs ---
   const vintageRef = useRef(null);
@@ -20,21 +21,6 @@ const StoresHero = () => {
   const marketsRef = useRef(null);
   const musicRef = useRef(null);
 
-  // Fetch stores from backend
-  useEffect(() => {
-    const fetchStores = async () => {
-      try {
-        const res = await fetch("http://localhost:4000/api/stores");
-        const data = await res.json();
-        setSeedStores(data);
-      } catch (error) {
-        console.error("Failed to fetch stores:", error);
-      }
-    };
-
-    fetchStores();
-  }, []);
-
   const [activeIndex, setActiveIndex] = useState({
     Vintage: 0,
     Comic: 0,
@@ -43,16 +29,6 @@ const StoresHero = () => {
     Markets: 0,
     Music: 0,
   });
-
-  // --- Slideshow ---
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentIndex((prev) =>
-        seedStores.length > 0 ? (prev + 1) % seedStores.length : 0
-      );
-    }, 4000);
-    return () => clearInterval(interval);
-  }, [seedStores]);
 
   // --- Fetch stores ---
   const fetchStores = async (q = "") => {
@@ -66,25 +42,27 @@ const StoresHero = () => {
       setStores(data);
 
       // 👇 pick first image per category for hero slider
-      const categories = [
-        "Vintage",
-        "Comic",
-        "Handmade",
-        "Bookstores",
-        "Markets",
-        "Music",
-      ];
+      if (!q) {
+        const categories = [
+          "Vintage",
+          "Comic",
+          "Handmade",
+          "Bookstores",
+          "Markets",
+          "Music",
+        ];
 
-      const catImages = categories
-        .map((cat) => {
-          const store = data.find(
-            (a) => a.category === cat && a.images?.[0]
-          );
-          return store ? store.images[0] : null;
-        })
-        .filter(Boolean);
+        const catImages = categories
+          .map((cat) => {
+            const store = data.find(
+              (a) => a.category === cat && a.images?.[0]
+            );
+            return store ? store.images[0] : null;
+          })
+          .filter(Boolean);
 
-      setSeedStores(catImages);
+        setSeedStores(catImages);
+      }
     } catch (err) {
       console.error(err);
     } finally {
@@ -95,6 +73,31 @@ const StoresHero = () => {
   useEffect(() => {
     fetchStores(); // fetch all on mount
   }, []);
+
+  // --- Hero Slideshow ---
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentIndex((prev) =>
+        seedStores.length > 0 ? (prev + 1) % seedStores.length : 0
+      );
+    }, 4000);
+    return () => clearInterval(interval);
+  }, [seedStores]);
+
+  // --- Live search results ---
+  useEffect(() => {
+    if (search.trim() === "") {
+      setSearchResults([]);
+      return;
+    }
+    const results = stores.filter(
+      (r) =>
+        r.name?.toLowerCase().includes(search.toLowerCase()) ||
+        r.cuisine?.toLowerCase().includes(search.toLowerCase()) ||
+        r.address?.toLowerCase().includes(search.toLowerCase())
+    );
+    setSearchResults(results.slice(0, 6)); // show only top 6 results
+  }, [search, stores]);
 
   // --- Scroll helpers ---
   const scroll = (ref, direction) => {
@@ -112,14 +115,7 @@ const StoresHero = () => {
   };
 
   const filterByCategory = (category) =>
-    stores.filter(
-      (r) =>
-        r.category === category &&
-        (search === "" ||
-          r.name?.toLowerCase().includes(search.toLowerCase()) ||
-          r.cuisine?.toLowerCase().includes(search.toLowerCase()) ||
-          r.address?.toLowerCase().includes(search.toLowerCase()))
-    );
+    stores.filter((r) => r.category === category);
 
   // --- IntersectionObserver for indicators ---
   const observeCarousel = (ref, key) => {
@@ -158,7 +154,9 @@ const StoresHero = () => {
 
     return (
       <div className="flex flex-col 2xl:mt-[150px] mt-[50px]">
-        <h2 className="md:text-[30px] text-[20px] text-white font-semibold">{title}</h2>
+        <h2 className="md:text-[30px] text-[20px] text-white font-semibold">
+          {title}
+        </h2>
         {loading ? (
           <p className="text-gray-500 mt-2">Loading {title.toLowerCase()}…</p>
         ) : catStores.length === 0 ? (
@@ -185,13 +183,14 @@ const StoresHero = () => {
                       className="w-full md:h-[350px] h-[240px] object-cover rounded-2xl"
                     />
                     <div className="py-3">
-                      <h2 className="font-semibold text-white md:text-lg text-[14px] mb-1">{r.name}</h2>
+                      <h2 className="font-semibold text-white md:text-lg text-[14px] mb-1">
+                        {r.name}
+                      </h2>
                       {typeof r.rating === "number" && (
                         <div className="flex items-center md:text-[16px] text-[12px] gap-1 text-[#FAA500]">
                           {Array.from({ length: 5 }, (_, i) => {
                             const starValue = i + 1;
-                            if (r.rating >= starValue)
-                              return <FaStar key={i} />;
+                            if (r.rating >= starValue) return <FaStar key={i} />;
                             else if (r.rating >= starValue - 0.5)
                               return <FaStarHalfAlt key={i} />;
                             else return <FaRegStar key={i} />;
@@ -227,7 +226,9 @@ const StoresHero = () => {
                 <div
                   key={idx}
                   className={`w-3 h-3 rounded-full transition-all ${
-                    activeIndex[key] === idx ? "bg-[#AEFF53] w-5" : "bg-[#ffffff]"
+                    activeIndex[key] === idx
+                      ? "bg-[#AEFF53] w-5"
+                      : "bg-[#ffffff]"
                   }`}
                 />
               ))}
@@ -258,22 +259,42 @@ const StoresHero = () => {
             <h2 className="text-white md:text-[36px] text-[26px] text-center font-bold mb-2">
               Find New Places
             </h2>
-            <div className="flex px-2 py-1 md:py-2 md:px-1 justify-center items-center w-full md:w-[80%] bg-white border border-[#808080] rounded-full shadow-md shadow-[#868686]">
-              <FaSearch className="ml-4 text-black font-light md:text-3xl text-2xl transition duration-300 hover:scale-110 cursor-pointer" />
-              <input
-                type="text"
-                placeholder="Search by name, cuisine, or area"
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                className="w-full px-6 py-3 focus:outline-none"
-              />
-              <button
-                onClick={() => fetchStores(search)}
-                type="submit"
-                className="px-6 md:py-3 py-2 bg-[#aeff53] hover:bg-[#78af39] text-black text-[14px] font-semibold rounded-full transition"
-              >
-                Search
-              </button>
+            <div className="relative w-full md:w-[80%]">
+              <div className="flex px-2 py-1 md:py-2 md:px-1 items-center bg-white border border-[#808080] rounded-full shadow-md shadow-[#868686]">
+                <FaSearch className="ml-4 text-black font-light md:text-3xl text-2xl" />
+                <input
+                  type="text"
+                  placeholder="Search by name, cuisine, or area"
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  className="w-[80%] px-6 py-3 focus:outline-none"
+                />
+              </div>
+
+              {/* 🔍 Live Results Dropdown */}
+              {searchResults.length > 0 && (
+                <div className="absolute left-0 right-0 mt-2 bg-white rounded-xl shadow-lg max-h-60 overflow-y-auto z-30">
+                  {searchResults.map((r) => (
+                    <Link
+                      to={`/stores/${r._id}`}
+                      key={r._id}
+                      className="flex items-center gap-3 px-4 py-2 hover:bg-gray-100 transition"
+                    >
+                      <img
+                        src={r.images?.[0] || "https://placehold.co/100x100"}
+                        alt={r.name}
+                        className="w-12 h-12 object-cover rounded-lg"
+                      />
+                      <div className="text-left">
+                        <p className="font-semibold text-gray-800">{r.name}</p>
+                        <p className="text-sm text-gray-500">
+                          {r.address || r.cuisine || r.category}
+                        </p>
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
 
@@ -283,11 +304,7 @@ const StoresHero = () => {
 
       {/* Explore Section */}
       <div className="flex flex-col px-4 md:px-[100px] my-[50px]">
-        {renderCarousel(
-          "Vintage & Retro Thrift Stores",
-          "Vintage",
-          vintageRef
-        )}
+        {renderCarousel("Vintage & Retro Thrift Stores", "Vintage", vintageRef)}
 
         <div className="w-100% h-[500px] bg-[#AEFF53] mt-[80px] flex justify-center items-center rounded-2xl">
           <img />
@@ -302,7 +319,6 @@ const StoresHero = () => {
         <div className="w-100% h-[300px] bg-[#AEFF53] mt-[80px] flex justify-center items-center rounded-2xl">
           <img />
         </div>
-      
       </div>
     </>
   );

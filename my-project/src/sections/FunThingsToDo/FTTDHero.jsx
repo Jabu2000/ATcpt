@@ -10,7 +10,11 @@ const FTTDHero = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [search, setSearch] = useState("");
   const [activities, setActivities] = useState([]);
+  const [searchResults, setSearchResults] = useState([]);
+  const [showDropdown, setShowDropdown] = useState(false);
   const [loading, setLoading] = useState(true);
+
+  const searchRef = useRef(null);
 
   // --- Carousel Refs ---
   const indooractivitiesRef = useRef(null);
@@ -20,31 +24,7 @@ const FTTDHero = () => {
   const culturalRef = useRef(null);
   const friendsRef = useRef(null);
 
-  // Fetch activities from backend
-  useEffect(() => {
-    const fetchActivities = async () => {
-      try {
-        const res = await fetch("http://localhost:4000/api/activities");
-        const data = await res.json();
-        setSeedActivities(data);
-      } catch (error) {
-        console.error("Failed to fetch activities:", error);
-      }
-    };
-
-    fetchActivities();
-  }, []);
-
-  const [activeIndex, setActiveIndex] = useState({
-    IndoorActivities: 0,
-    OutdoorActivities: 0,
-    Adventure: 0,
-    Relaxation: 0,
-    Cultural: 0,
-    Friends: 0,
-  });
-
-  // --- Slideshow ---
+  // --- Hero Slideshow ---
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentIndex((prev) =>
@@ -55,17 +35,14 @@ const FTTDHero = () => {
   }, [seedActivities]);
 
   // --- Fetch activities ---
-  const fetchActivities = async (q = "") => {
+  const fetchActivities = async () => {
     try {
       setLoading(true);
-      const url = q
-        ? `${API_URL}/api/activities?q=${encodeURIComponent(q)}`
-        : `${API_URL}/api/activities`;
-      const res = await fetch(url);
+      const res = await fetch(`${API_URL}/api/activities`);
       const data = await res.json();
       setActivities(data);
 
-      // 👇 pick first image per category for hero slider
+      // seed hero images
       const categories = [
         "IndoorActivities",
         "OutdoorActivities",
@@ -74,7 +51,6 @@ const FTTDHero = () => {
         "Cultural",
         "Friends",
       ];
-
       const catImages = categories
         .map((cat) => {
           const activity = data.find(
@@ -83,7 +59,6 @@ const FTTDHero = () => {
           return activity ? activity.images[0] : null;
         })
         .filter(Boolean);
-
       setSeedActivities(catImages);
     } catch (err) {
       console.error(err);
@@ -93,7 +68,37 @@ const FTTDHero = () => {
   };
 
   useEffect(() => {
-    fetchActivities(); // fetch all on mount
+    fetchActivities();
+  }, []);
+
+  // --- Live search filter ---
+  useEffect(() => {
+    if (search.trim() === "") {
+      setSearchResults([]);
+      setShowDropdown(false);
+      return;
+    }
+
+    const results = activities.filter(
+      (r) =>
+        r.name?.toLowerCase().includes(search.toLowerCase()) ||
+        r.cuisine?.toLowerCase().includes(search.toLowerCase()) ||
+        r.address?.toLowerCase().includes(search.toLowerCase())
+    );
+
+    setSearchResults(results.slice(0, 6)); // limit results
+    setShowDropdown(true);
+  }, [search, activities]);
+
+  // --- Close dropdown on outside click ---
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (searchRef.current && !searchRef.current.contains(e.target)) {
+        setShowDropdown(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   // --- Scroll helpers ---
@@ -112,14 +117,7 @@ const FTTDHero = () => {
   };
 
   const filterByCategory = (category) =>
-    activities.filter(
-      (r) =>
-        r.category === category &&
-        (search === "" ||
-          r.name?.toLowerCase().includes(search.toLowerCase()) ||
-          r.cuisine?.toLowerCase().includes(search.toLowerCase()) ||
-          r.address?.toLowerCase().includes(search.toLowerCase()))
-    );
+    activities.filter((r) => r.category === category);
 
   // --- IntersectionObserver for indicators ---
   const observeCarousel = (ref, key) => {
@@ -139,6 +137,15 @@ const FTTDHero = () => {
     cards.forEach((card) => observer.observe(card));
     return () => observer.disconnect();
   };
+
+  const [activeIndex, setActiveIndex] = useState({
+    IndoorActivities: 0,
+    OutdoorActivities: 0,
+    Adventure: 0,
+    Relaxation: 0,
+    Cultural: 0,
+    Friends: 0,
+  });
 
   useEffect(() => {
     const cleanups = [
@@ -206,7 +213,6 @@ const FTTDHero = () => {
                 );
               })}
             </div>
-
             {/* Scroll buttons */}
             <button
               onClick={() => scroll(ref, "left")}
@@ -220,7 +226,6 @@ const FTTDHero = () => {
             >
               <ChevronRight size={24} />
             </button>
-
             {/* Indicators */}
             <div className="flex justify-center mt-2 gap-2">
               {catActivities.map((_, idx) => (
@@ -253,30 +258,52 @@ const FTTDHero = () => {
               }`}
             />
           ))}
-
           <div className="absolute inset-0 flex flex-col mt-10 text-center items-center pt-[80px] px-4 sm:px-6 md:px-12 z-20">
             <h2 className="text-white md:text-[36px] text-[26px] text-center font-bold mb-2">
               Find New Places
             </h2>
-            <div className="flex px-2 py-1 md:py-2 md:px-1 justify-center items-center w-full md:w-[80%] bg-white border border-[#808080] rounded-full shadow-md shadow-[#868686]">
-              <FaSearch className="ml-4 text-black font-light md:text-3xl text-2xl transition duration-300 hover:scale-110 cursor-pointer" />
-              <input
-                type="text"
-                placeholder="Search by name, cuisine, or area"
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                className="w-full px-6 py-3 focus:outline-none"
-              />
-              <button
-                onClick={() => fetchActivities(search)}
-                type="submit"
-                className="px-6 md:py-3 py-2 bg-[#aeff53] hover:bg-[#78af39] text-black text-[14px] font-semibold rounded-full transition"
-              >
-                Search
-              </button>
+            <div
+              ref={searchRef}
+              className="relative flex flex-col w-full md:w-[80%]"
+            >
+              <div className="flex px-2 py-1 md:py-2 md:px-1 items-center bg-white border border-[#808080] rounded-full shadow-md shadow-[#868686]">
+                <FaSearch className="ml-4 text-black font-light md:text-3xl text-2xl" />
+                <input
+                  type="text"
+                  placeholder="Search by name, cuisine, or area"
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  onFocus={() => searchResults.length > 0 && setShowDropdown(true)}
+                  className="w-full px-6 py-3 focus:outline-none rounded-full"
+                />
+              </div>
+              {/* Search results dropdown */}
+              {showDropdown && searchResults.length > 0 && (
+                <div className="absolute top-[100%] mt-2 w-full bg-white rounded-xl shadow-lg max-h-[300px] overflow-y-auto z-50">
+                  {searchResults.map((r) => (
+                    <Link
+                      key={r._id}
+                      to={`/activities/${r._id}`}
+                      className="flex items-center gap-4 px-4 py-3 hover:bg-gray-100 transition"
+                      onClick={() => setShowDropdown(false)}
+                    >
+                      <img
+                        src={r.images?.[0] || "https://placehold.co/60x60"}
+                        alt={r.name}
+                        className="w-14 h-14 rounded-lg object-cover"
+                      />
+                      <div>
+                        <h3 className="text-black font-semibold">{r.name}</h3>
+                        <p className="text-gray-500 text-sm">
+                          {r.cuisine || r.address}
+                        </p>
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
-
           <div className="absolute inset-0 bg-black bg-opacity-40 z-10 rounded-2xl"></div>
         </div>
       </div>
@@ -288,24 +315,20 @@ const FTTDHero = () => {
           "IndoorActivities",
           indooractivitiesRef
         )}
-
         <div className="w-100% h-[500px] bg-[#AEFF53] mt-[80px] flex justify-center items-center rounded-2xl">
           <img />
         </div>
-
         {renderCarousel("Outdoor Activities", "OutdoorActivities", outdooractivitiestRef)}
         {renderCarousel("Adventure", "Adventure", adventureRef)}
-        {/* {renderCarousel("Relaxation", "Relaxation", relaxationRef)} */}
         {renderCarousel("Cultural Experiences", "Cultural", culturalRef)}
         {renderCarousel("Fun with Friends", "Friends", friendsRef)}
-
         <div className="w-100% h-[300px] bg-[#AEFF53] mt-[80px] flex justify-center items-center rounded-2xl">
           <img />
         </div>
-      
       </div>
     </>
   );
 };
 
 export default FTTDHero;
+

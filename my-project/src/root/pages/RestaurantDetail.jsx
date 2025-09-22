@@ -183,10 +183,13 @@ const RestaurantDetail = () => {
   // Delete comment
   const handleDeleteComment = async (commentId) => {
     try {
-      const res = await fetch(`${API_URL}/api/restaurants/${restaurant._id}/comment/${commentId}`, {
-        method: "DELETE",
-        credentials: "include",
-      });
+      const res = await fetch(
+        `${API_URL}/api/restaurants/${restaurant._id}/comment/${commentId}`,
+        {
+          method: "DELETE",
+          credentials: "include",
+        }
+      );
       const data = await res.json();
 
       if (res.ok) {
@@ -212,23 +215,23 @@ const RestaurantDetail = () => {
 
   return (
     <>
-      <div className="w-full flex flex-col p-[50px] min-h-screen">
+      <div className="w-full flex flex-col px-6 lg:px-[50px] py-[50px] min-h-screen">
         <Link to="/restaurants" className="text-black text-[20px] mb-4 w-fit">
           <FaArrowLeft />
         </Link>
         <div className="flex flex-col lg:flex-row gap-6">
           {/* Left Column */}
           <div className="flex-1 flex flex-col gap-10">
-            <div className="w-full h-[40vh] justify-center flex flex-col px-4 gap-10">
-              <h1 className="text-4xl lg:text-[80px] font-bold leading-[80px] w-[80%]">
+            <div className="w-full h-[40vh] justify-center flex flex-col gap-10">
+              <h1 className="text-[40px] sm:text-[50px] lg:text-[80px] font-bold leading-tight sm:leading-[60px] lg:leading-[80px] w-full sm:w-[90%] lg:w-[80%]">
                 {restaurant.name}
               </h1>
-              <div className="flex flex-row justify-between">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
                 <div className="flex flex-col gap-1">
-                  <p className="text-black text-[16px] font-semibold">
+                  <p className="text-black text-sm sm:text-base font-semibold">
                     {restaurant.address}
                   </p>
-                  <p className="text-black text-[16px] font-semibold">
+                  <p className="text-black text-sm sm:text-base font-semibold">
                     {restaurant.cuisine}
                   </p>
                   <div className="flex items-center gap-1 text-[#FAA500]">
@@ -244,7 +247,7 @@ const RestaurantDetail = () => {
                 </div>
                 <button
                   onClick={toggleSave}
-                  className={`text-[16px] font-semibold h-10 px-6 rounded-2xl ${
+                  className={`text-[16px] font-semibold h-10 mt-2 px-6 rounded-2xl ${
                     isSaved
                       ? "bg-green-500 hover:bg-green-600 text-white"
                       : "bg-red-500 hover:bg-red-600 text-white"
@@ -256,7 +259,7 @@ const RestaurantDetail = () => {
             </div>
 
             {/* Open Hours / About */}
-            <div className="flex flex-row gap-6">
+            <div className="flex flex-col lg:flex-row gap-6 mt-6 lg:mt-0">
               {restaurant.openStatus && (
                 <p className="mt-2 font-medium text-green-600">
                   {restaurant.openStatus}
@@ -264,7 +267,7 @@ const RestaurantDetail = () => {
               )}
 
               {restaurant.openingHours && (
-                <div className="w-[60%] bg-[#FF0000] rounded-3xl px-[20px] pt-[40px] pb-[20px]">
+                <div className="w-full lg:w-[60%] bg-[#FF0000] rounded-3xl px-[20px] pt-[40px] pb-[20px]">
                   <h2 className="text-white text-[34px] font-bold mb-2">
                     Hours
                   </h2>
@@ -274,12 +277,12 @@ const RestaurantDetail = () => {
                         ([day, hours]) => (
                           <tr
                             key={day}
-                            className="border-t border-gray-200 text-white"
+                            className="text-white lg:text-[12px] text-[16px]"
                           >
-                            <td className="py-2 px-3 font-medium capitalize">
+                            <td className="py-2 font-medium capitalize">
                               {day}
                             </td>
-                            <td className="py-2 px-3">
+                            <td className="py-2 ">
                               {hours.open && hours.close
                                 ? `${hours.open} - ${hours.close}`
                                 : "Closed"}
@@ -293,7 +296,7 @@ const RestaurantDetail = () => {
               )}
 
               <div className="w-full flex flex-col bg-[#AEFF53] rounded-3xl px-[20px] pt-[40px] pb-[20px] gap-4">
-                <h2 className="text-black text-[34px] font-bold mb-2">About</h2>
+                <h2 className="text-black text-[34px] font-bold ">About</h2>
                 {restaurant.about && (
                   <p className="mt-4 text-black font-medium">
                     {restaurant.about}
@@ -336,29 +339,26 @@ const RestaurantDetail = () => {
           </div>
         </div>
         {/* Comments Section */}
-        <div className="mt-6 flex flex-col gap-4">
+        <div className="mt-[100px] flex flex-col gap-4">
           <h2 className="text-2xl font-bold">Reviews & Comments</h2>
           <button
             onClick={() => setShowCommentFormOverlay(true)}
-            className="px-6 py-3 bg-green-500 text-white rounded-2xl hover:bg-green-600 w-fit"
+            className="px-6 py-2 bg-green-500 text-white text-[14px] rounded-2xl hover:bg-green-600 w-fit"
           >
-            Add a Comment
+            Write A Review
           </button>
 
           {restaurant.comments?.length > 0 ? (
-            <div className="flex flex-col gap-4 mt-4">
+            <div className="flex flex-wrap md:flex-col-2 mt-[50px] gap-[40px]">
               {restaurant.comments.map((comment) => (
-                <div
-                  key={comment._id}
-                  className="flex flex-col gap-2 bg-white p-4 rounded-2xl shadow"
-                >
+                <div key={comment._id} className="w-full lg:w-[48%] flex flex-col gap-2">
                   <div className="flex flex-row items-center gap-3">
                     <img
                       src={comment.user.profilePicture || "/default-avatar.png"}
                       alt={comment.user.username}
                       className="w-10 h-10 rounded-full object-cover"
                     />
-                    <p className="font-semibold">{comment.user.username}</p>
+                    <p className="w-full md:w-[60%] font-semibold">{comment.user.username}</p>
                     <button
                       onClick={() => handleDeleteComment(comment._id)}
                       className="ml-auto text-red-500 hover:text-red-700"
@@ -367,10 +367,8 @@ const RestaurantDetail = () => {
                     </button>
                   </div>
 
-                  <p className="mt-2">{comment.text}</p>
-
                   <div className="flex flex-row gap-2 text-[#FAA500] mt-2 flex-wrap">
-                    {["food", "service", "vibes", "overall"].map((key) => {
+                    {["overall"].map((key) => {
                       const r = comment.ratings[key] || 0;
                       return (
                         <div key={key} className="flex items-center gap-1">
@@ -387,8 +385,10 @@ const RestaurantDetail = () => {
                     })}
                   </div>
 
+                  <p className="w-[80%] mt-2">{comment.text}</p>
+
                   {comment.images?.length > 0 && (
-                    <div className="flex flex-row gap-2 overflow-x-auto mt-2">
+                    <div className="flex flex-wrap md:flex-row  gap-2 overflow-hidden mt-2">
                       {comment.images.map((img, idx) => (
                         <img
                           key={idx}
@@ -396,11 +396,30 @@ const RestaurantDetail = () => {
                             img.startsWith("http") ? img : `${API_URL}${img}`
                           }
                           alt={`comment-${idx}`}
-                          className="w-32 h-32 object-cover rounded-xl"
+                          className="w-[140px] h-32 object-cover rounded-xl"
                         />
                       ))}
                     </div>
                   )}
+
+                  <div className="flex flex-row gap-2 text-[#FAA500] mt-2 flex-wrap">
+                    {["food", "service", "vibes"].map((key) => {
+                      const r = comment.ratings[key] || 0;
+                      return (
+                        <div key={key} className="flex items-center gap-1">
+                          <span className="font-semibold">{key}:</span>
+                          {Array.from({ length: 5 }, (_, i) => {
+                            const starValue = i + 1;
+                            if (r >= starValue) return <FaStar key={i} />;
+                            if (r >= starValue - 0.5)
+                              return <FaStarHalfAlt key={i} />;
+                            return <FaRegStar key={i} />;
+                          })}
+                        </div>
+                      );
+                    })}
+                  </div>
+                  <div className="w-full h-[2px] mt-6 bg-black" />
                 </div>
               ))}
             </div>
@@ -496,7 +515,7 @@ const RestaurantDetail = () => {
           )}
         </AnimatePresence>
       </div>
-      <div className="w-100% h-[300px] bg-[#AEFF53] mx-[50px] flex justify-center items-center rounded-2xl">
+      <div className="w-100% h-[300px] bg-[#AEFF53] lg:mx-[50px] mx-6 flex justify-center items-center rounded-2xl">
         <img />
       </div>
       <RestaurantCategories />

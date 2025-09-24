@@ -165,7 +165,9 @@ const FTTDHero = () => {
 
     return (
       <div className="flex flex-col 2xl:mt-[150px] mt-[50px]">
-        <h2 className="md:text-[30px] text-[20px] text-white font-semibold">{title}</h2>
+        <h2 className="md:text-[30px] text-[20px] text-black font-semibold">
+          {title}
+        </h2>
         {loading ? (
           <p className="text-gray-500 mt-2">Loading {title.toLowerCase()}…</p>
         ) : catActivities.length === 0 ? (
@@ -184,7 +186,7 @@ const FTTDHero = () => {
                     to={`/activities/${r._id}`}
                     key={r._id}
                     data-index={idx}
-                    className="carousel-card snap-center md:w-[270px] w-[200px] flex-shrink-0 shadow-md"
+                    className="carousel-card snap-center md:w-[270px] w-[200px] flex-shrink-0"
                   >
                     <img
                       src={img}
@@ -192,7 +194,9 @@ const FTTDHero = () => {
                       className="w-full md:h-[350px] h-[240px] object-cover rounded-2xl"
                     />
                     <div className="py-3">
-                      <h2 className="font-semibold text-white md:text-lg text-[14px] mb-1">{r.name}</h2>
+                      <h2 className="font-semibold text-black md:text-lg text-[14px] mb-1">
+                        {r.name}
+                      </h2>
                       {typeof r.rating === "number" && (
                         <div className="flex items-center md:text-[16px] text-[12px] gap-1 text-[#FAA500]">
                           {Array.from({ length: 5 }, (_, i) => {
@@ -203,7 +207,7 @@ const FTTDHero = () => {
                               return <FaStarHalfAlt key={i} />;
                             else return <FaRegStar key={i} />;
                           })}
-                          <span className="ml-2 md:text-sm text-[12px] text-white">
+                          <span className="ml-2 md:text-sm text-[12px] text-black">
                             {r.rating.toFixed(1)}
                           </span>
                         </div>
@@ -232,7 +236,9 @@ const FTTDHero = () => {
                 <div
                   key={idx}
                   className={`w-3 h-3 rounded-full transition-all ${
-                    activeIndex[key] === idx ? "bg-[#AEFF53] w-5" : "bg-[#ffffff]"
+                    activeIndex[key] === idx
+                      ? "bg-[#AEFF53] w-5"
+                      : "bg-[#000000]"
                   }`}
                 />
               ))}
@@ -246,8 +252,8 @@ const FTTDHero = () => {
   return (
     <>
       {/* Hero Section with Search */}
-      <div className="flex justify-center items-center">
-        <div className="w-[90%] mt-24 rounded-3xl h-[75vh] relative overflow-hidden">
+      <div className="flex justify-center items-center px-4 md:px-[60px]">
+        <div className="w-full mt-24 rounded-3xl h-[75vh] relative overflow-hidden">
           {seedActivities.map((src, index) => (
             <img
               key={index}
@@ -273,7 +279,9 @@ const FTTDHero = () => {
                   placeholder="Search by name, cuisine, or area"
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
-                  onFocus={() => searchResults.length > 0 && setShowDropdown(true)}
+                  onFocus={() =>
+                    searchResults.length > 0 && setShowDropdown(true)
+                  }
                   className="w-full px-6 py-3 focus:outline-none rounded-full"
                 />
               </div>
@@ -318,7 +326,11 @@ const FTTDHero = () => {
         <div className="w-100% h-[500px] bg-[#AEFF53] mt-[80px] flex justify-center items-center rounded-2xl">
           <img />
         </div>
-        {renderCarousel("Outdoor Activities", "OutdoorActivities", outdooractivitiestRef)}
+        {renderCarousel(
+          "Outdoor Activities",
+          "OutdoorActivities",
+          outdooractivitiestRef
+        )}
         {renderCarousel("Adventure", "Adventure", adventureRef)}
         {renderCarousel("Cultural Experiences", "Cultural", culturalRef)}
         {renderCarousel("Fun with Friends", "Friends", friendsRef)}
@@ -331,4 +343,3 @@ const FTTDHero = () => {
 };
 
 export default FTTDHero;
-

@@ -215,11 +215,11 @@ const RestaurantDetail = () => {
 
   return (
     <>
-      <div className="w-full flex flex-col px-6 lg:px-[50px] py-[50px] min-h-screen">
+      <div className="w-full flex flex-col px-6 lg:px-[50px] pt-8 pb-[50px] min-h-screen">
         <Link to="/restaurants" className="text-black text-[20px] mb-4 w-fit">
           <FaArrowLeft />
         </Link>
-        <div className="flex flex-col lg:flex-row gap-6">
+        <div className="flex flex-col lg:flex-row md:mt-[40px] mt-0 gap-6">
           {/* Left Column */}
           <div className="flex-1 flex flex-col gap-10">
             <div className="w-full h-[40vh] justify-center flex flex-col gap-10">
@@ -268,7 +268,7 @@ const RestaurantDetail = () => {
 
               {restaurant.openingHours && (
                 <div className="w-full lg:w-[60%] bg-[#FF0000] rounded-3xl px-[20px] pt-[40px] pb-[20px]">
-                  <h2 className="text-white text-[34px] font-bold mb-2">
+                  <h2 className="text-white md:text-[35px] text-[25px] font-bold mb-2">
                     Hours
                   </h2>
                   <table className="w-full mt-6 border border-gray-200 rounded-lg overflow-hidden">
@@ -296,7 +296,7 @@ const RestaurantDetail = () => {
               )}
 
               <div className="w-full flex flex-col bg-[#AEFF53] rounded-3xl px-[20px] pt-[40px] pb-[20px] gap-4">
-                <h2 className="text-black text-[34px] font-bold ">About</h2>
+                <h2 className="text-black md:text-[35px] text-[25px] font-bold ">About</h2>
                 {restaurant.about && (
                   <p className="mt-4 text-black font-medium">
                     {restaurant.about}
@@ -351,14 +351,19 @@ const RestaurantDetail = () => {
           {restaurant.comments?.length > 0 ? (
             <div className="flex flex-wrap md:flex-col-2 mt-[50px] gap-[40px]">
               {restaurant.comments.map((comment) => (
-                <div key={comment._id} className="w-full lg:w-[48%] flex flex-col gap-2">
+                <div
+                  key={comment._id}
+                  className="w-full lg:w-[48%] flex flex-col gap-2"
+                >
                   <div className="flex flex-row items-center gap-3">
                     <img
                       src={comment.user.profilePicture || "/default-avatar.png"}
                       alt={comment.user.username}
                       className="w-10 h-10 rounded-full object-cover"
                     />
-                    <p className="w-full md:w-[60%] font-semibold">{comment.user.username}</p>
+                    <p className="w-full md:w-[60%] font-semibold">
+                      {comment.user.username}
+                    </p>
                     <button
                       onClick={() => handleDeleteComment(comment._id)}
                       className="ml-auto text-red-500 hover:text-red-700"
@@ -515,7 +520,7 @@ const RestaurantDetail = () => {
           )}
         </AnimatePresence>
       </div>
-      <div className="w-100% h-[300px] bg-[#AEFF53] lg:mx-[50px] mx-6 flex justify-center items-center rounded-2xl">
+      <div className=" h-[300px] bg-[#AEFF53] lg:mx-[50px] mx-6 flex justify-center items-center rounded-2xl">
         <img />
       </div>
       <RestaurantCategories />

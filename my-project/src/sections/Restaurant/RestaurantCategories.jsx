@@ -88,13 +88,13 @@ const RestaurantCategories = () => {
   });
 
   return (
-    <div className="flex flex-col px-4 md:px-[100px] my-[50px]">
+    <div className="flex flex-col px-6 md:px-[50px] my-[50px]">
       {/* Category Carousels */}
       {categories.map((cat) => {
         const catRestaurants = filterByCategory(cat.key);
         return (
-          <div key={cat.key} className="flex flex-col mt-[50px]">
-            <h2 className="text-[30px] text-white font-semibold">
+          <div key={cat.key} className="flex flex-col 2xl:mt-[150px] mt-[50px]">
+            <h2 className="md:text-[30px] text-[20px] text-black font-semibold">
               {cat.title}
             </h2>
             {loading ? (
@@ -173,8 +173,8 @@ const RestaurantCategories = () => {
                       key={idx}
                       className={`w-3 h-3 rounded-full transition-all ${
                         activeIndex[cat.key] === idx
-                          ? "bg-black w-5"
-                          : "bg-gray-300"
+                          ? "bg-[#AEFF53] w-5"
+                          : "bg-[#000000]"
                       }`}
                     />
                   ))}

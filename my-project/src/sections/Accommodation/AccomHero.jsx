@@ -56,14 +56,14 @@ const AccomHero = () => {
   }, []);
   return (
     <div
-      className="relative w-full h-[100vh] bg-cover bg-center flex items-center "
+      className="relative w-full h-screen bg-cover bg-center flex items-center justify-center sm:justify-start"
       style={{ backgroundImage: "url(/accommodation.jpg)" }}
     >
-      <div className="w-[60%]">
-        <h1 className="flex items-center pl-[80px] text-white leading-[120px] font-extrabold text-[60px] sm:text-[100px] xl:text-[130px]">
+      <div className="w-full sm:w-[80%] lg:w-[60%] px-6 sm:px-12 lg:pl-[80px] sm:text-left">
+        <h1 className="text-[#AEFF53] font-extrabold leading-tight title w-[80%] 2xl:text-[150px] md:text-[100px] text-[50px] mb-4">
           Accommodation
         </h1>
-        <p className="w-[90%] pl-[80px] text-[16px] mb-8 text-white">
+        <p className="text-[#FF0000] font-semibold text-base sm:text-lg lg:text-xl max-w-[700px] mx-auto sm:mx-0 mb-6">
           Built by a creative for creatives. Future artist and creatives.
           Painting the black and white world with color Built by a creative for
           creatives. Future artist and creatives. Painting the black and white

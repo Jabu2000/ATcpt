@@ -1,249 +1,189 @@
-import { useRef } from "react";
-import { FaStar, FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import React, { useState, useEffect, useRef } from "react";
+import { FaStar, FaStarHalfAlt, FaRegStar } from "react-icons/fa";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import { Link } from "react-router-dom";
+
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:4000";
 
 const NightLifeCategories = () => {
-  const scrollRef = useRef(null);
+  const [events, setEvents] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const scroll = (direction) => {
-    const { current } = scrollRef;
-    if (current) {
-      const scrollAmount = 300;
-      current.scrollBy({
-        left: direction === "left" ? -scrollAmount : scrollAmount,
-        behavior: "smooth",
-      });
+  const clubNightsPartiesRef = useRef(null);
+
+  const [activeIndex, setActiveIndex] = useState({
+    ClubNightsParties: 0,
+  });
+
+  const categories = [
+    { key: "ClubNightsParties", title: "Events", ref: clubNightsPartiesRef },
+  ];
+
+  const fetchEvents = async (q = "") => {
+    try {
+      setLoading(true);
+      const url = q
+        ? `${API_URL}/api/events?q=${encodeURIComponent(q)}`
+        : `${API_URL}/api/events`;
+      const res = await fetch(url);
+      const data = await res.json();
+      setEvents(data);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
     }
   };
 
-  const data = new Array(10).fill({
-    image: "/restaurant.jpg",
-    title: "Discover The Mother City Built by a creative for creatives.",
-  });
+  useEffect(() => {
+    fetchEvents();
+  }, []);
 
-  const data1 = new Array(10).fill({
-    image: "/restaurant.jpg",
-    title: "Discover The Mother City Built by a creative for creatives.",
-  });
+  const scroll = (ref, direction) => {
+    if (!ref.current) return;
+    const card = ref.current.querySelector(".carousel-card");
+    if (!card) return;
+    const scrollAmount = card.offsetWidth + 16;
+    ref.current.scrollTo({
+      left:
+        direction === "left"
+          ? ref.current.scrollLeft - scrollAmount
+          : ref.current.scrollLeft + scrollAmount,
+      behavior: "smooth",
+    });
+  };
 
-  const data2 = new Array(10).fill({
-    image: "/restaurant.jpg",
-    title: "Discover The Mother City Built by a creative for creatives.",
-  });
+  const filterByCategory = (category) => {
+    return events.filter((r) => r.category === category);
+  };
 
-  const data3 = new Array(10).fill({
-    image: "/restaurant.jpg",
-    title: "Discover The Mother City Built by a creative for creatives.",
+  // --- IntersectionObserver for snap indicators ---
+  const observeCarousel = (ref, key) => {
+    if (!ref.current) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const idx = parseInt(entry.target.dataset.index);
+            setActiveIndex((prev) => ({ ...prev, [key]: idx }));
+          }
+        });
+      },
+      { root: ref.current, threshold: 0.6 } // 60% visible
+    );
+    const cards = ref.current.querySelectorAll(".carousel-card");
+    cards.forEach((card) => observer.observe(card));
+    return () => observer.disconnect();
+  };
+
+  useEffect(() => {
+    categories.forEach((cat) => {
+      const cleanup = observeCarousel(
+        cat.ref,
+        cat.key,
+        filterByCategory(cat.key)
+      );
+      return cleanup;
+    });
   });
 
   return (
-    <div className="flex flex-col mt-[100px] px-[80px] gap-[100px]">
-      <div className="flex flex-col ">
-        <div className="flex flex-col">
-          <h2 className="text-[30px] font-semibold">You Might Like These</h2>
-          <p className="text-[16px] font-normal">
-            More things to do in Cape Town
-          </p>
-        </div>
-        <div className="relative mt-8  ">
-          {/* Scroll Buttons */}
-          <button
-            onClick={() => scroll("left")}
-            className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white rounded-full shadow-md p-2 hover:bg-gray-100"
-          >
-            <FaChevronLeft />
-          </button>
-
-          <button
-            onClick={() => scroll("right")}
-            className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white rounded-full shadow-md p-2 hover:bg-gray-100"
-          >
-            <FaChevronRight />
-          </button>
-
-          {/* Scrollable container */}
-          <div
-            ref={scrollRef}
-            className="overflow-hidden no-scrollbar scroll-smooth"
-          >
-            <div className="flex gap-6 py-2 w-max">
-              {data.map((item, index) => (
-                <div key={index} className="min-w-[250px] max-w-[275px] ">
-                  <img
-                    src={item.image}
-                    alt="card"
-                    className="w-full h-[45vh] object-cover rounded-lg mb-3"
-                  />
-                  <h3 className="font-semibold text-md mb-2">{item.title}</h3>
-                  <div className="flex gap-1 text-yellow-500">
-                    {[...Array(5)].map((_, i) => (
-                      <FaStar key={i} />
-                    ))}
-                  </div>
+    <div className="flex flex-col px-6 md:px-[50px] my-[50px]">
+      {/* Category Carousels */}
+      {categories.map((cat) => {
+        const catEvents = filterByCategory(cat.key);
+        return (
+          <div key={cat.key} className="flex flex-col 2xl:mt-[150px] mt-[50px]">
+            <h2 className="md:text-[30px] text-[20px] text-black font-semibold">
+              {cat.title}
+            </h2>
+            {loading ? (
+              <p className="text-gray-500 mt-2">
+                Loading {cat.title.toLowerCase()}…
+              </p>
+            ) : catEvents.length === 0 ? (
+              <p className="text-gray-500 mt-2">
+                No {cat.title.toLowerCase()} found.
+              </p>
+            ) : (
+              <div className="relative group mt-6">
+                <div
+                  ref={cat.ref}
+                  className="flex gap-8 overflow-hidden scroll-smooth snap-x snap-mandatory pb-4 scrollbar-hide"
+                >
+                  {catEvents.map((r, idx) => {
+                    const img =
+                      r.images?.[0] ||
+                      "https://placehold.co/600x400?text=Image";
+                    return (
+                      <Link
+                        to={`/events/${r._id}`}
+                        key={r._id}
+                        data-index={idx}
+                        className="carousel-card snap-center md:w-[270px] w-[200px] flex-shrink-0 "
+                      >
+                        <img
+                          src={img}
+                          alt={r.name}
+                          className="w-full md:h-[350px] h-[240px] object-cover rounded-2xl"
+                        />
+                        <div className="py-3">
+                          <h2 className="font-semibold text-black md:text-lg text-[14px] mb-1">
+                            {r.name}
+                          </h2>
+                          {typeof r.rating === "number" && (
+                            <div className="flex items-center md:text-[16px] text-[12px] gap-1 text-[#FAA500]">
+                              {Array.from({ length: 5 }, (_, i) => {
+                                const starValue = i + 1;
+                                if (r.rating >= starValue)
+                                  return <FaStar key={i} />;
+                                else if (r.rating >= starValue - 0.5)
+                                  return <FaStarHalfAlt key={i} />;
+                                else return <FaRegStar key={i} />;
+                              })}
+                              <span className="ml-2 md:text-sm text-[12px] text-black">
+                                {r.rating.toFixed(1)}
+                              </span>
+                            </div>
+                          )}
+                        </div>
+                      </Link>
+                    );
+                  })}
                 </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
 
-      <div className="w-100% h-[500px] bg-[#AEFF53] flex justify-center items-center rounded-2xl">
-        <img />
-      </div>
+                {/* Scroll Buttons */}
+                <button
+                  onClick={() => scroll(cat.ref, "left")}
+                  className="flex absolute left-2 top-1/2 -translate-y-1/2 bg-white shadow-lg rounded-full p-2 hover:bg-gray-100 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                >
+                  <ChevronLeft size={24} />
+                </button>
+                <button
+                  onClick={() => scroll(cat.ref, "right")}
+                  className="flex absolute right-2 top-1/2 -translate-y-1/2 bg-white shadow-lg rounded-full p-2 hover:bg-gray-100 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                >
+                  <ChevronRight size={24} />
+                </button>
 
-      <div className="flex flex-col ">
-        <div className="flex flex-col">
-          <h2 className="text-[30px] font-semibold">You Might Like These</h2>
-          <p className="text-[16px] font-normal">
-            More things to do in Cape Town
-          </p>
-        </div>
-        <div className="relative mt-8  ">
-          {/* Scroll Buttons */}
-          <button
-            onClick={() => scroll("left")}
-            className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white rounded-full shadow-md p-2 hover:bg-gray-100"
-          >
-            <FaChevronLeft />
-          </button>
-
-          <button
-            onClick={() => scroll("right")}
-            className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white rounded-full shadow-md p-2 hover:bg-gray-100"
-          >
-            <FaChevronRight />
-          </button>
-
-          {/* Scrollable container */}
-          <div
-            ref={scrollRef}
-            className="overflow-hidden no-scrollbar scroll-smooth"
-          >
-            <div className="flex gap-6 py-2 w-max">
-              {data1.map((item, index) => (
-                <div key={index} className="min-w-[250px] max-w-[275px] ">
-                  <img
-                    src={item.image}
-                    alt="card"
-                    className="w-full h-[45vh] object-cover rounded-lg mb-3"
-                  />
-                  <h3 className="font-semibold text-md mb-2">{item.title}</h3>
-                  <div className="flex gap-1 text-yellow-500">
-                    {[...Array(5)].map((_, i) => (
-                      <FaStar key={i} />
-                    ))}
-                  </div>
+                {/* Snap indicators */}
+                <div className="flex justify-center mt-2 gap-2">
+                  {catEvents.map((_, idx) => (
+                    <div
+                      key={idx}
+                      className={`w-3 h-3 rounded-full transition-all ${
+                        activeIndex[cat.key] === idx
+                          ? "bg-[#AEFF53] w-5"
+                          : "bg-[#000000]"
+                      }`}
+                    />
+                  ))}
                 </div>
-              ))}
-            </div>
+              </div>
+            )}
           </div>
-        </div>
-      </div>
-
-      <div className="flex flex-col ">
-        <div className="flex flex-col">
-          <h2 className="text-[30px] font-semibold">You Might Like These</h2>
-          <p className="text-[16px] font-normal">
-            More things to do in Cape Town
-          </p>
-        </div>
-        <div className="relative mt-8  ">
-          {/* Scroll Buttons */}
-          <button
-            onClick={() => scroll("left")}
-            className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white rounded-full shadow-md p-2 hover:bg-gray-100"
-          >
-            <FaChevronLeft />
-          </button>
-
-          <button
-            onClick={() => scroll("right")}
-            className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white rounded-full shadow-md p-2 hover:bg-gray-100"
-          >
-            <FaChevronRight />
-          </button>
-
-          {/* Scrollable container */}
-          <div
-            ref={scrollRef}
-            className="overflow-hidden no-scrollbar scroll-smooth"
-          >
-            <div className="flex gap-6 py-2 w-max">
-              {data2.map((item, index) => (
-                <div key={index} className="min-w-[250px] max-w-[275px] ">
-                  <img
-                    src={item.image}
-                    alt="card"
-                    className="w-full h-[45vh] object-cover rounded-lg mb-3"
-                  />
-                  <h3 className="font-semibold text-md mb-2">{item.title}</h3>
-                  <div className="flex gap-1 text-yellow-500">
-                    {[...Array(5)].map((_, i) => (
-                      <FaStar key={i} />
-                    ))}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div className="flex flex-col ">
-        <div className="flex flex-col">
-          <h2 className="text-[30px] font-semibold">You Might Like These</h2>
-          <p className="text-[16px] font-normal">
-            More things to do in Cape Town
-          </p>
-        </div>
-        <div className="relative mt-8  ">
-          {/* Scroll Buttons */}
-          <button
-            onClick={() => scroll("left")}
-            className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white rounded-full shadow-md p-2 hover:bg-gray-100"
-          >
-            <FaChevronLeft />
-          </button>
-
-          <button
-            onClick={() => scroll("right")}
-            className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white rounded-full shadow-md p-2 hover:bg-gray-100"
-          >
-            <FaChevronRight />
-          </button>
-
-          {/* Scrollable container */}
-          <div
-            ref={scrollRef}
-            className="overflow-hidden no-scrollbar scroll-smooth"
-          >
-            <div className="flex gap-6 py-2 w-max">
-              {data3.map((item, index) => (
-                <div key={index} className="min-w-[250px] max-w-[275px] ">
-                  <img
-                    src={item.image}
-                    alt="card"
-                    className="w-full h-[45vh] object-cover rounded-lg mb-3"
-                  />
-                  <h3 className="font-semibold text-md mb-2">{item.title}</h3>
-                  <div className="flex gap-1 text-yellow-500">
-                    {[...Array(5)].map((_, i) => (
-                      <FaStar key={i} />
-                    ))}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div className="w-100% h-[300px] bg-[#AEFF53] flex justify-center items-center rounded-2xl">
-        <img />
-      </div>
-
-      <div className="w-100% h-[500px] bg-[#AEFF53] flex justify-center items-center rounded-2xl">
-        <img />
-      </div>
+        );
+      })}
     </div>
   );
 };

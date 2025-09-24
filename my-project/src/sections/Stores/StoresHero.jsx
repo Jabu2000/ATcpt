@@ -54,9 +54,7 @@ const StoresHero = () => {
 
         const catImages = categories
           .map((cat) => {
-            const store = data.find(
-              (a) => a.category === cat && a.images?.[0]
-            );
+            const store = data.find((a) => a.category === cat && a.images?.[0]);
             return store ? store.images[0] : null;
           })
           .filter(Boolean);
@@ -154,7 +152,7 @@ const StoresHero = () => {
 
     return (
       <div className="flex flex-col 2xl:mt-[150px] mt-[50px]">
-        <h2 className="md:text-[30px] text-[20px] text-white font-semibold">
+        <h2 className="md:text-[30px] text-[20px] text-black font-semibold">
           {title}
         </h2>
         {loading ? (
@@ -175,7 +173,7 @@ const StoresHero = () => {
                     to={`/stores/${r._id}`}
                     key={r._id}
                     data-index={idx}
-                    className="carousel-card snap-center md:w-[270px] w-[200px] flex-shrink-0 shadow-md"
+                    className="carousel-card snap-center md:w-[270px] w-[200px] flex-shrink-0"
                   >
                     <img
                       src={img}
@@ -183,19 +181,20 @@ const StoresHero = () => {
                       className="w-full md:h-[350px] h-[240px] object-cover rounded-2xl"
                     />
                     <div className="py-3">
-                      <h2 className="font-semibold text-white md:text-lg text-[14px] mb-1">
+                      <h2 className="font-semibold text-black md:text-lg text-[14px] mb-1">
                         {r.name}
                       </h2>
                       {typeof r.rating === "number" && (
                         <div className="flex items-center md:text-[16px] text-[12px] gap-1 text-[#FAA500]">
                           {Array.from({ length: 5 }, (_, i) => {
                             const starValue = i + 1;
-                            if (r.rating >= starValue) return <FaStar key={i} />;
+                            if (r.rating >= starValue)
+                              return <FaStar key={i} />;
                             else if (r.rating >= starValue - 0.5)
                               return <FaStarHalfAlt key={i} />;
                             else return <FaRegStar key={i} />;
                           })}
-                          <span className="ml-2 md:text-sm text-[12px] text-white">
+                          <span className="ml-2 md:text-sm text-[12px] text-black">
                             {r.rating.toFixed(1)}
                           </span>
                         </div>
@@ -228,7 +227,7 @@ const StoresHero = () => {
                   className={`w-3 h-3 rounded-full transition-all ${
                     activeIndex[key] === idx
                       ? "bg-[#AEFF53] w-5"
-                      : "bg-[#ffffff]"
+                      : "bg-[#000000]"
                   }`}
                 />
               ))}
@@ -242,8 +241,8 @@ const StoresHero = () => {
   return (
     <>
       {/* Hero Section with Search */}
-      <div className="flex justify-center items-center">
-        <div className="w-[90%] mt-24 rounded-3xl h-[75vh] relative overflow-hidden">
+      <div className="flex justify-center items-center px-4 md:px-[60px]">
+        <div className="w-full mt-24 rounded-3xl h-[75vh] relative overflow-hidden">
           {seedStores.map((src, index) => (
             <img
               key={index}
@@ -305,15 +304,22 @@ const StoresHero = () => {
       {/* Explore Section */}
       <div className="flex flex-col px-4 md:px-[100px] my-[50px]">
         {renderCarousel("Vintage & Retro Thrift Stores", "Vintage", vintageRef)}
-
+        {renderCarousel("Comic & Collectible Shops", "Comic", comicRef)}
+        {renderCarousel("Handmade & Artisan Shops", "Handmade", handmadeRef)}
         <div className="w-100% h-[500px] bg-[#AEFF53] mt-[80px] flex justify-center items-center rounded-2xl">
           <img />
         </div>
 
-        {renderCarousel("Comic & Collectible Shops", "Comic", comicRef)}
-        {renderCarousel("Handmade & Artisan Shops", "Handmade", handmadeRef)}
-        {renderCarousel("Bookstores & Stationery Shops", "Bookstores", bookstoresRef)}
-        {renderCarousel("Markets & Pop-Up Thrift Events Experiences", "Markets", marketsRef)}
+        {renderCarousel(
+          "Bookstores & Stationery Shops",
+          "Bookstores",
+          bookstoresRef
+        )}
+        {renderCarousel(
+          "Markets & Pop-Up Thrift Events Experiences",
+          "Markets",
+          marketsRef
+        )}
         {renderCarousel("Fun with Music & Vinyl Stores", "Music", musicRef)}
 
         <div className="w-100% h-[300px] bg-[#AEFF53] mt-[80px] flex justify-center items-center rounded-2xl">

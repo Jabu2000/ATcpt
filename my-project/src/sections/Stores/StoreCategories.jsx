@@ -15,9 +15,7 @@ const StoreCategories = () => {
     Vintage: 0,
   });
 
-  const categories = [
-    { key: "Vintage", title: "Stores", ref: vintageRef },
-  ];
+  const categories = [{ key: "Vintage", title: "Stores", ref: vintageRef }];
 
   const fetchStores = async (q = "") => {
     try {
@@ -88,13 +86,15 @@ const StoreCategories = () => {
   });
 
   return (
-    <div className="flex flex-col px-4 md:px-[100px] my-[50px]">
+    <div className="flex flex-col px-6 md:px-[50px] my-[50px]">
       {/* Category Carousels */}
       {categories.map((cat) => {
         const catStores = filterByCategory(cat.key);
         return (
-          <div key={cat.key} className="flex flex-col mt-[50px]">
-            <h2 className="text-[30px] font-semibold">{cat.title}</h2>
+          <div key={cat.key} className="flex flex-col 2xl:mt-[150px] mt-[50px]">
+            <h2 className="md:text-[30px] text-[20px] text-black font-semibold">
+              {cat.title}
+            </h2>
             {loading ? (
               <p className="text-gray-500 mt-2">
                 Loading {cat.title.toLowerCase()}…
@@ -107,7 +107,7 @@ const StoreCategories = () => {
               <div className="relative group mt-6">
                 <div
                   ref={cat.ref}
-                  className="flex gap-4 overflow-hidden scroll-smooth snap-x snap-mandatory pb-4 px-2 scrollbar-hide"
+                  className="flex gap-8 overflow-hidden scroll-smooth snap-x snap-mandatory pb-4 scrollbar-hide"
                 >
                   {catStores.map((r, idx) => {
                     const img =
@@ -118,19 +118,19 @@ const StoreCategories = () => {
                         to={`/stores/${r._id}`}
                         key={r._id}
                         data-index={idx}
-                        className="carousel-card snap-center min-w-[220px] sm:min-w-[250px] md:min-w-[265px] max-w-[275px] flex-shrink-0 bg-white rounded-2xl shadow-md"
+                        className="carousel-card snap-center md:w-[270px] w-[200px] flex-shrink-0 "
                       >
                         <img
                           src={img}
                           alt={r.name}
-                          className="w-full h-[35vh] sm:h-[40vh] object-cover rounded-t-2xl"
+                          className="w-full md:h-[350px] h-[240px] object-cover rounded-2xl"
                         />
-                        <div className="p-3">
-                          <h2 className="font-semibold text-lg mb-1">
+                        <div className="py-3">
+                          <h2 className="font-semibold text-black md:text-lg text-[14px] mb-1">
                             {r.name}
                           </h2>
                           {typeof r.rating === "number" && (
-                            <div className="flex items-center gap-1 text-[#FAA500]">
+                            <div className="flex items-center md:text-[16px] text-[12px] gap-1 text-[#FAA500]">
                               {Array.from({ length: 5 }, (_, i) => {
                                 const starValue = i + 1;
                                 if (r.rating >= starValue)
@@ -139,7 +139,7 @@ const StoreCategories = () => {
                                   return <FaStarHalfAlt key={i} />;
                                 else return <FaRegStar key={i} />;
                               })}
-                              <span className="ml-2 text-sm text-black">
+                              <span className="ml-2 md:text-sm text-[12px] text-black">
                                 {r.rating.toFixed(1)}
                               </span>
                             </div>
@@ -153,13 +153,13 @@ const StoreCategories = () => {
                 {/* Scroll Buttons */}
                 <button
                   onClick={() => scroll(cat.ref, "left")}
-                  className="hidden sm:flex absolute left-2 top-1/2 -translate-y-1/2 bg-white shadow-lg rounded-full p-2 hover:bg-gray-100 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                  className="flex absolute left-2 top-1/2 -translate-y-1/2 bg-white shadow-lg rounded-full p-2 hover:bg-gray-100 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                 >
                   <ChevronLeft size={24} />
                 </button>
                 <button
                   onClick={() => scroll(cat.ref, "right")}
-                  className="hidden sm:flex absolute right-2 top-1/2 -translate-y-1/2 bg-white shadow-lg rounded-full p-2 hover:bg-gray-100 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                  className="flex absolute right-2 top-1/2 -translate-y-1/2 bg-white shadow-lg rounded-full p-2 hover:bg-gray-100 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                 >
                   <ChevronRight size={24} />
                 </button>
@@ -171,8 +171,8 @@ const StoreCategories = () => {
                       key={idx}
                       className={`w-3 h-3 rounded-full transition-all ${
                         activeIndex[cat.key] === idx
-                          ? "bg-black w-5"
-                          : "bg-gray-300"
+                          ? "bg-[#AEFF53] w-5"
+                          : "bg-[#000000]"
                       }`}
                     />
                   ))}

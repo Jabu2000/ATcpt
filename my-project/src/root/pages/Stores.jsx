@@ -3,7 +3,7 @@ import Navbar from '../../components/Navbar'
 import Footer from '../../components/Footer'
 import StoresHero from '../../sections/Stores/StoresHero'
 import HomeInfo from '../../components/HomeInfo'
-import StoresCategories from '../../sections/Stores/StoreCategories'
+// import StoresCategories from '../../sections/Stores/StoreCategories'
 
 const Stores = () => {
   return (
@@ -11,7 +11,7 @@ const Stores = () => {
       <Navbar />
       <StoresHero />
       <HomeInfo />
-      <StoresCategories />
+      {/* <StoresCategories /> */}
       <Footer />
     </div>
   )

@@ -1,9 +1,9 @@
 import React from 'react'
 import Navbar from '../../components/Navbar'
 import NightLifeHero from '../../sections/NightLife/NightLifeHero'
-import NightLifeCategories from '../../sections/NightLife/NightLifeCategories'
 import Footer from '../../components/Footer'
 import NightLifeExplore from '../../sections/NightLife/NightLifeExplore'
+import HomeInfo from '../../components/HomeInfo'
 
 const NightLife = () => {
   return (
@@ -11,6 +11,7 @@ const NightLife = () => {
       <Navbar />
       <NightLifeHero />
       <NightLifeExplore />
+      <HomeInfo />
       <Footer />
     </div>
   )

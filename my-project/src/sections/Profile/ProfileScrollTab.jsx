@@ -17,7 +17,7 @@ export const SavedAdventureItem = ({ item, onRemove }) => {
   const rating = item.rating ?? item.details?.rating; // ✅ fallback
 
   return (
-    <li className="flex flex-row gap-6 border p-2 rounded-lg">
+    <li className="flex flex-row items-center gap-6 py-4 rounded-lg">
       <img
         src={imageSrc}
         alt={item.name || item.details?.name || "Adventure"}
@@ -54,7 +54,7 @@ export const SavedAdventureItem = ({ item, onRemove }) => {
 
 export const GalleryPost = ({ post, onDelete }) => {
   return (
-    <div className="relative group bg-white rounded-lg shadow-md overflow-hidden">
+    <div className="relative group rounded-lg  overflow-hidden">
       {post.image && (
         <img
           src={

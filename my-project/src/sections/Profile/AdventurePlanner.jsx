@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X } from "lucide-react";
+import { MoreVertical, X } from "lucide-react";
 import { FaStar, FaStarHalfAlt, FaRegStar } from "react-icons/fa";
+
+import DatePicker from "react-datepicker";
 
 export default function AdventurePlanner({ onPlansChange }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -215,17 +217,21 @@ export default function AdventurePlanner({ onPlansChange }) {
   };
 
   return (
-    <div className="relative w-full max-w-md mx-auto">
-      {/* Create Button */}
-      <button
-        onClick={() => setIsOpen(true)}
-        className="px-6 py-3 bg-blue-600 text-white font-semibold rounded-xl shadow-md hover:bg-blue-700 transition"
-      >
-        Create Adventure Plan
-      </button>
+    <div className="relative w-full">
+      <div className="flex justify-center mt-6">
+        {/* Create Button */}
+        <button
+          onClick={() => setIsOpen(true)}
+          className="px-8 md:px-16 py-3 bg-[#AEFF53] 
+               text-black hover:text-white font-semibold rounded-xl shadow-md 
+               text-[12px] md:text-[16px] hover:bg-[#FF0000] transition "
+        >
+          Create A New Adventure
+        </button>
+      </div>
 
       {/* Plans List */}
-      <div className="mt-6 max-h-96 overflow-y-auto space-y-4">
+      <div className="mt-12 space-y-[60px]">
         {plans.length === 0 && (
           <p className="text-center text-gray-500 mt-4">
             No adventure plans yet.
@@ -237,21 +243,24 @@ export default function AdventurePlanner({ onPlansChange }) {
           return (
             <div
               key={index}
-              className="relative flex gap-4 p-4 bg-white rounded-xl shadow hover:shadow-lg transition border border-gray-200"
+              className="relative flex flex-col sm:flex-row gap-4 bg-white rounded-xl 
+                   shadow hover:shadow-lg transition border border-black"
             >
               {/* Dropdown */}
-              <div className="absolute top-2 right-2 dropdown-container">
+              <div className="absolute right-2 top-2 sm:top-4 sm:right-4 dropdown-container">
                 <button
                   onClick={() =>
                     setDropdownOpen(dropdownOpen === index ? null : index)
                   }
-                  className="text-gray-400 hover:text-gray-700"
                 >
-                  ⋮
+                  <MoreVertical className="w-5 h-5  text-black hover:text-gray-500" />
                 </button>
 
                 {dropdownOpen === index && (
-                  <div className="absolute right-0 mt-2 w-28 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
+                  <div
+                    className="absolute right-0 mt-2 w-28 bg-white border 
+                            border-gray-200 rounded-lg shadow-lg z-50"
+                  >
                     <button
                       onClick={() => handleEdit(index)}
                       className="w-full text-left px-4 py-2 text-sm hover:bg-gray-100"
@@ -273,19 +282,31 @@ export default function AdventurePlanner({ onPlansChange }) {
                 <img
                   src={dest.images[0]}
                   alt={dest.name}
-                  className="w-24 h-24 object-cover rounded-md"
+                  className="w-full sm:w-[250px] md:w-[350px] h-[180px] sm:h-[200px] 
+                       object-cover rounded-t-md sm:rounded-l-md sm:rounded-tr-none"
                 />
               ) : (
-                <div className="w-24 h-24 bg-gray-200 rounded-md flex items-center justify-center text-gray-400">
+                <div
+                  className="w-full sm:w-[250px] h-[180px] bg-gray-200 
+                          rounded-t-md sm:rounded-l-md sm:rounded-tr-none 
+                          flex items-center justify-center text-gray-400"
+                >
                   No Image
                 </div>
               )}
 
-              <div className="flex-1 flex flex-col justify-between">
+              {/* Content */}
+              <div className="flex-1 flex flex-col p-4 sm:p-6 justify-between">
                 <div>
-                  <h3 className="text-lg font-semibold">{plan.name}</h3>
-                  <p className="text-sm text-gray-600">{dest?.name}</p>
-                  <p className="text-sm text-gray-600">Date: {plan.date}</p>
+                  <h3 className="text-[16px] sm:text-xl font-semibold capitalize">
+                    {plan.name}
+                  </h3>
+                  <p className="text-[12px] md:text-sm text-[#FF0000] font-normal">
+                    {dest?.name}
+                  </p>
+                  <p className="text-[12px] md:text-sm text-[#FF0000] font-normal mt-2 sm:mt-4">
+                    Date: {plan.date}
+                  </p>
                 </div>
               </div>
             </div>
@@ -340,6 +361,7 @@ export default function AdventurePlanner({ onPlansChange }) {
       <AnimatePresence>
         {isOpen && (
           <>
+            {/* Backdrop */}
             <motion.div
               className="fixed inset-0 bg-black/50 z-40"
               initial={{ opacity: 0 }}
@@ -347,13 +369,17 @@ export default function AdventurePlanner({ onPlansChange }) {
               exit={{ opacity: 0 }}
               onClick={() => setIsOpen(false)}
             />
+
+            {/* Drawer */}
             <motion.div
-              className="fixed top-0 right-0 h-full w-full max-w-md bg-white shadow-xl z-50 p-6 flex flex-col"
+              className="fixed top-0 right-0 h-full w-full sm:w-[90%] md:w-[480px] 
+                   bg-white shadow-xl z-50 p-6 flex flex-col rounded-none md:rounded-l-lg"
               initial={{ x: "100%" }}
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
               transition={{ type: "tween", duration: 0.4 }}
             >
+              {/* Close Button */}
               <button
                 onClick={() => {
                   setIsOpen(false);
@@ -363,13 +389,19 @@ export default function AdventurePlanner({ onPlansChange }) {
               >
                 <X size={24} />
               </button>
-              <h2 className="text-2xl font-bold mb-6">
+
+              {/* Title */}
+              <h2 className="text-xl sm:text-2xl font-bold mb-6">
                 {editIndex !== null
                   ? "Edit Adventure Plan"
                   : "Create Adventure Plan"}
               </h2>
 
-              <form onSubmit={handleSubmit} className="space-y-4">
+              {/* Form */}
+              <form
+                onSubmit={handleSubmit}
+                className="space-y-6 sm:space-y-8 overflow-y-auto"
+              >
                 {/* Adventure Name */}
                 <div>
                   <label className="block text-sm font-medium mb-1">
@@ -381,7 +413,7 @@ export default function AdventurePlanner({ onPlansChange }) {
                     value={formData.name}
                     onChange={handleChange}
                     required
-                    className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full border-2 border-black rounded-lg px-3 py-2 text-sm sm:text-base"
                   />
                 </div>
 
@@ -397,10 +429,10 @@ export default function AdventurePlanner({ onPlansChange }) {
                     onChange={(e) => setSearchQuery(e.target.value)}
                     placeholder="Search destinations..."
                     required
-                    className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full border-2 border-black rounded-lg px-3 py-2 text-sm sm:text-base"
                   />
                   {searchQuery.trim() && (
-                    <ul className="absolute z-50 w-full bg-white border border-gray-200 rounded-md mt-1 max-h-64 overflow-y-auto shadow-lg">
+                    <ul className="absolute z-50 w-full bg-white rounded-md mt-1 max-h-64 overflow-y-auto shadow-lg">
                       {isSearching ? (
                         <li className="p-3 text-center text-gray-500">
                           Searching...
@@ -417,13 +449,15 @@ export default function AdventurePlanner({ onPlansChange }) {
                               alt={item?.name || "Destination"}
                               className="w-12 h-12 object-cover rounded-md mr-3"
                             />
-                            <div>
-                              <p className="font-semibold">{item?.name}</p>
-                              <p className="text-sm text-gray-500">
+                            <div className="flex-1">
+                              <p className="font-semibold text-sm sm:text-base">
+                                {item?.name}
+                              </p>
+                              <p className="text-xs sm:text-sm text-gray-500">
                                 {item?.address}
                               </p>
                               {typeof item?.rating === "number" && (
-                                <div className="flex items-center gap-1 text-[#FAA500]">
+                                <div className="flex items-center gap-1 text-[#FAA500] text-xs sm:text-sm">
                                   {Array.from({ length: 5 }, (_, i) => {
                                     const starValue = i + 1;
                                     if (item.rating >= starValue)
@@ -432,7 +466,7 @@ export default function AdventurePlanner({ onPlansChange }) {
                                       return <FaStarHalfAlt key={i} />;
                                     return <FaRegStar key={i} />;
                                   })}
-                                  <span className="ml-2 text-sm text-black">
+                                  <span className="ml-2 text-black">
                                     {item.rating.toFixed(1)}
                                   </span>
                                 </div>
@@ -450,21 +484,28 @@ export default function AdventurePlanner({ onPlansChange }) {
                 </div>
 
                 {/* Date */}
-                <div>
+                <div className="w-full">
                   <label className="block text-sm font-medium mb-1">Date</label>
-                  <input
-                    type="date"
-                    name="date"
-                    value={formData.date}
-                    onChange={handleChange}
-                    required
-                    className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  <DatePicker
+                    selected={formData.date ? new Date(formData.date) : null}
+                    onChange={(date) =>
+                      setFormData((prev) => ({
+                        ...prev,
+                        date: date.toISOString().split("T")[0],
+                      }))
+                    }
+                    placeholderText="Select a date"
+                    className="w-full border-2 border-black rounded-lg px-3 py-2 text-sm sm:text-base mb-[60px] "
+                    dateFormat="yyyy-MM-dd"
+                    calendarClassName="rounded-lg shadow-lg border border-gray-200"
                   />
                 </div>
 
+                {/* Submit */}
                 <button
                   type="submit"
-                  className="w-full py-3 bg-blue-600 text-white font-semibold rounded-xl shadow-md hover:bg-blue-700 transition"
+                  className="w-full py-3  bg-[#AEFF53] text-black hover:text-white font-semibold rounded-xl 
+                       shadow-md hover:bg-[#FF0000] transition text-sm sm:text-base"
                 >
                   {editIndex !== null ? "Save Changes" : "Save Adventure"}
                 </button>

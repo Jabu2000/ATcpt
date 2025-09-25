@@ -11,6 +11,8 @@
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",
+    "@radix-ui/react-tooltip": "^1.2.8",
+    "@shadcn/ui": "^0.0.4",
     "axios": "^1.11.0",
     "bootstrap": "^5.3.7",
     "date-fns": "^4.1.0",

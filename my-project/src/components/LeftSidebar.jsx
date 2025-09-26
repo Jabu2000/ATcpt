@@ -21,8 +21,8 @@ const LeftSidebar = () => {
 
   return (
     <div
-      className="fixed left-0 top-0 h-screen border-r border-white flex flex-col justify-between  py-6 
-      w-20 sm:w-28 md:w-40 lg:w-56 xl:w-[20%] 2xl:w-[16%]"
+      className="fixed left-0 top-0 h-screen border-r border-[#AEFF53] flex flex-col justify-between  py-6 
+      w-20 sm:w-28 md:w-40 lg:w-56 xl:w-[20%] 2xl:w-[16%] z-10"
     >
       {/* Top Section */}
       <div className="flex flex-col items-center md:items-start pl-8 gap-6">
@@ -43,14 +43,14 @@ const LeftSidebar = () => {
             className="h-10 w-10 md:h-12 md:w-12 rounded-full object-cover"
           />
           <div className="hidden md:flex flex-col">
-            <h4 className="text-base md:text-lg font-semibold text-white">
+            <h4 className="text-base md:text-lg font-semibold text-black">
               {user?.username || "Guest"}
             </h4>
           </div>
         </Link>
 
         {/* Navigation */}
-        <div className="flex flex-col gap-10 text-white mt-6 md:mt-12">
+        <div className="flex flex-col gap-10 text-black mt-6 ">
           <Link to="/" className="flex items-center gap-3">
             <FaHome className="text-xl" />
             <h3 className="hidden md:block text-base font-bold text-[20px]">Home</h3>

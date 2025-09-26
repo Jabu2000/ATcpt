@@ -21,7 +21,7 @@ const HomeCategories = () => {
 
   return (
     <div className="w-full flex flex-col items-center pt-[30px]">
-      <h2 className="text-[40px] text-white sm:text-[50px] font-bold mb-8 lg:flex hidden">
+      <h2 className="text-[40px] text-black sm:text-[50px] font-bold mb-8 lg:flex hidden">
         Adventure Time
       </h2>
 
@@ -35,7 +35,7 @@ const HomeCategories = () => {
             )}`;
 
           return (
-            <div key={post._id} className="flex flex-col items-center rounded-xl">
+            <div key={post._id} className="flex flex-col items-center rounded-xl px-4 md-px-0">
               {/* Post header */}
               <div className="md:w-[70%] w-full flex items-center gap-3 py-4">
                 <img
@@ -44,7 +44,7 @@ const HomeCategories = () => {
                   className="w-10 h-10 rounded-full object-cover"
                 />
                 <div className="flex flex-col">
-                  <span className="text-[18px] font-semibold text-white">
+                  <span className="text-[18px] font-semibold text-black">
                     {post.userId?.username || "Unknown User"}
                   </span>
                   <span className="text-sm text-gray-500">
@@ -58,7 +58,7 @@ const HomeCategories = () => {
               </div>
 
               {/* Post image */}
-              <div className="md:w-[70%] w-full h-[635px] border border-[#ffffff31] rounded-3xl flex justify-center items-center">
+              <div className="md:w-[70%] w-full rounded-2xl flex justify-center items-center">
                 {post.image && (
                   <img
                     src={post.image}
@@ -69,8 +69,8 @@ const HomeCategories = () => {
               </div>
 
               {/* Post content */}
-              <div className="md:w-[70%] w-full py-4 gap-2 flex flex-col">
-                <p className="text-white text-[15px] font-light">
+              <div className="md:w-[70%] w-full py-2 gap-2 flex flex-col">
+                <p className="text-black text-[15px] font-medium">
                   {post.content}
                 </p>
                 {post.hashtags && (
@@ -96,7 +96,7 @@ const HomeCategories = () => {
                 )}
               </div>
 
-              <div className="md:w-[70%] w-full h-[1px] mt-6 bg-white" />
+              <div className="md:w-[70%] w-full h-[1px] mt-6 bg-[#AEFF53]" />
             </div>
           );
         })}

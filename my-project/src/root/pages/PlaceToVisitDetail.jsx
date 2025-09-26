@@ -428,90 +428,103 @@ const PlaceToVisitDetail = () => {
 
         {/* Comment Form Overlay */}
         <AnimatePresence>
-          {showCommentFormOverlay && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="fixed inset-0 bg-black bg-opacity-50 z-50 flex justify-center items-start pt-20 overflow-auto"
-              onClick={(e) =>
-                e.target === e.currentTarget && setShowCommentFormOverlay(false)
-              }
-            >
-              <motion.div
-                initial={{ y: -50, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                exit={{ y: -50, opacity: 0 }}
-                className="bg-white rounded-3xl w-[90%] max-w-4xl p-6 flex flex-col gap-6 relative"
-              >
-                <button
-                  onClick={() => setShowCommentFormOverlay(false)}
-                  className="absolute top-4 right-4 text-gray-500 hover:text-gray-800 text-2xl font-bold"
-                >
-                  &times;
-                </button>
-
-                <h2 className="text-3xl font-bold">Add a Comment</h2>
-
-                <div className="flex flex-col gap-4 bg-gray-100 p-6 rounded-2xl mt-4">
-                  <textarea
-                    className="p-3 rounded-lg border border-gray-300 w-full"
-                    placeholder="Write your comment..."
-                    value={newComment.text}
-                    onChange={(e) =>
-                      setNewComment({ ...newComment, text: e.target.value })
-                    }
-                  />
-
-                  <div className="flex flex-row gap-6 mt-2 flex-wrap">
-                    {["food", "service", "vibes", "overall"].map((key) => (
-                      <div key={key} className="flex flex-col items-center">
-                        <label className="capitalize font-medium">{key}</label>
-                        <StarRatingInput
-                          value={newComment.ratings[key]}
-                          onChange={(val) =>
-                            setNewComment({
-                              ...newComment,
-                              ratings: { ...newComment.ratings, [key]: val },
-                            })
-                          }
-                        />
-                      </div>
-                    ))}
-                  </div>
-
-                  <div
-                    {...getRootProps()}
-                    className="mt-4 p-6 border-2 border-dashed border-gray-400 rounded-xl text-center cursor-pointer hover:border-gray-600"
-                  >
-                    <input {...getInputProps()} />
-                    {newComment.images.length > 0 ? (
-                      <div className="flex flex-wrap gap-2 justify-center">
-                        {newComment.images.map((file, idx) => (
-                          <img
-                            key={idx}
-                            src={URL.createObjectURL(file)}
-                            alt={file.name}
-                            className="w-24 h-24 object-cover rounded-lg"
-                          />
-                        ))}
-                      </div>
-                    ) : (
-                      <p>Drag & drop images here, or click to select files</p>
-                    )}
-                  </div>
-
-                  <button
-                    onClick={submitComment}
-                    className="px-6 py-3 bg-green-500 text-white rounded-2xl hover:bg-green-600 w-fit"
-                  >
-                    Submit Comment
-                  </button>
-                </div>
-              </motion.div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+                  {showCommentFormOverlay && (
+                    <motion.div
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      className="fixed inset-0 bg-black bg-opacity-50 z-50 flex justify-center items-center overflow-auto"
+                      onClick={(e) =>
+                        e.target === e.currentTarget && setShowCommentFormOverlay(false)
+                      }
+                    >
+                      <motion.div
+                        initial={{ y: -50, opacity: 0 }}
+                        animate={{ y: 0, opacity: 1 }}
+                        exit={{ y: -50, opacity: 0 }}
+                        className="bg-white rounded-3xl max-w-4xl p-10 flex flex-col  relative"
+                      >
+                        <button
+                          onClick={() => setShowCommentFormOverlay(false)}
+                          className="absolute top-4 right-4 text-gray-500 hover:text-gray-800 md:text-2xl text-[16px] font-bold"
+                        >
+                          &times;
+                        </button>
+        
+                        <h2 className="md:text-2xl text-[16px] font-bold">Add A Review</h2>
+        
+                        <div className="md:w-[400px] flex flex-col md:gap-4 gap-2 pt-4 ">
+                          <div className="grid grid-cols-2 gap-6">
+                            {["food", "service", "vibes", "overall"].map((key) => (
+                              <div key={key} className="flex flex-col ">
+                                <label className="capitalize font-semibold md:text-[14px] text-[10px]">
+                                  {key}
+                                </label>
+                                <StarRatingInput
+                                  value={newComment.ratings[key]}
+                                  onChange={(val) =>
+                                    setNewComment({
+                                      ...newComment,
+                                      ratings: { ...newComment.ratings, [key]: val },
+                                    })
+                                  }
+                                />
+                              </div>
+                            ))}
+                          </div>
+                          <div className="pt-4">
+                            <label className="md:text-[16px] text-[12px] font-semibold">
+                              Write A Review
+                            </label>
+                            <textarea
+                              className="p-3 rounded-lg border-2 border-black w-full md:text-[14px] text-[10px] md:h-[100px] h-[60px]"
+                              placeholder="Write your comment..."
+                              value={newComment.text}
+                              onChange={(e) =>
+                                setNewComment({ ...newComment, text: e.target.value })
+                              }
+                            />
+                          </div>
+        
+                          <div className="">
+                            <label className="md:text-[16px text-[10px] font-semibold">
+                              Add Images
+                            </label>
+                            <div
+                              {...getRootProps()}
+                              className="p-6 border-2 border-black rounded-lg text-center cursor-pointer hover:border-gray-600"
+                            >
+                              <input {...getInputProps()} />
+                              {newComment.images.length > 0 ? (
+                                <div className="flex flex-wrap gap-2 justify-center">
+                                  {newComment.images.map((file, idx) => (
+                                    <img
+                                      key={idx}
+                                      src={URL.createObjectURL(file)}
+                                      alt={file.name}
+                                      className="w-24 h-24 object-cover rounded-lg"
+                                    />
+                                  ))}
+                                </div>
+                              ) : (
+                                <div className="capitalize">
+                                  <p className="md:text-[12px] text-[10px]">click to add image</p>
+                                  <p className="md:text-[10px] text-[8px]">Or Drag & drop </p>
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                          <button
+                            onClick={submitComment}
+                            className="px-6 py-2 bg-[#AEFF53] md:text-[14px] text-[10px] text-black hover:text-white font-semibold rounded-2xl hover:bg-[#FF0000] w-full"
+                          >
+                            Submit Comment
+                          </button>
+                        </div>
+                      </motion.div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
       </div>
       <div className="h-[300px] bg-[#AEFF53] lg:mx-[50px] mx-6 flex justify-center items-center rounded-2xl">
         <img />

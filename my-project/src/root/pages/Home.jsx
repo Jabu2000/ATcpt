@@ -7,7 +7,7 @@ import TopNav from "../../components/TopNav";
 
 const Home = ({ posts, newPostId }) => {
   return (
-    <div className="w-full bg-black flex flex-row">
+    <div className="w-full bg-white flex flex-row">
       <div className="hidden lg:block">
         <LeftSidebar />
       </div>

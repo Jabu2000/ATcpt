@@ -23,7 +23,7 @@ const API_URL = import.meta.env.VITE_API_URL || "http://localhost:4000";
 /** ⭐ Star Rating Input Component */
 const StarRatingInput = ({ value, onChange }) => {
   return (
-    <div className="flex gap-1 text-[#FAA500] cursor-pointer">
+    <div className="flex gap-1 text-[#FAA500] md:text-[16px] text-[12px] cursor-pointer">
       {Array.from({ length: 5 }, (_, i) => {
         const starValue = i + 1;
         return (
@@ -296,7 +296,9 @@ const RestaurantDetail = () => {
               )}
 
               <div className="w-full flex flex-col bg-[#AEFF53] rounded-3xl px-[20px] pt-[40px] pb-[20px] gap-4">
-                <h2 className="text-black md:text-[35px] text-[25px] font-bold ">About</h2>
+                <h2 className="text-black md:text-[35px] text-[25px] font-bold ">
+                  About
+                </h2>
                 {restaurant.about && (
                   <p className="mt-4 text-black font-medium">
                     {restaurant.about}
@@ -440,7 +442,7 @@ const RestaurantDetail = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="fixed inset-0 bg-black bg-opacity-50 z-50 flex justify-center items-start pt-20 overflow-auto"
+              className="fixed inset-0 bg-black bg-opacity-50 z-50 flex justify-center items-center overflow-auto"
               onClick={(e) =>
                 e.target === e.currentTarget && setShowCommentFormOverlay(false)
               }
@@ -449,31 +451,24 @@ const RestaurantDetail = () => {
                 initial={{ y: -50, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 exit={{ y: -50, opacity: 0 }}
-                className="bg-white rounded-3xl w-[90%] max-w-4xl p-6 flex flex-col gap-6 relative"
+                className="bg-white rounded-3xl max-w-4xl p-10 flex flex-col  relative"
               >
                 <button
                   onClick={() => setShowCommentFormOverlay(false)}
-                  className="absolute top-4 right-4 text-gray-500 hover:text-gray-800 text-2xl font-bold"
+                  className="absolute top-4 right-4 text-gray-500 hover:text-gray-800 md:text-2xl text-[16px] font-bold"
                 >
                   &times;
                 </button>
 
-                <h2 className="text-3xl font-bold">Add a Comment</h2>
+                <h2 className="md:text-2xl text-[16px] font-bold">Add A Review</h2>
 
-                <div className="flex flex-col gap-4 bg-gray-100 p-6 rounded-2xl mt-4">
-                  <textarea
-                    className="p-3 rounded-lg border border-gray-300 w-full"
-                    placeholder="Write your comment..."
-                    value={newComment.text}
-                    onChange={(e) =>
-                      setNewComment({ ...newComment, text: e.target.value })
-                    }
-                  />
-
-                  <div className="flex flex-row gap-6 mt-2 flex-wrap">
+                <div className="md:w-[400px] flex flex-col md:gap-4 gap-2 pt-4 ">
+                  <div className="grid grid-cols-2 gap-6">
                     {["food", "service", "vibes", "overall"].map((key) => (
-                      <div key={key} className="flex flex-col items-center">
-                        <label className="capitalize font-medium">{key}</label>
+                      <div key={key} className="flex flex-col ">
+                        <label className="capitalize font-semibold md:text-[14px] text-[10px]">
+                          {key}
+                        </label>
                         <StarRatingInput
                           value={newComment.ratings[key]}
                           onChange={(val) =>
@@ -486,31 +481,51 @@ const RestaurantDetail = () => {
                       </div>
                     ))}
                   </div>
-
-                  <div
-                    {...getRootProps()}
-                    className="mt-4 p-6 border-2 border-dashed border-gray-400 rounded-xl text-center cursor-pointer hover:border-gray-600"
-                  >
-                    <input {...getInputProps()} />
-                    {newComment.images.length > 0 ? (
-                      <div className="flex flex-wrap gap-2 justify-center">
-                        {newComment.images.map((file, idx) => (
-                          <img
-                            key={idx}
-                            src={URL.createObjectURL(file)}
-                            alt={file.name}
-                            className="w-24 h-24 object-cover rounded-lg"
-                          />
-                        ))}
-                      </div>
-                    ) : (
-                      <p>Drag & drop images here, or click to select files</p>
-                    )}
+                  <div className="pt-4">
+                    <label className="md:text-[16px] text-[12px] font-semibold">
+                      Write A Review
+                    </label>
+                    <textarea
+                      className="p-3 rounded-lg border-2 border-black w-full md:text-[14px] text-[10px] md:h-[100px] h-[60px]"
+                      placeholder="Write your comment..."
+                      value={newComment.text}
+                      onChange={(e) =>
+                        setNewComment({ ...newComment, text: e.target.value })
+                      }
+                    />
                   </div>
 
+                  <div className="">
+                    <label className="md:text-[16px text-[10px] font-semibold">
+                      Add Images
+                    </label>
+                    <div
+                      {...getRootProps()}
+                      className="p-6 border-2 border-black rounded-lg text-center cursor-pointer hover:border-gray-600"
+                    >
+                      <input {...getInputProps()} />
+                      {newComment.images.length > 0 ? (
+                        <div className="flex flex-wrap gap-2 justify-center">
+                          {newComment.images.map((file, idx) => (
+                            <img
+                              key={idx}
+                              src={URL.createObjectURL(file)}
+                              alt={file.name}
+                              className="w-24 h-24 object-cover rounded-lg"
+                            />
+                          ))}
+                        </div>
+                      ) : (
+                        <div className="capitalize">
+                          <p className="md:text-[12px] text-[10px]">click to add image</p>
+                          <p className="md:text-[10px] text-[8px]">Or Drag & drop </p>
+                        </div>
+                      )}
+                    </div>
+                  </div>
                   <button
                     onClick={submitComment}
-                    className="px-6 py-3 bg-green-500 text-white rounded-2xl hover:bg-green-600 w-fit"
+                    className="px-6 py-2 bg-[#AEFF53] md:text-[14px] text-[10px] text-black hover:text-white font-semibold rounded-2xl hover:bg-[#FF0000] w-full"
                   >
                     Submit Comment
                   </button>

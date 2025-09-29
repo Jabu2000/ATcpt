@@ -3,7 +3,6 @@ import { FaFacebook, FaInstagram } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../AuthContext";
 
-
 const Login = () => {
   const navigate = useNavigate();
   const { login } = useAuth();
@@ -22,7 +21,8 @@ const Login = () => {
       await login(form);
       navigate("/"); // user is now in context
     } catch (err) {
-      const msg = err?.response?.data?.message || err?.message || "Login failed";
+      const msg =
+        err?.response?.data?.message || err?.message || "Login failed";
       setError(msg);
     } finally {
       setLoading(false);
@@ -30,16 +30,16 @@ const Login = () => {
   };
 
   return (
-      <div className="w-full h-screen p-6 flex justify-center items-center">
-      <div className="w-full h-[750px] flex flex-row rounded-3xl shadow-2xl shadow-[#5f5f5f] overflow-hidden">
+    <div className="w-full h-screen p-6 flex justify-center items-center">
+      <div className="w-full h-[90vh] flex flex-row rounded-3xl shadow-2xl shadow-[#5f5f5f] overflow-hidden">
         {/* Login Form */}
         <div className="w-full bg-white flex flex-col justify-center items-center px-6">
-          <h1 className="text-3xl md:text-5xl font-bold">Sign In</h1>
-          <div className="flex flex-row gap-4 mt-2">
-            <FaInstagram className="text-[28px]" />
-            <FaFacebook className="text-[28px]" />
+          <h1 className="text-3xl md:text-[40px] font-bold">Sign In</h1>
+          <div className="flex flex-row gap-2 mt-2">
+            <FaInstagram className="text-[22px]" />
+            <FaFacebook className="text-[22px]" />
           </div>
-          <p className="text-base text-center w-[90%] md:w-[80%] mt-4">
+          <p className="text-[14px] text-center w-[90%] md:w-[80%] mt-4">
             Our experienced artist brings out your beauty with precision.
           </p>
 
@@ -48,7 +48,7 @@ const Login = () => {
             className="flex flex-col justify-center items-center mt-5 space-y-4 w-full max-w-xs"
           >
             <div className="flex flex-col w-full">
-              <label htmlFor="email" className="mb-1 font-medium text-black">
+              <label htmlFor="email" className="mb-1 md:text-[16px] text-[12px]  text-black">
                 Email
               </label>
               <input
@@ -59,12 +59,12 @@ const Login = () => {
                 onChange={handleChange}
                 required
                 autoComplete="email"
-                className="border-2 border-black rounded-full py-2 px-5 focus:outline-none focus:border-[#AEFF53] focus:ring-1 focus:ring-[#AEFF53]"
+                className="border-2 border-black rounded-full py-1 px-5 focus:outline-none focus:border-[#AEFF53] focus:ring-1 focus:ring-[#AEFF53]"
               />
             </div>
 
             <div className="flex flex-col w-full">
-              <label htmlFor="password" className="mb-1 font-medium text-black">
+              <label htmlFor="password" className="mb-1 md:text-[16px] text-[12px] text-black">
                 Password
               </label>
               <input
@@ -75,7 +75,7 @@ const Login = () => {
                 onChange={handleChange}
                 required
                 autoComplete="current-password"
-                className="border-2 border-black rounded-full py-2 px-5 focus:outline-none focus:border-[#AEFF53] focus:ring-1 focus:ring-[#AEFF53]"
+                className="border-2 border-black rounded-full py-1 px-5 focus:outline-none focus:border-[#AEFF53] focus:ring-1 focus:ring-[#AEFF53]"
               />
             </div>
 

@@ -5,6 +5,7 @@ import {
   FaBookmark,
   FaUserFriends,
   FaPlusCircle,
+  FaSearch,
 } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../auth/AuthContext"; // adjust path
@@ -21,7 +22,7 @@ const LeftSidebar = () => {
 
   return (
     <div
-      className="fixed left-0 top-0 h-screen border-r border-[#AEFF53] flex flex-col justify-between  py-6 
+      className="fixed left-0 top-0 h-screen bg-[#ffffff] border-r border-[#AEFF53] flex flex-col justify-between  py-6 
       w-20 sm:w-28 md:w-40 lg:w-56 xl:w-[20%] 2xl:w-[16%] z-10"
     >
       {/* Top Section */}
@@ -40,7 +41,7 @@ const LeftSidebar = () => {
           <img
             src={avatar}
             alt="profile"
-            className="h-10 w-10 md:h-12 md:w-12 rounded-full object-cover"
+            className="h-8 w-8 md:h-10 md:w-10 rounded-full object-cover"
           />
           <div className="hidden md:flex flex-col">
             <h4 className="text-base md:text-lg font-semibold text-black">
@@ -50,26 +51,42 @@ const LeftSidebar = () => {
         </Link>
 
         {/* Navigation */}
-        <div className="flex flex-col gap-10 text-black mt-6 ">
+        <div className="flex flex-col gap-8 text-black mt-4 ">
           <Link to="/" className="flex items-center gap-3">
             <FaHome className="text-xl" />
-            <h3 className="hidden md:block text-base font-bold text-[20px]">Home</h3>
+            <h3 className="hidden md:block text-base font-bold text-[20px]">
+              Home
+            </h3>
+          </Link>
+          <Link to="/explore" className="flex items-center gap-3">
+            <FaSearch className="text-xl" />
+            <h3 className="hidden md:block text-base font-bold text-[20px]">
+              Search
+            </h3>
           </Link>
           <Link to="/explore" className="flex items-center gap-3">
             <FaMap className="text-xl" />
-            <h3 className="hidden md:block text-base font-bold text-[20px]">Explore</h3>
+            <h3 className="hidden md:block text-base font-bold text-[20px]">
+              Explore
+            </h3>
+          </Link>
+          <Link to="/profile" className="flex items-center gap-3">
+            <FaBookmark className="text-xl" />
+            <h3 className="hidden md:block text-base font-bold text-[20px]">
+              Saved
+            </h3>
           </Link>
           <Link to="/adventures" className="flex items-center gap-3">
-            <FaBookmark className="text-xl" />
-            <h3 className="hidden md:block text-base font-bold text-[20px]">Saved</h3>
-          </Link>
-          <Link to="/find" className="flex items-center gap-3">
             <FaUserFriends className="text-xl" />
-            <h3 className="hidden md:block text-base font-bold text-[20px]">People</h3>
+            <h3 className="hidden md:block text-base font-bold text-[20px]">
+              People
+            </h3>
           </Link>
           <Link to="/create-post" className="flex items-center gap-3">
             <FaPlusCircle className="text-xl" />
-            <h3 className="hidden md:block text-base font-bold text-[20px]">Create</h3>
+            <h3 className="hidden md:block text-base font-bold text-[20px]">
+              Create
+            </h3>
           </Link>
         </div>
       </div>

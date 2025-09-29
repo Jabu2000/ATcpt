@@ -35,7 +35,7 @@ const navigate = useNavigate();
 
   return (
     <div className="w-full h-screen p-6 flex justify-center items-center">
-      <div className="w-full h-[750px] flex flex-row rounded-3xl shadow-2xl shadow-[#5f5f5f] overflow-hidden">
+      <div className="w-full h-[90vh] flex flex-row rounded-3xl shadow-2xl shadow-[#5f5f5f] overflow-hidden">
         {/* Left Side Panel */}
         <div className="hidden md:flex w-full justify-center items-center bg-[#FF0000]">
           <div className="flex flex-col justify-center items-center px-6 text-center">

@@ -266,7 +266,7 @@ const ProfileInfo = () => {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 50 }}
             transition={{ duration: 0.3 }}
-            className="bg-white rounded-2xl shadow-xl w-full max-w-2xl p-8 relative"
+            className="bg-white rounded-2xl shadow-xl max-w-4xl p-8 relative"
           >
             {/* Close Button */}
             <button
@@ -276,27 +276,27 @@ const ProfileInfo = () => {
               ✕
             </button>
 
-            <h2 className="text-2xl font-bold text-gray-800 mb-6">
+            <h2 className="md:text-2xl text-[16px] font-bold text-gray-800 mb-4">
               Edit Profile
             </h2>
 
-            <div className="flex flex-col gap-4">
+            <div className=" w-[300px] md:w-[400px] flex flex-col md:gap-4 gap-2 pt-2 ">
               {/* Username */}
               <div>
-                <label className="block text-gray-600 font-medium mb-1">
+                <label className="block text-black md:text-[16px] text-[12px] font-semibold mb-1">
                   Username
                 </label>
                 <input
                   name="username"
                   value={formData.username}
                   onChange={handleChange}
-                  className="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-500"
+                  className=" rounded-lg px-4 py-2 border-2 border-black w-full md:text-[14px] text-[10px]"
                 />
               </div>
 
               {/* Description */}
               <div>
-                <label className="block text-gray-600 font-medium mb-1">
+                <label className="block text-black md:text-[16px] text-[12px] font-semibold mb-1">
                   Description
                 </label>
                 <textarea
@@ -305,18 +305,18 @@ const ProfileInfo = () => {
                   onChange={handleChange}
                   rows="3"
                   placeholder="Write a short description..."
-                  className="w-full border rounded-lg px-4 py-2 resize-none focus:outline-none focus:ring-2 focus:ring-green-500"
+                  className="rounded-lg px-4 py-2 border-2 border-black w-full md:text-[14px] text-[10px]"
                 />
               </div>
 
               {/* Profile Picture Upload */}
               <div>
-                <label className="block text-gray-600 font-medium mb-1">
+                <label className="block text-black md:text-[16px] text-[12px] font-semibold mb-1">
                   Profile Picture
                 </label>
                 <div
                   {...getRootProps()}
-                  className={`border-2 border-dashed rounded-lg p-6 text-center cursor-pointer transition-colors ${
+                  className={`border-2 border-black rounded-lg p-6 text-center cursor-pointer transition-colors ${
                     isDragActive
                       ? "bg-green-100 border-green-400"
                       : "bg-gray-100 border-gray-300"
@@ -328,20 +328,21 @@ const ProfileInfo = () => {
                   ) : isDragActive ? (
                     <p className="text-gray-700">Drop image here...</p>
                   ) : (
-                    <p className="text-gray-700">
-                      Drag & drop or click to upload
-                    </p>
+                    <div className="capitalize">
+                          <p className="md:text-[12px] text-[10px]">click to add image</p>
+                          <p className="md:text-[10px] text-[8px]">Or Drag & drop </p>
+                        </div>
                   )}
                 </div>
 
                 {/* URL option */}
-                <input
+                {/* <input
                   name="profilePicture"
                   value={formData.profilePicture}
                   onChange={handleChange}
                   placeholder="...or paste image URL"
                   className="w-full border rounded-lg px-3 py-2 mt-3 focus:outline-none focus:ring-2 focus:ring-green-500"
-                />
+                /> */}
 
                 {formData.profilePicture && (
                   <div className="mt-3">
@@ -360,7 +361,7 @@ const ProfileInfo = () => {
             <div className="flex justify-end gap-3 mt-8">
               <button
                 onClick={handleSaveProfile}
-                className="bg-green-500 hover:bg-green-600 text-white px-6 py-2 rounded-full shadow-md"
+                className="bg-[#AEFF53] hover:bg-green-400 md:text-[14px] text-[10px] text-black px-6 py-2 rounded-full shadow-md"
               >
                 Save
               </button>
@@ -374,7 +375,7 @@ const ProfileInfo = () => {
                     description: user.description,
                   });
                 }}
-                className="bg-gray-400 hover:bg-gray-500 text-white px-6 py-2 rounded-full shadow-md"
+                className="bg-[#FF0000] hover:bg-red-500 md:text-[14px] text-[10px] text-white px-6 py-2 rounded-full shadow-md"
               >
                 Cancel
               </button>

@@ -33,9 +33,7 @@ const Navbar = () => {
   const avatar =
     user?.profilePicture ||
     (user?.username
-      ? `https://ui-avatars.com/api/?name=${encodeURIComponent(
-          user.username
-        )}`
+      ? `https://ui-avatars.com/api/?name=${encodeURIComponent(user.username)}`
       : "/icons/profile-placeholder.svg");
 
   const toggleNav = () => {
@@ -173,7 +171,7 @@ const Navbar = () => {
               <img
                 src={avatar}
                 alt="profile"
-                className="h-10 w-10 md:h-12 md:w-12 rounded-full object-cover"
+                className="h-8 w-8 md:h-10 md:w-10 rounded-full object-cover"
               />
               <div className="hidden md:flex flex-col">
                 <h4 className="text-base md:text-lg font-semibold text-black">
@@ -183,11 +181,17 @@ const Navbar = () => {
             </Link>
 
             {/* Navigation Links */}
-            <div className="flex flex-col gap-10 text-black mt-6 ">
+            <div className="flex flex-col gap-8 text-black mt-4 ">
               <Link to="/" className="flex items-center gap-3">
                 <FaHome className="text-xl" />
                 <h3 className="hidden md:block text-base font-bold text-[20px]">
                   Home
+                </h3>
+              </Link>
+              <Link to="/explore" className="flex items-center gap-3">
+                <FaSearch className="text-xl" />
+                <h3 className="hidden md:block text-base font-bold text-[20px]">
+                  Search
                 </h3>
               </Link>
               <Link to="/explore" className="flex items-center gap-3">

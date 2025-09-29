@@ -62,7 +62,7 @@ function App() {
             </ProtectedRoute>
           }
         />
-        <Route path="explore" element={<Explore />} />
+        <Route path="/explore" element={<Explore />} />
         <Route path="/profile" element={<Profile />} />
 
         <Route path="/restaurants" element={<Restaurants />} />

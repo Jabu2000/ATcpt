@@ -1,14 +1,12 @@
 import React, { useState } from "react";
 import { Routes, Route } from "react-router-dom";
-import Login from "./auth/forms/Login";
-import Signup from "./auth/forms/Signup";
+// import Login from "./auth/forms/Login";
+// import Signup from "./auth/forms/Signup";
 import ProtectedRoute from "./components/ProtectRoute";
 import Explore from "./root/pages/Explore";
 import Home from "./root/pages/Home";
 
-
 import Profile from "./root/pages/Profile";
-
 
 import Restaurants from "./root/pages/Restaurants";
 import RestaurantDetail from "./root/pages/RestaurantDetail";
@@ -31,9 +29,7 @@ import AccommodationDetail from "./root/pages/AccommodationDetail";
 
 import { Toaster, toast } from "react-hot-toast";
 import CreatePost from "./root/pages/CreatePost";
-
-
-
+import AuthPage from "./auth/forms/AuthPage";
 
 
 function App() {
@@ -52,17 +48,18 @@ function App() {
       <Toaster position="top-right" reverseOrder={false} />
 
       <Routes>
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
+        {/* <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} /> */}
+        <Route path="/login" element={<AuthPage />} />
         <Route
-          path="/"
+          path="/explore"
           element={
             <ProtectedRoute>
               <Home posts={posts} newPostId={newPostId} />
             </ProtectedRoute>
           }
         />
-        <Route path="/explore" element={<Explore />} />
+        <Route path="/" element={<Explore />} />
         <Route path="/profile" element={<Profile />} />
 
         <Route path="/restaurants" element={<Restaurants />} />

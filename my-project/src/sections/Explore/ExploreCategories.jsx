@@ -6,10 +6,10 @@ import StoreCategories from "../Stores/StoreCategories";
 
 const ExploreCategories = () => {
   return (
-    <div className="flex flex-col ">
+    <div className="flex flex-col px-6 md:px-[40px]">
       <RestaurantCategories />
       <FTTDCategories />
-      <div className="w-full px-[50px]">
+      <div className="w-full md:px-[50px]">
         {/* Green banner */}
         <div className="w-full h-[300px] bg-[#AEFF53]  mt-[80px] flex justify-center items-center rounded-2xl">
           <img alt="banner" />
@@ -18,7 +18,7 @@ const ExploreCategories = () => {
 
       <NightLifeCategories />
       <StoreCategories />
-      <div className="w-full px-[50px]">
+      <div className="w-full md:px-[50px]">
         {/* Green banner */}
         <div className="w-full h-[300px] bg-[#AEFF53]  mt-[80px] flex justify-center items-center rounded-2xl">
           <img alt="banner" />

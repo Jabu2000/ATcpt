@@ -5,8 +5,8 @@ const categories = [
   { title: "Restaurants", image: "/restaurant.jpg", link: "/restaurants" },
   { title: "Thrift Stores", image: "/stores.png", link: "/stores" },
   { title: "Events", image: "/Events.png", link: "/events" },
-  { title: "Fun Things To Do", image: "/Activities.png", link: "/activities" },
-  { title: "Places To Visit", image: "/Visit.png", link: "/places" },
+  { title: "Activities", image: "/Activities.png", link: "/activities" },
+  { title: "Places", image: "/Visit.png", link: "/places" },
 ];
 
 const RightSidebar = () => {

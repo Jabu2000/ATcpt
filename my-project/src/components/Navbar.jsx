@@ -93,46 +93,86 @@ const Navbar = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [lastScrollY]);
 
+  useEffect(() => {
+    const sections = document.querySelectorAll(".dark-section");
+    sections.forEach((section) => {
+      ScrollTrigger.create({
+        trigger: section,
+        start: "top center",
+        end: "bottom center",
+        onEnter: () => gsap.to(".sidebar-links", { color: "#fff" }),
+        onLeaveBack: () => gsap.to(".sidebar-links", { color: "#000" }),
+      });
+    });
+  }, []);
+
   return (
     <>
       {/* Top Navbar */}
       <div
-        className={`fixed top-0 z-[40] w-full flex justify-center items-center md:px-[80px] px-4 transition-transform duration-500 ${
+        className={`fixed top-0 z-[40] w-full flex justify-center items-center md:px-[80px] px-2 transition-transform duration-500  ${
           showNavbar ? "translate-y-0" : "-translate-y-full"
         }`}
       >
-        <div className="w-full flex justify-between items-center">
+        <div className="w-full flex justify-between items-center ">
           {/* Menu Icon */}
           <div className="w-full flex justify-start cursor-pointer">
             <button
               onClick={toggleNav}
-              className="p-2 rounded-md hover:bg-[#AEFF53] transition"
+              className="p-2 rounded-md transition mix-blend-difference"
               aria-label="Open menu"
             >
               <img
                 src="/Menu1.png"
                 alt="Menu"
-                className="text-2xl text-black hover:scale-110 transition-transform duration-300"
+                className="text-2xl hover:scale-110 transition-transform duration-300"
               />
             </button>
           </div>
 
           {/* Logo */}
-          <div className="md:w-full flex justify-center items-center cursor-pointer">
-            <Link to="/" className="z-[20]">
+          <div className="lg:w-full flex justify-center items-center cursor-pointer">
+            <Link to="/" className="z-[20] ">
               <img src="/paperplan.png" alt="Logo" className="h-12 md:h-16" />
             </Link>
           </div>
 
           {/* Desktop Right Section */}
-          <div className="w-full md:flex justify-end items-center z-[10] hidden gap-5">
-            <FaSearch className="text-black font-light text-3xl transition duration-300 hover:scale-110 cursor-pointer" />
+          <div className="w-full lg:flex justify-end items-center z-[10] hidden gap-5 mix-blend-difference">
             <Link
-              to="/contact"
-              aria-label="Go to contact page"
-              className="flex grandstander-uniquifier text-white bg-[#ff0000] rounded-3xl font-semibold text-[14px] px-6 py-2 hover:scale-105 transition duration-300 z-[100] cursor-pointer"
+              to="/restaurants"
+              aria-label="restaurants page"
+              className="flex grandstander-uniquifier text-[#FF0000] rounded-3xl font-semibold text-[14px] z-[100] cursor-pointer"
             >
-              Sign Up
+              Restaurants
+            </Link>
+            <Link
+              to="/stores"
+              aria-label="stores page"
+              className="flex grandstander-uniquifier text-[#FF0000] rounded-3xl font-semibold text-[14px] z-[100] cursor-pointer"
+            >
+              Stores
+            </Link>
+            <Link
+              to="/events"
+              aria-label="events page"
+              className="flex grandstander-uniquifier text-[#FF0000] rounded-3xl font-semibold text-[14px] z-[100] cursor-pointer"
+            >
+              Events
+            </Link>
+            <Link
+              to="/activities"
+              aria-label="activities page"
+              className="flex grandstander-uniquifier text-[#FF0000] rounded-3xl font-semibold text-[14px] z-[100] cursor-pointer"
+            >
+              Activities
+            </Link>
+            <Link
+              to="/places"
+              aria-label="places page"
+              className="flex grandstander-uniquifier text-[#FF0000] rounded-3xl font-semibold text-[14px] z-[100] cursor-pointer"
+            >
+              Places
             </Link>
           </div>
         </div>
@@ -188,7 +228,7 @@ const Navbar = () => {
                   Home
                 </h3>
               </Link>
-              <Link to="/explore" className="flex items-center gap-3">
+              <Link to="/search" className="flex items-center gap-3">
                 <FaSearch className="text-xl" />
                 <h3 className="hidden md:block text-base font-bold text-[20px]">
                   Search
@@ -198,18 +238,6 @@ const Navbar = () => {
                 <FaMap className="text-xl" />
                 <h3 className="hidden md:block text-base font-bold text-[20px]">
                   Explore
-                </h3>
-              </Link>
-              <Link to="/adventures" className="flex items-center gap-3">
-                <FaBookmark className="text-xl" />
-                <h3 className="hidden md:block text-base font-bold text-[20px]">
-                  Saved
-                </h3>
-              </Link>
-              <Link to="/find" className="flex items-center gap-3">
-                <FaUserFriends className="text-xl" />
-                <h3 className="hidden md:block text-base font-bold text-[20px]">
-                  People
                 </h3>
               </Link>
               <Link to="/create-post" className="flex items-center gap-3">

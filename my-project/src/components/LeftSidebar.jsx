@@ -70,18 +70,18 @@ const LeftSidebar = () => {
               Explore
             </h3>
           </Link>
-          <Link to="/profile" className="flex items-center gap-3">
+          {/* <Link to="/profile" className="flex items-center gap-3">
             <FaBookmark className="text-xl" />
             <h3 className="hidden md:block text-base font-bold text-[20px]">
               Saved
             </h3>
-          </Link>
-          <Link to="/adventures" className="flex items-center gap-3">
+          </Link> */}
+          {/* <Link to="/adventures" className="flex items-center gap-3">
             <FaUserFriends className="text-xl" />
             <h3 className="hidden md:block text-base font-bold text-[20px]">
               People
             </h3>
-          </Link>
+          </Link> */}
           <Link to="/create-post" className="flex items-center gap-3">
             <FaPlusCircle className="text-xl" />
             <h3 className="hidden md:block text-base font-bold text-[20px]">

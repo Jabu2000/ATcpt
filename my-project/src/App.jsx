@@ -30,6 +30,7 @@ import AccommodationDetail from "./root/pages/AccommodationDetail";
 import { Toaster, toast } from "react-hot-toast";
 import CreatePost from "./root/pages/CreatePost";
 import AuthPage from "./auth/forms/AuthPage";
+import ScrollToTop from "./components/ScrollToTop";
 
 
 function App() {
@@ -44,6 +45,7 @@ function App() {
 
   return (
     <>
+    <ScrollToTop />
       {/* Toast Notifications */}
       <Toaster position="top-right" reverseOrder={false} />
 

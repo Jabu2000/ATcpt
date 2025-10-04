@@ -30,6 +30,26 @@ const Navbar = () => {
   const navigate = useNavigate();
   const { user, logout } = useAuth();
 
+  const [animateIn, setAnimateIn] = useState(false);
+  const [clicked, setClicked] = useState(false);
+
+  // Auto slide in on mount
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setAnimateIn(true);
+    }, 100); // slight delay for smoother effect
+    return () => clearTimeout(timer);
+  }, []);
+
+  const handleClick = (e, path) => {
+  e.preventDefault(); // stop instant navigation
+  setClicked(true);
+  setTimeout(() => {
+    navigate(path); // navigate to the correct page
+    setClicked(false); // reset clicked for future animations
+  }, 500); // match animation duration
+};
+
   const avatar =
     user?.profilePicture ||
     (user?.username
@@ -132,36 +152,41 @@ const Navbar = () => {
 
           {/* Logo */}
           <div className="lg:w-full flex justify-center items-center cursor-pointer">
-            <Link to="/" className="z-[20] ">
-              <img src="/paperplan.png" alt="Logo" className="h-12 md:h-16" />
+            <Link to="/" onClick={(e) => handleClick(e, "/")}>
+              <img
+                src="/paperplan.png"
+                alt="logo"
+                className={`h-10 w-10 md:h-12 md:w-12  transform transition-transform duration-500 ease-in-out
+          ${!animateIn ? "-translate-x-[1600%]" : ""}
+          ${clicked ? "translate-x-[1600%]" : ""}`}
+              />
             </Link>
           </div>
 
           {/* Desktop Right Section */}
           <div className="w-full lg:flex justify-end items-center z-[10] hidden gap-5 mix-blend-difference">
-            <Link
-              to="/restaurants"
+            <Link to="/restaurants" onClick={(e) => handleClick(e, "/restaurants")}
               aria-label="restaurants page"
               className="flex grandstander-uniquifier text-[#FF0000] rounded-3xl font-semibold text-[14px] z-[100] cursor-pointer"
             >
               Restaurants
             </Link>
             <Link
-              to="/stores"
+              to="/stores" onClick={(e) => handleClick(e, "/stores")}
               aria-label="stores page"
               className="flex grandstander-uniquifier text-[#FF0000] rounded-3xl font-semibold text-[14px] z-[100] cursor-pointer"
             >
               Stores
             </Link>
             <Link
-              to="/events"
+              to="/events" onClick={(e) => handleClick(e, "/events")}
               aria-label="events page"
               className="flex grandstander-uniquifier text-[#FF0000] rounded-3xl font-semibold text-[14px] z-[100] cursor-pointer"
             >
               Events
             </Link>
             <Link
-              to="/activities"
+              to="/activities" onClick={(e) => handleClick(e, "/activities")}
               aria-label="activities page"
               className="flex grandstander-uniquifier text-[#FF0000] rounded-3xl font-semibold text-[14px] z-[100] cursor-pointer"
             >
@@ -169,7 +194,7 @@ const Navbar = () => {
             </Link>
             <Link
               to="/places"
-              aria-label="places page"
+              aria-label="places page" onClick={(e) => handleClick(e, "/places")}
               className="flex grandstander-uniquifier text-[#FF0000] rounded-3xl font-semibold text-[14px] z-[100] cursor-pointer"
             >
               Places

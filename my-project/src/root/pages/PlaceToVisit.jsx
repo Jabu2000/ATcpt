@@ -4,6 +4,7 @@ import PTVHero from "../../sections/PlaceToVisit/PTVHero"
 import PTVCategories from "../../sections/PlaceToVisit/PTVCategories"
 import Footer from "../../components/Footer";
 import PTVExplore from "../../sections/PlaceToVisit/PTVExplore"
+import transition from "../../transition";
 
 const PlaceToVisit = () => {
   return (
@@ -17,4 +18,4 @@ const PlaceToVisit = () => {
   );
 };
 
-export default PlaceToVisit;
+export default transition(PlaceToVisit);

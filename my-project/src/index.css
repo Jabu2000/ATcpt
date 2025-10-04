@@ -198,6 +198,50 @@ h1, h2, h3, h4, Link, button, label {
   animation: runningTime 7s linear 1 forwards;
 }
 
+.slide-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: #AEFF53;
+  z-index: 9999;
+}
+
+.slide-in,
+.slide-out {
+  position: fixed;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: #090c02;
+  z-index: 999;
+}
+
+.slide-in1,
+.slide-out1 {
+  position: fixed;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: #a72608;
+  z-index: 999;
+}
+
+
+.slide-in, .slide-out1 {
+  right: 0;
+  transform-origin: left;
+}
+
+.slide-out, .slide-out1 {
+  left: 0;
+  transform-origin: right;
+}
+
+
+
+
 @keyframes runningTime {
   from {
     width: 0%;

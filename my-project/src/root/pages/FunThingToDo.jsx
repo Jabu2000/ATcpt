@@ -3,6 +3,7 @@ import Navbar from '../../components/Navbar'
 import FTTDHero from '../../sections/FunThingsToDo/FTTDHero'
 import Footer from '../../components/Footer'
 import HomeInfo from '../../components/HomeInfo'
+import transition from '../../transition'
 
 const FunThingToDo = () => {
 
@@ -16,4 +17,4 @@ const FunThingToDo = () => {
   )
 }
 
-export default FunThingToDo
+export default transition(FunThingToDo)

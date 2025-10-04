@@ -3,6 +3,7 @@ import Navbar from "../../components/Navbar"
 import RestaurantHero from '../../sections/Restaurant/RestaurantHero'
 import RestaurantsExplore from '../../sections/Restaurant/RestaurantExplore'
 import Footer from '../../components/Footer'
+import transition from '../../transition'
 
 const Restaurants = () => {
   return (
@@ -15,4 +16,4 @@ const Restaurants = () => {
   )
 }
 
-export default Restaurants
+export default transition(Restaurants)

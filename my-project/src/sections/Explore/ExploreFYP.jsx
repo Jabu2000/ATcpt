@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const ExploreFYP = () => {
   return (
@@ -11,14 +12,24 @@ const ExploreFYP = () => {
 
         <div className="grid grid-cols-2 lg:grid-cols-5 gap-6">
           {[
-            { title: "Restaurants", image: "/restaurant.jpg" },
-            { title: "Thrift Stores", image: "/restaurant.jpg" },
-            { title: "Events", image: "/restaurant.jpg" },
-            { title: "Fun Things To Do", image: "/restaurant.jpg" },
-            { title: "Places To Visit", image: "/restaurant.jpg" },
+            {
+              title: "Restaurants",
+              image: "/restaurant.jpg",
+              link: "/restaurants",
+            },
+            { title: "Thrift Stores", image: "/stores.png", link: "/stores" },
+            { title: "Events", image: "/Events.png", link: "/events" },
+            {
+              title: "Activities",
+              image: "/Activities.png",
+              link: "/activities",
+            },
+            { title: "Places", image: "/Visit.png", link: "/places" },
           ].map((item, index) => (
-            <div
+            <Link
               key={index}
+              to={item.link}
+              aria-label={`Go to ${item.title}`}
               className="relative rounded-2xl overflow-hidden shadow-lg group h-[200px] sm:h-[230px] lg:h-[200px]"
             >
               <img
@@ -31,7 +42,7 @@ const ExploreFYP = () => {
                   {item.title}
                 </h3>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </div>

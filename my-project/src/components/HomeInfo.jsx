@@ -43,7 +43,7 @@ const HomeInfo = () => {
             color.
           </h4>
 
-          <div className="flex items-center justify-center border-[#2f9715] border-2 rounded-full px-6 sm:px-10 py-2 cursor-pointer hover:bg-[#2f9715] hover:text-white transition">
+          <div className="flex items-center justify-center border-[#FF0000] border-2 rounded-full px-6 sm:px-10 py-2 cursor-pointer hover:bg-[#FF0000] hover:text-white transition">
             <a className="grandstander-uniquifier font-semibold text-[14px] sm:text-[16px]">
               Learn More About Us
             </a>

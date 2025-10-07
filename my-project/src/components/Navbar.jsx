@@ -9,7 +9,7 @@ import {
   FaPlusCircle,
   FaSignOutAlt, // logout icon
 } from "react-icons/fa";
-import { X } from "lucide-react"; // close icon
+import { ChevronDown, ChevronUp, X } from "lucide-react"; // close icon
 import gsap from "gsap";
 import CustomEase from "gsap/CustomEase";
 import { Link, useNavigate } from "react-router-dom";
@@ -26,6 +26,7 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef(null);
   const backdropRef = useRef(null);
+  const dropdownRef = useRef(null);
 
   const navigate = useNavigate();
   const { user, logout } = useAuth();
@@ -42,13 +43,13 @@ const Navbar = () => {
   }, []);
 
   const handleClick = (e, path) => {
-  e.preventDefault(); // stop instant navigation
-  setClicked(true);
-  setTimeout(() => {
-    navigate(path); // navigate to the correct page
-    setClicked(false); // reset clicked for future animations
-  }, 500); // match animation duration
-};
+    e.preventDefault(); // stop instant navigation
+    setClicked(true);
+    setTimeout(() => {
+      navigate(path); // navigate to the correct page
+      setClicked(false); // reset clicked for future animations
+    }, 500); // match animation duration
+  };
 
   const avatar =
     user?.profilePicture ||
@@ -102,6 +103,34 @@ const Navbar = () => {
     }
   }, [isOpen]);
 
+  useEffect(() => {
+    if (isOpen) {
+      // Animate dropdown opening
+      gsap.fromTo(
+        dropdownRef.current,
+        { opacity: 0, y: -10 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.3,
+          ease: "power2.out",
+          display: "block",
+        }
+      );
+    } else {
+      // Animate dropdown closing
+      gsap.to(dropdownRef.current, {
+        opacity: 0,
+        y: -10,
+        duration: 0.25,
+        ease: "power2.in",
+        onComplete: () => {
+          gsap.set(dropdownRef.current, { display: "none" });
+        },
+      });
+    }
+  }, [isOpen]);
+
   // Scroll hide/show navbar
   useEffect(() => {
     const handleScroll = () => {
@@ -130,7 +159,7 @@ const Navbar = () => {
     <>
       {/* Top Navbar */}
       <div
-        className={`fixed top-0 z-[40] w-full flex justify-center items-center md:px-[80px] px-2 transition-transform duration-500  ${
+        className={`fixed top-0 z-[40] w-full flex justify-center items-center md:px-[80px] px-4 transition-transform duration-500  ${
           showNavbar ? "translate-y-0" : "-translate-y-full"
         }`}
       >
@@ -151,12 +180,12 @@ const Navbar = () => {
           </div>
 
           {/* Logo */}
-          <div className="lg:w-full flex justify-center items-center cursor-pointer">
+          <div className="w-full flex justify-center items-center cursor-pointer">
             <Link to="/" onClick={(e) => handleClick(e, "/")}>
               <img
                 src="/paperplan.png"
                 alt="logo"
-                className={`h-10 w-10 md:h-12 md:w-12  transform transition-transform duration-500 ease-in-out
+                className={`h-12 w-12 md:h-16 md:w-16  transform transition-transform duration-500 ease-in-out
           ${!animateIn ? "-translate-x-[1600%]" : ""}
           ${clicked ? "translate-x-[1600%]" : ""}`}
               />
@@ -164,41 +193,101 @@ const Navbar = () => {
           </div>
 
           {/* Desktop Right Section */}
-          <div className="w-full lg:flex justify-end items-center z-[10] hidden gap-5 mix-blend-difference">
-            <Link to="/restaurants" onClick={(e) => handleClick(e, "/restaurants")}
+          <div className="w-full md:flex justify-end items-center z-[10] hidden gap-5 mix-blend-difference">
+            <Link
+              to="/restaurants"
+              onClick={(e) => handleClick(e, "/restaurants")}
               aria-label="restaurants page"
-              className="flex grandstander-uniquifier text-[#FF0000] rounded-3xl font-semibold text-[14px] z-[100] cursor-pointer"
+              className="flex grandstander-uniquifier text-[#FF0000] rounded-3xl font-semibold md:text-[14px] text-[10px] z-[100] cursor-pointer"
             >
               Restaurants
             </Link>
             <Link
-              to="/stores" onClick={(e) => handleClick(e, "/stores")}
+              to="/stores"
+              onClick={(e) => handleClick(e, "/stores")}
               aria-label="stores page"
-              className="flex grandstander-uniquifier text-[#FF0000] rounded-3xl font-semibold text-[14px] z-[100] cursor-pointer"
+              className="flex grandstander-uniquifier text-[#FF0000] rounded-3xl font-semibold md:text-[14px] text-[10px] z-[100] cursor-pointer"
             >
               Stores
             </Link>
             <Link
-              to="/events" onClick={(e) => handleClick(e, "/events")}
+              to="/events"
+              onClick={(e) => handleClick(e, "/events")}
               aria-label="events page"
-              className="flex grandstander-uniquifier text-[#FF0000] rounded-3xl font-semibold text-[14px] z-[100] cursor-pointer"
+              className="flex grandstander-uniquifier text-[#FF0000] rounded-3xl font-semibold md:text-[14px] text-[10px] z-[100] cursor-pointer"
             >
               Events
             </Link>
             <Link
-              to="/activities" onClick={(e) => handleClick(e, "/activities")}
+              to="/activities"
+              onClick={(e) => handleClick(e, "/activities")}
               aria-label="activities page"
-              className="flex grandstander-uniquifier text-[#FF0000] rounded-3xl font-semibold text-[14px] z-[100] cursor-pointer"
+              className="flex grandstander-uniquifier text-[#FF0000] rounded-3xl font-semibold md:text-[14px] text-[10px] z-[100] cursor-pointer"
             >
               Activities
             </Link>
             <Link
               to="/places"
-              aria-label="places page" onClick={(e) => handleClick(e, "/places")}
-              className="flex grandstander-uniquifier text-[#FF0000] rounded-3xl font-semibold text-[14px] z-[100] cursor-pointer"
+              aria-label="places page"
+              onClick={(e) => handleClick(e, "/places")}
+              className="flex grandstander-uniquifier text-[#FF0000] rounded-3xl font-semibold md:text-[14px] text-[10px] z-[100] cursor-pointer"
             >
               Places
             </Link>
+          </div>
+
+          <div className="w-full flex flex-col items-end md:hidden relative">
+            {/* Header / Toggle Button */}
+            <div
+              className="flex items-center gap-1 cursor-pointer"
+              onClick={() => setIsOpen((prev) => !prev)}
+            >
+              <h2 className="text-[14px] font-bold text-[#FF0000]">
+                Adventures
+              </h2>
+              {isOpen ? (
+                <ChevronUp size={16} className="text-[#FF0000]" />
+              ) : (
+                <ChevronDown size={16} className="text-[#FF0000]" />
+              )}
+            </div>
+
+            {/* Dropdown Menu */}
+            <div
+              ref={dropdownRef}
+              className="absolute right-0 mt-2 bg-white shadow-lg rounded-lg border border-gray-200 w-40 py-2 z-50 hidden"
+            >
+              <Link
+                to="/restaurants"
+                className="block px-4 py-2 text-sm hover:bg-[#FF0000] text-black hover:text-white"
+              >
+                Restaurants
+              </Link>
+              <Link
+                to="/events"
+                className="block px-4 py-2 text-sm hover:bg-[#FF0000] text-black hover:text-white"
+              >
+                Events
+              </Link>
+              <Link
+                to="/places"
+                className="block px-4 py-2 text-sm hover:bg-[#FF0000] text-black hover:text-white"
+              >
+                Places
+              </Link>
+              <Link
+                to="/stores"
+                className="block px-4 py-2 text-sm hover:bg-[#FF0000] text-black hover:text-white"
+              >
+                Stores
+              </Link>
+              <Link
+                to="/activities"
+                className="block px-4 py-2 text-sm hover:bg-[#FF0000] text-black hover:text-white"
+              >
+                Activities
+              </Link>
+            </div>
           </div>
         </div>
       </div>

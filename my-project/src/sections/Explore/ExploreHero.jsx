@@ -106,7 +106,7 @@ const ExploreHero = () => {
 
         <div className="relative w-full md:w-[80%]">
           <div className="flex px-2 py-1 md:py-2 md:px-1 items-center bg-white border border-[#808080] rounded-full shadow-md shadow-[#868686]">
-            <FaSearch className="ml-4 text-black font-light md:text-3xl text-2xl" />
+            <FaSearch className="ml-4 text-black font-light md:text-2xl text-[18px]" />
             <input
               type="text"
               placeholder="Search by name, cuisine, or area"

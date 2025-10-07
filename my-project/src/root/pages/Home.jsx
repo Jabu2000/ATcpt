@@ -4,7 +4,6 @@ import LeftSidebar from "../../components/LeftSidebar";
 import RightSidebar from "../../components/RightSidebar";
 import BottomNav from "../../components/BottomNav";
 import TopNav from "../../components/TopNav";
-import transition from "../../transition";
 
 const Home = ({ posts, newPostId }) => {
   return (
@@ -20,4 +19,4 @@ const Home = ({ posts, newPostId }) => {
   );
 };
 
-export default transition(Home);
+export default Home;

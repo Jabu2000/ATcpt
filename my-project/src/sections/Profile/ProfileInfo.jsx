@@ -250,7 +250,7 @@ const ProfileInfo = () => {
                 setMsg("");
                 setIsEditing(true);
               }}
-              className="px-5 h-11 bg-[#AEFF53] text-black text-[14px] font-semibold rounded-2xl hover:bg-[#FF0000] w-fit"
+              className="px-5 h-11 bg-[#AEFF53] text-black text-[12px] md:text-[16px] hover:text-white font-semibold rounded-2xl hover:bg-[#FF0000] w-fit"
             >
               Edit Profile
             </button>

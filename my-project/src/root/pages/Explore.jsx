@@ -5,7 +5,6 @@ import ExploreFYP from "../../sections/Explore/ExploreFYP"
 import ExploreCategories from "../../sections/Explore/ExploreCategories"
 import HomeInfo from "../../components/HomeInfo"
 import Footer from "../../components/Footer"
-import transition from '../../transition'
 
 const Explore = () => {
   return (
@@ -20,4 +19,4 @@ const Explore = () => {
   )
 }
 
-export default transition(Explore)
+export default Explore

@@ -222,9 +222,7 @@ export default function AdventurePlanner({ onPlansChange }) {
         {/* Create Button */}
         <button
           onClick={() => setIsOpen(true)}
-          className="px-8 md:px-16 py-3 bg-[#AEFF53] 
-               text-black hover:text-white font-semibold rounded-xl shadow-md 
-               text-[12px] md:text-[16px] hover:bg-[#FF0000] transition "
+          className="px-12 py-2 bg-green-500 text-white text-[14px] rounded-2xl shadow-md hover:bg-[#FF0000] transition "
         >
           Create A New Adventure
         </button>

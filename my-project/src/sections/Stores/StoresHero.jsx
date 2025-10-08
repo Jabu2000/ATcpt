@@ -226,7 +226,7 @@ const StoresHero = () => {
                   key={idx}
                   className={`w-3 h-3 rounded-full transition-all ${
                     activeIndex[key] === idx
-                      ? "bg-[#AEFF53] w-5"
+                      ? "bg-green-500 w-5"
                       : "bg-[#000000]"
                   }`}
                 />
@@ -256,14 +256,14 @@ const StoresHero = () => {
 
           <div className="absolute inset-0 flex flex-col mt-10 text-center items-center pt-[80px] px-4 sm:px-6 md:px-12 z-20">
             <h2 className="text-white md:text-[36px] text-[26px] text-center font-bold mb-2">
-              Find New Places
+              Find New Stores
             </h2>
             <div className="relative w-full md:w-[80%]">
               <div className="flex px-2 py-1 md:py-2 md:px-1 items-center bg-white border border-[#808080] rounded-full shadow-md shadow-[#868686]">
                 <FaSearch className="ml-4 text-black font-light md:text-3xl text-2xl" />
                 <input
                   type="text"
-                  placeholder="Search by name, cuisine, or area"
+                  placeholder="Search by name or area"
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                   className="w-[80%] px-6 py-3 focus:outline-none"

@@ -1,15 +1,20 @@
 import React from "react";
+import { FaArrowRight } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
-    <div className="bg-[#aeff53] xl:h-[100vh] flex flex-col justify-between">
+    <div className="bg-green-500 xl:h-[100vh] flex flex-col justify-between">
       {/* Top Email Bar */}
       <div className="px-4 sm:px-6 md:px-12 lg:px-[80px] pt-[40px]">
-        <div className="flex items-center justify-between max-w-full border-[#2f9715] border-2 rounded-full px-5 py-2 w-fit gap-[100px]">
-          <a className="grandstander-uniquifier font-semibold text-[14px] sm:text-[16px]">
+        <div className="flex items-center justify-between max-w-full bg-[#FF0000] hover:bg-red-400 border-2 rounded-2xl px-5 py-2 w-fit gap-[100px]">
+          <a className="grandstander-uniquifier font-semibold text-white text-[12px] md:text-[14px]">
             Email Address
           </a>
-          <img src="/arrow.png" alt="arrow" className="" />
+          <FaArrowRight
+            alt="arrow"
+            className="text-white  text-[12px] md:text-[14px]"
+          />
         </div>
       </div>
 
@@ -24,17 +29,18 @@ const Footer = () => {
             </h3>
             <div className="flex flex-col gap-2">
               {[
-                "Register Business",
-                "Calendar",
-                "About Us",
-                "Sign In / Sign Up",
-              ].map((item, idx) => (
-                <a
-                  key={idx}
+                {title: "Register Business", link: ""},
+                {title: "Calendar", link: ""},
+                {title: "About Us", link: ""},
+                {title: "Sign In / Sign Up", link: "/login"},
+              ].map((item, index) => (
+                <Link
+                  key={index}
+                  to={item.link}
                   className="text-[12px] cursor-pointer text-black hover:text-white"
                 >
-                  {item}
-                </a>
+                  {item.title}
+                </Link>
               ))}
             </div>
           </div>
@@ -44,19 +50,20 @@ const Footer = () => {
             <h3 className="text-[20px] sm:text-[25px] font-medium">Explore</h3>
             <div className="flex flex-col gap-2">
               {[
-                "Restaurant",
-                "Night Life",
-                "Places To Visits",
-                "Activities",
-                "Hidden Gems",
-                "Thrift Place",
-              ].map((item, idx) => (
-                <a
-                  key={idx}
+                { title: "Restaurants", link: "/restaurants", },
+                { title: "Thrift Stores", link: "/stores" },
+                { title: "Events", link: "/events" },
+                { title: "Activities", link: "/activities" },
+                { title: "Places", link: "/places" },
+              ].map((item, index) => (
+                <Link
+                  key={index}
+                  to={item.link}
+                  aria-label={`Go to ${item.title}`}
                   className="text-[12px] cursor-pointer text-black hover:text-white"
                 >
-                  {item}
-                </a>
+                  {item.title}
+                </Link>
               ))}
             </div>
           </div>

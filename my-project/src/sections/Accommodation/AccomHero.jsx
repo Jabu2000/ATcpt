@@ -63,7 +63,7 @@ const AccomHero = () => {
         <h1 className="text-[#AEFF53] font-extrabold leading-tight title w-[80%] 2xl:text-[150px] md:text-[100px] text-[50px] mb-4">
           Accommodation
         </h1>
-        <p className="text-[#FF0000] font-semibold text-base sm:text-lg lg:text-xl max-w-[700px] mx-auto sm:mx-0 mb-6">
+        <p className="text-[#FF0000] font-semibold md:text-[18px] text-[16px] max-w-[700px] mx-auto sm:mx-0 mb-6">
           Built by a creative for creatives. Future artist and creatives.
           Painting the black and white world with color Built by a creative for
           creatives. Future artist and creatives. Painting the black and white

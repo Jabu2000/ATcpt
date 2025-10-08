@@ -64,7 +64,7 @@ const NightLifeHero = () => {
         <h1 className="text-white font-extrabold leading-tight title w-[80%] 2xl:text-[150px] md:text-[100px] text-[50px] mb-4">
           Night Life And Events
         </h1>
-        <p className="text-white text-base sm:text-lg lg:text-xl max-w-[700px] mx-auto sm:mx-0 mb-6">
+        <p className="text-white md:text-[18px] text-[16px] max-w-[700px] mx-auto sm:mx-0 mb-6">
           Built by a creative for creatives. Future artist and creatives.
           Painting the black and white world with color.
         </p>
@@ -78,7 +78,7 @@ const NightLifeHero = () => {
             <FaSearch className="ml-4 text-black font-light md:text-3xl text-2xl" />
             <input
               type="text"
-              placeholder="Search by name, cuisine, or area"
+              placeholder="Search events, or clubs"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               onFocus={() => searchResults.length > 0 && setShowDropdown(true)}

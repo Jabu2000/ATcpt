@@ -65,7 +65,7 @@ const PTVHero = () => {
       </h1>
 
       {/* Paragraph */}
-      <p className="mt-6 w-full sm:w-3/4 lg:w-3/5 text-center text-white text-sm sm:text-base md:text-lg px-2 sm:px-6">
+      <p className="mt-6 w-full sm:w-3/4 lg:w-3/5 text-center text-white md:text-[18px] text-[16px] px-2 sm:px-6">
         Built by a creative for creatives. Future artist and creatives. Painting
         the black and white world with color. Built by a creative for creatives.
         Future artist and creatives. Painting the black and white world with
@@ -78,7 +78,7 @@ const PTVHero = () => {
           <FaSearch className="ml-4 text-black font-light md:text-3xl text-2xl" />
           <input
             type="text"
-            placeholder="Search by name, cuisine, or area"
+            placeholder="Search by name, or area"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             onFocus={() => searchResults.length > 0 && setShowDropdown(true)}

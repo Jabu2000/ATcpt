@@ -237,7 +237,7 @@ const FTTDHero = () => {
                   key={idx}
                   className={`w-3 h-3 rounded-full transition-all ${
                     activeIndex[key] === idx
-                      ? "bg-[#AEFF53] w-5"
+                      ? "bg-green-500 w-5"
                       : "bg-[#000000]"
                   }`}
                 />
@@ -266,7 +266,7 @@ const FTTDHero = () => {
           ))}
           <div className="absolute inset-0 flex flex-col mt-10 text-center items-center pt-[80px] px-4 sm:px-6 md:px-12 z-20">
             <h2 className="text-white md:text-[36px] text-[26px] text-center font-bold mb-2">
-              Find New Places
+              Find Things To Do
             </h2>
             <div
               ref={searchRef}
@@ -276,7 +276,7 @@ const FTTDHero = () => {
                 <FaSearch className="ml-4 text-black font-light md:text-3xl text-2xl" />
                 <input
                   type="text"
-                  placeholder="Search by name, cuisine, or area"
+                  placeholder="Search by activity, or area"
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                   onFocus={() =>

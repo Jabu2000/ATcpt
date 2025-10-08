@@ -162,7 +162,7 @@ const AccomExplore = () => {
                   key={idx}
                   className={`w-3 h-3 rounded-full transition-all ${
                     activeIndex[key] === idx
-                      ? "bg-[#AEFF53] w-5"
+                      ? "bg-green-500 w-5"
                       : "bg-[#000000]"
                   }`}
                 />

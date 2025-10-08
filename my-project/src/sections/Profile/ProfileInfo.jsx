@@ -202,7 +202,7 @@ const ProfileInfo = () => {
           <img
             src={avatar}
             alt="profile"
-            className="h-[8rem] w-[8rem] md:h-[10rem] md:w-[10rem] rounded-full object-cover border-2 border-[#AEFF53]"
+            className="h-[8rem] w-[8rem] md:h-[10rem] md:w-[10rem] rounded-full object-cover border-2 border-green-500"
           />
           <h1 className="flex md:hidden text-[28px] sm:text-[32px] md:text-[38px] font-bold text-black">
             Welcome, {formData.username}!
@@ -250,7 +250,7 @@ const ProfileInfo = () => {
                 setMsg("");
                 setIsEditing(true);
               }}
-              className="px-5 h-11 bg-[#AEFF53] text-black text-[12px] md:text-[16px] hover:text-white font-semibold rounded-2xl hover:bg-[#FF0000] w-fit"
+              className="px-6 py-2 bg-green-500 text-white text-[14px] rounded-2xl hover:bg-[#FF0000] transition w-fit"
             >
               Edit Profile
             </button>

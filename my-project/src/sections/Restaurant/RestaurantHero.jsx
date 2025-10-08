@@ -86,7 +86,7 @@ const RestaurantHero = () => {
               style={{ backgroundImage: `url(${restaurant.images})` }}
             >
               <div className="content">
-                <h2 className="title  w-[80%] 2xl:text-[150px] md:text-[100px] text-[50px] text-[#AEFF53] font-extrabold">
+                <h2 className="title  w-[80%] 2xl:text-[150px] md:text-[100px] text-[50px] text-green-500 font-extrabold">
                   {restaurant.name}
                 </h2>
                 <div className="des w-[60%] text-[#FF0000] font-semibold">

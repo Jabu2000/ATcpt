@@ -35,7 +35,7 @@ const TopNav = () => {
 
   return (
     <div
-      className={`fixed top-0 left-0 w-full bg-black border-b border-gray-800 
+      className={`fixed top-0 left-0 w-full bg-white/65 backdrop-blur-md  
       flex items-center sm:justify-start px-4 py-3 z-50 lg:hidden transition-shadow
       ${hasShadow ? "shadow-md shadow-black/40" : ""}`}
     >
@@ -48,7 +48,7 @@ const TopNav = () => {
           ${!animateIn ? "-translate-x-[1600%]" : ""}
           ${clicked ? "translate-x-[1600%]" : ""}`}
         />
-        <h1 className="text-lg sm:text-xl font-bold text-white">
+        <h1 className="text-lg sm:text-xl font-bold text-black">
           Adventure Time
         </h1>
       </Link>

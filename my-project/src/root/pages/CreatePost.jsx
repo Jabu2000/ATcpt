@@ -222,7 +222,7 @@ const CreatePost = ({ currentUser, onPostCreated }) => {
           <button
             type="submit"
             disabled={loading}
-            className="bg-[#AEFF53] hover:bg-green-400 text-sm font-semibold px-4 py-2 rounded-lg disabled:opacity-50"
+           className="px-6 py-2 bg-green-500 text-white text-[14px] rounded-2xl hover:bg-[#FF0000] w-full"
           >
             {loading ? "Posting..." : "Post"}
           </button>

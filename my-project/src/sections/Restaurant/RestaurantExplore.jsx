@@ -188,7 +188,7 @@ const RestaurantsExplore = () => {
                 <div
                   key={idx}
                   className={`w-3 h-3 rounded-full transition-all ${
-                    activeIndex[key] === idx ? "bg-[#AEFF53] w-5" : "bg-black"
+                    activeIndex[key] === idx ? "bg-green-500 w-5" : "bg-black"
                   }`}
                 />
               ))}
@@ -204,7 +204,7 @@ const RestaurantsExplore = () => {
       {/* Title + Search */}
       <div className="flex flex-col justify-center items-center relative">
         <h2 className="md:text-[36px] text-[26px] text-black text-center font-bold mb-2">
-          Find New Places
+          Find New Restaurants
         </h2>
         <div className="flex px-2 py-1 md:py-2 md:px-1 items-center w-full md:w-[80%] bg-white border border-[#808080] rounded-full shadow-md shadow-[#868686] relative">
           <FaSearch className="ml-4 text-black font-light md:text-3xl text-2xl" />

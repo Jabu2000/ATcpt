@@ -223,7 +223,7 @@ const RestaurantDetail = () => {
           {/* Left Column */}
           <div className="flex-1 flex flex-col gap-10">
             <div className="w-full h-[40vh] justify-center flex flex-col gap-10">
-              <h1 className="text-[40px] sm:text-[50px] lg:text-[80px] font-bold leading-tight sm:leading-[60px] lg:leading-[80px] w-full sm:w-[90%] lg:w-[80%]">
+              <h1 className="text-[40px] sm:text-[50px] lg:text-[70px] font-bold leading-tight sm:leading-[60px] lg:leading-[80px] w-full sm:w-[90%] lg:w-[80%]">
                 {restaurant.name}
               </h1>
               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
@@ -247,10 +247,10 @@ const RestaurantDetail = () => {
                 </div>
                 <button
                   onClick={toggleSave}
-                  className={`text-[16px] font-semibold h-10 mt-2 px-6 rounded-2xl ${
+                  className={`text-[14px] py-2 mt-2 px-6 rounded-2xl ${
                     isSaved
-                      ? "bg-green-500 hover:bg-green-600 text-white"
-                      : "bg-red-500 hover:bg-red-600 text-white"
+                      ? "bg-green-500 hover:bg-[#FF0000] text-white"
+                      : "bg-[#FF0000] hover:bg-green-500 text-white"
                   }`}
                 >
                   {isSaved ? "Saved ✓ (click to remove)" : "Save"}
@@ -300,7 +300,7 @@ const RestaurantDetail = () => {
                   About
                 </h2>
                 {restaurant.about && (
-                  <p className="mt-4 text-black font-medium">
+                  <p className="mt-4 text-black text-[14px] font-medium">
                     {restaurant.about}
                   </p>
                 )}
@@ -315,7 +315,7 @@ const RestaurantDetail = () => {
                   </a>
                 )}
                 {restaurant.phone && (
-                  <p className="mt-2 text-black">☎ {restaurant.phone}</p>
+                  <p className="mt-2 text-[14px] font-semibold text-black">☎ {restaurant.phone}</p>
                 )}
               </div>
             </div>
@@ -455,7 +455,7 @@ const RestaurantDetail = () => {
               >
                 <button
                   onClick={() => setShowCommentFormOverlay(false)}
-                  className="absolute top-4 right-4 text-gray-500 hover:text-gray-800 md:text-2xl text-[16px] font-bold"
+                  className="absolute top-4 right-4 text-[#FF0000] hover:text-green-600 md:text-2xl text-[16px] font-bold"
                 >
                   &times;
                 </button>
@@ -525,7 +525,7 @@ const RestaurantDetail = () => {
                   </div>
                   <button
                     onClick={submitComment}
-                    className="px-6 py-2 bg-[#AEFF53] md:text-[14px] text-[10px] text-black hover:text-white font-semibold rounded-2xl hover:bg-[#FF0000] w-full"
+                    className="px-6 py-2 bg-green-500 text-white text-[14px] rounded-2xl hover:bg-[#FF0000] w-full"
                   >
                     Submit Comment
                   </button>

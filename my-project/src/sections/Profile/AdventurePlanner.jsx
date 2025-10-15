@@ -370,7 +370,7 @@ export default function AdventurePlanner({ onPlansChange }) {
 
             {/* Drawer */}
             <motion.div
-              className="fixed top-0 right-0 h-full w-full sm:w-[90%] md:w-[480px] 
+              className="fixed top-0 right-0 h-full w-full sm:w-[90%] md:w-[400px] 
                    bg-white shadow-xl z-50 p-6 flex flex-col rounded-none md:rounded-l-lg"
               initial={{ x: "100%" }}
               animate={{ x: 0 }}
@@ -383,7 +383,7 @@ export default function AdventurePlanner({ onPlansChange }) {
                   setIsOpen(false);
                   setEditIndex(null);
                 }}
-                className="absolute top-4 right-4 text-gray-500 hover:text-gray-800"
+                className="absolute top-6 right-6 text-[#FF0000] hover:text-red-400 transition"
               >
                 <X size={24} />
               </button>
@@ -502,8 +502,7 @@ export default function AdventurePlanner({ onPlansChange }) {
                 {/* Submit */}
                 <button
                   type="submit"
-                  className="w-full py-3  bg-[#AEFF53] text-black hover:text-white font-semibold rounded-xl 
-                       shadow-md hover:bg-[#FF0000] transition text-sm sm:text-base"
+                  className="w-full px-12 py-2 bg-green-500 text-white text-[14px] rounded-2xl shadow-md hover:bg-green-600 transition "
                 >
                   {editIndex !== null ? "Save Changes" : "Save Adventure"}
                 </button>

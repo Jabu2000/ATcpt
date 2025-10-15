@@ -12,11 +12,102 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../auth/AuthContext"; // adjust path
 import { X } from "lucide-react";
 
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:4000";
+
 const LeftSidebar = () => {
   const navigate = useNavigate();
   const { user, logout } = useAuth();
   const searchRef = useRef(null);
   const [showSearch, setShowSearch] = useState(false); // 🔍 new state
+
+  const [seedEvents, setEvents] = useState([]);
+  const [seedPlaces, setPlaces] = useState([]);
+  const [seedStores, setStores] = useState([]);
+  const [seedRestaurants, setRestaurants] = useState([]);
+  const [seedActivities, setActivities] = useState([]);
+  const [seedAccommodations, setAccommodations] = useState([]);
+
+  const [plans, setPlans] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
+  const [isSearching, setIsSearching] = useState(false);
+
+  // Fetch data helper 
+  const fetchData = async (endpoint, setter) => {
+    try {
+      const res = await fetch(`${API_URL}/api/${endpoint}`);
+      const data = await res.json();
+      setter(data);
+    } catch (err) {
+      console.error(`Failed to fetch ${endpoint}:`, err);
+    }
+  };
+
+  useEffect(() => {
+    const fetchAdventures = async () => {
+      try {
+        const res = await fetch(`${API_URL}/api/adventures`, {
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        });
+        const data = await res.json();
+        setPlans(data);
+      } catch (err) {
+        console.error("Failed to fetch adventures:", err);
+      }
+    };
+
+    fetchAdventures();
+  }, []);
+
+  useEffect(() => {
+    fetchData("events", setEvents);
+    fetchData("places", setPlaces);
+    fetchData("stores", setStores);
+    fetchData("restaurants", setRestaurants);
+    fetchData("activities", setActivities);
+    fetchData("accommodations", setAccommodations);
+  }, []);
+
+  // Search logic
+  useEffect(() => {
+    if (!searchQuery.trim()) return setSearchResults([]);
+
+    setIsSearching(true);
+    const timer = setTimeout(() => {
+      const taggedData = [
+        ...seedEvents.map((item) => ({ ...item, type: "events" })),
+        ...seedPlaces.map((item) => ({ ...item, type: "places" })),
+        ...seedStores.map((item) => ({ ...item, type: "stores" })),
+        ...seedRestaurants.map((item) => ({ ...item, type: "restaurants" })),
+        ...seedActivities.map((item) => ({ ...item, type: "activities" })),
+        ...seedAccommodations.map((item) => ({
+          ...item,
+          type: "accommodations",
+        })),
+      ];
+
+      const filtered = taggedData.filter((item) =>
+        item?.name?.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+
+      setSearchResults(filtered);
+      setIsSearching(false);
+    }, 300);
+
+    return () => clearTimeout(timer);
+  }, [
+    searchQuery,
+    seedEvents,
+    seedPlaces,
+    seedStores,
+    seedRestaurants,
+    seedActivities,
+    seedAccommodations,
+  ]);
 
   // 🔍 Handle search open/close
   const openSearch = () => {
@@ -150,26 +241,54 @@ const LeftSidebar = () => {
       {showSearch && (
         <div
           ref={searchRef}
-          className="fixed top-0 left-0 w-full h-[150px] bg-white/65 backdrop-blur-md z-[110] flex flex-col justify-center items-center p-6"
+          className="fixed top-0 left-0 w-full h-[150px] bg-white/70 backdrop-blur-md z-[110] flex flex-col justify-center items-center p-6"
         >
           <button
-            onClick={closeSearch}
+            onClick={() => setShowSearch(false)}
             className="absolute top-6 right-6 text-[#FF0000] hover:text-red-400 transition"
           >
             <X size={30} />
           </button>
 
-          <h2 className="text-[#FF0000] text-[20px] md:text-3xl font-bold mb-6">
+          <h2 className="text-[#FF0000] text-[22px] md:text-3xl font-bold mb-6">
             Search Adventures
           </h2>
 
-          <div className="w-full max-w-lg flex items-center border-2 border-[#FF0000] rounded-full px-4 py-3 bg-white shadow-lg">
-            <FaSearch className="text-[#FF0000] text-lg mr-3" />
-            <input
-              type="text"
-              placeholder="Search restaurants, places, events..."
-              className="flex-1 bg-transparent outline-none text-gray-800 placeholder-gray-400"
-            />
+          <div className="relative w-full max-w-lg">
+            <div className="flex items-center border-2 border-[#FF0000] rounded-full px-4 py-3 bg-white shadow-lg">
+              <FaSearch className="text-[#FF0000] text-lg mr-3" />
+              <input
+                type="text"
+                placeholder="Search by name, cuisine, or area"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="flex-1 bg-transparent outline-none text-gray-800 placeholder-gray-400"
+              />
+            </div>
+
+            {searchResults.length > 0 && (
+              <div className="absolute mt-2 w-full bg-white rounded-xl shadow-lg max-h-60 overflow-hidden z-30">
+                {searchResults.map((r) => (
+                  <Link
+                    to={`/${r.type}/${r._id}`}
+                    key={r._id}
+                    className="flex items-center gap-3 px-4 py-2 hover:bg-gray-100 transition"
+                  >
+                    <img
+                      src={r.images?.[0] || "https://placehold.co/100x100"}
+                      alt={r.name}
+                      className="w-12 h-12 object-cover rounded-lg"
+                    />
+                    <div>
+                      <p className="font-semibold text-gray-800">{r.name}</p>
+                      <p className="text-sm text-gray-500">
+                        {r.address || r.cuisine || r.category}
+                      </p>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       )}

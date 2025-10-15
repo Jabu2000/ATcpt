@@ -133,7 +133,7 @@ const AuthPage = () => {
                 onChange={handleChange}
                 placeholder="Email"
                 required
-                className="border-2 border-black rounded-2xl py-2 px-5 focus:border-[#AEFF53] focus:outline-none"
+                className="border-2 border-black rounded-2xl py-2 px-5 focus:border-green-500 focus:outline-none"
               />
               <input
                 type="password"
@@ -142,13 +142,14 @@ const AuthPage = () => {
                 onChange={handleChange}
                 placeholder="Password"
                 required
-                className="border-2 border-black rounded-2xl py-2 px-5 focus:border-[#AEFF53] focus:outline-none"
+                className="border-2 border-black rounded-2xl py-2 px-5 focus:border-green-500 focus:outline-none"
               />
               {error && <p className="text-red-600 text-sm">{error}</p>}
               <button
                 type="submit"
                 disabled={loading}
-                className="bg-[#AEFF53] py-2 px-8 rounded-2xl font-semibold hover:bg-[#FF0000] hover:text-white transition"
+                className="w-full md:w-auto text-xs md:text-sm font-semibold bg-green-500 hover:bg-green-600 
+          text-white rounded-2xl py-2 px-6 md:px-10 transition"
               >
                 {loading ? "Signing in..." : "Sign In"}
               </button>
@@ -158,18 +159,18 @@ const AuthPage = () => {
           {/* Right Side Panel */}
           <div
             ref={redPanelDesktopRef}
-            className="hidden md:flex w-1/2 justify-center items-center bg-[#AEFF53] z-30"
+            className="hidden md:flex w-1/2 justify-center items-center bg-green-500 z-30"
             style={{ transform: "translateX(100%)" }}
           >
             <div className="flex flex-col justify-center items-center px-6 text-center">
-              <h1 className="text-3xl md:text-4xl font-bold">Hello!</h1>
-              <p className="text-sm">
+              <h1 className="text-3xl md:text-4xl font-bold text-white">Hello!</h1>
+              <p className="text-sm text-white">
                 Our experienced artist brings out your beauty with precision.
               </p>
               <button
                 type="button"
                 onClick={() => setIsLogin(false)}
-                className="flex justify-center text-sm font-semibold bg-white hover:bg-[#FF0000] text-black hover:text-white mt-6 py-2 px-8 rounded-3xl "
+                className="flex justify-center text-xs md:text-sm font-semibold bg-white hover:bg-[#FF0000] text-black hover:text-white mt-6 py-2 px-8 rounded-2xl "
               >
                 Sign Up
               </button>
@@ -191,7 +192,7 @@ const AuthPage = () => {
             <button
               type="button"
               onClick={() => setIsLogin(true)}
-              className="flex justify-center text-sm font-semibold text-black hover:text-white bg-white hover:bg-[#AEFF53] mt-6 py-2 px-8 rounded-3xl "
+              className="flex justify-center text-xs md:text-sm font-semibold text-black hover:text-white bg-white hover:bg-green-500 mt-6 py-2 px-8 rounded-2xl "
             >
               Sign In
             </button>
@@ -244,7 +245,8 @@ const AuthPage = () => {
             <button
               type="submit"
               disabled={loading}
-              className="bg-[#FF0000] text-white py-2 px-8 rounded-2xl font-semibold hover:bg-[#AEFF53] hover:text-black transition"
+              className="w-full md:w-auto text-xs md:text-sm font-semibold bg-[#FF0000] hover:bg-red-400 
+          text-white rounded-2xl py-2 px-6 md:px-10 transition"
             >
               {loading ? "Creating..." : "Sign Up"}
             </button>
@@ -287,7 +289,7 @@ const AuthPage = () => {
             <button
               type="submit"
               disabled={loading}
-              className="bg-[#AEFF53] py-2 px-8 rounded-2xl font-semibold hover:bg-[#FF0000] hover:text-white transition"
+              className="bg-[#AEFF53] py-2 px-8 rounded-2xl font-semibold hover:bg-[#FF0000] text-white transition"
             >
               {loading ? "Signing in..." : "Sign In"}
             </button>
@@ -347,7 +349,7 @@ const AuthPage = () => {
             <button
               type="submit"
               disabled={loading}
-              className="bg-[#FF0000] text-white py-2 px-4 rounded-2xl font-semibold hover:bg-[#AEFF53] hover:text-black transition"
+              className="bg-[#FF0000] text-white py-2 px-4 rounded-2xl font-semibold hover:bg-green-500 hover:text-white transition"
             >
               {loading ? "Creating..." : "Sign Up"}
             </button>

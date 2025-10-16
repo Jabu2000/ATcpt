@@ -14,7 +14,6 @@ const RestaurantsExplore = () => {
   const restaurantRef = useRef(null);
   const coffeeRef = useRef(null);
   const takeawayRef = useRef(null);
-  const TikTokRef = useRef(null);
   const DessertRef = useRef(null);
   const HangoutRef = useRef(null);
   const BufferRef = useRef(null);
@@ -23,7 +22,6 @@ const RestaurantsExplore = () => {
     restaurant: 0,
     coffee: 0,
     takeaway: 0,
-    TikTok: 0,
     Dessert: 0,
     Hangout: 0,
     Buffer: 0,
@@ -105,7 +103,6 @@ const RestaurantsExplore = () => {
       observeCarousel(restaurantRef, "restaurant"),
       observeCarousel(coffeeRef, "coffee"),
       observeCarousel(takeawayRef, "takeaway"),
-      observeCarousel(TikTokRef, "TikTok"),
       observeCarousel(DessertRef, "Dessert"),
       observeCarousel(HangoutRef, "Hangout"),
       observeCarousel(BufferRef, "Buffer"),
@@ -249,7 +246,6 @@ const RestaurantsExplore = () => {
       <div className="w-full h-[500px] bg-[#AEFF53] mt-[80px] flex justify-center items-center rounded-2xl"></div>
 
       {renderCarousel("Student Takeaways", "takeaway", takeawayRef)}
-      {renderCarousel("TikTok Recommendations", "TikTok", TikTokRef)}
       {renderCarousel("Dessert Places", "Dessert", DessertRef)}
       {renderCarousel("Hangout Bars & Social Eateries", "Hangout", HangoutRef)}
 

@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from "react";
 import {
   FaArrowLeft,
+  FaChevronLeft,
+  FaChevronRight,
   FaRegStar,
   FaStar,
   FaStarHalfAlt,
+  FaTimes,
   FaTrash,
 } from "react-icons/fa";
 import { useParams, Link } from "react-router-dom";
@@ -43,6 +46,127 @@ const StarRatingInput = ({ value, onChange }) => {
         );
       })}
     </div>
+  );
+};
+
+const RestaurantImages = ({ restaurant }) => {
+  const API_URL = import.meta.env.VITE_API_URL || "http://localhost:4000";
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const images = restaurant?.images || [];
+
+  // Auto-slide every 4 seconds
+  useEffect(() => {
+    if (!images.length) return;
+    const interval = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % images.length);
+    }, 4000);
+    return () => clearInterval(interval);
+  }, [images]);
+
+  // Handle keyboard navigation in modal
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (!isModalOpen) return;
+      if (e.key === "ArrowRight") handleNext();
+      if (e.key === "ArrowLeft") handlePrev();
+      if (e.key === "Escape") setIsModalOpen(false);
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [isModalOpen, currentIndex]);
+
+  const handleNext = () => {
+    setCurrentIndex((prev) => (prev + 1) % images.length);
+  };
+
+  const handlePrev = () => {
+    setCurrentIndex((prev) => (prev - 1 + images.length) % images.length);
+  };
+
+  if (!images.length) return null;
+
+  return (
+    <>
+      {/* Slideshow */}
+      <div
+        className="relative w-full h-[60vh] overflow-hidden rounded-3xl cursor-pointer"
+        onClick={() => setIsModalOpen(true)}
+      >
+        {images.map((img, idx) => (
+          <img
+            key={idx}
+            src={img.startsWith("http") ? img : `${API_URL}${img}`}
+            alt={`${restaurant.name} ${idx + 1}`}
+            className={`absolute inset-0 w-full h-full object-cover rounded-3xl transition-opacity duration-700 ${
+              idx === currentIndex ? "opacity-100" : "opacity-0"
+            }`}
+          />
+        ))}
+
+        {/* Indicators */}
+        <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-2">
+          {images.map((_, idx) => (
+            <div
+              key={idx}
+              className={`w-3 h-3 rounded-full transition-all ${
+                idx === currentIndex ? "bg-white" : "bg-white/40"
+              }`}
+            />
+          ))}
+        </div>
+      </div>
+
+      {/* Modal Lightbox */}
+      {isModalOpen && (
+        <div
+          className="fixed inset-0 bg-black/90 flex items-center justify-center z-50"
+          onClick={(e) => {
+            if (e.target === e.currentTarget) setIsModalOpen(false);
+          }}
+        >
+          <button
+            onClick={() => setIsModalOpen(false)}
+            className="absolute top-5 right-6 text-white text-3xl hover:scale-110 transition-transform"
+          >
+            <FaTimes />
+          </button>
+
+          {/* Image */}
+          <img
+            src={
+              images[currentIndex].startsWith("http")
+                ? images[currentIndex]
+                : `${API_URL}${images[currentIndex]}`
+            }
+            alt={`Slide ${currentIndex + 1}`}
+            className="max-w-[90%] max-h-[85vh] object-contain rounded-2xl"
+          />
+
+          {/* Navigation Arrows */}
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              handlePrev();
+            }}
+            className="absolute left-8 text-white text-4xl hover:scale-125 transition-transform"
+          >
+            <FaChevronLeft />
+          </button>
+
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              handleNext();
+            }}
+            className="absolute right-8 text-white text-4xl hover:scale-125 transition-transform"
+          >
+            <FaChevronRight />
+          </button>
+        </div>
+      )}
+    </>
   );
 };
 
@@ -277,7 +401,7 @@ const RestaurantDetail = () => {
                         ([day, hours]) => (
                           <tr
                             key={day}
-                            className="text-white lg:text-[12px] text-[16px]"
+                            className="text-white lg:text-[11px] text-[16px]"
                           >
                             <td className="py-2 font-medium capitalize">
                               {day}
@@ -315,7 +439,9 @@ const RestaurantDetail = () => {
                   </a>
                 )}
                 {restaurant.phone && (
-                  <p className="mt-2 text-[14px] font-semibold text-black">☎ {restaurant.phone}</p>
+                  <p className="mt-2 text-[14px] font-semibold text-black">
+                    ☎ {restaurant.phone}
+                  </p>
                 )}
               </div>
             </div>
@@ -323,18 +449,8 @@ const RestaurantDetail = () => {
 
           {/* Right Column - Images + Map */}
           <div className="flex-1 flex flex-col gap-6">
-            {restaurant.images?.length > 0 && (
-              <div className="flex flex-col gap-4">
-                {restaurant.images.map((img, idx) => (
-                  <img
-                    key={idx}
-                    src={img.startsWith("http") ? img : `${API_URL}${img}`}
-                    alt={`${restaurant.name} ${idx + 1}`}
-                    className="w-full max-h-[600px] object-cover rounded-3xl"
-                  />
-                ))}
-              </div>
-            )}
+            <RestaurantImages restaurant={restaurant} />
+
             <div className="w-full h-[23vh] bg-gray-200 flex items-center justify-center rounded-3xl">
               Map Placeholder
             </div>
@@ -460,7 +576,9 @@ const RestaurantDetail = () => {
                   &times;
                 </button>
 
-                <h2 className="md:text-2xl text-[16px] font-bold">Add A Review</h2>
+                <h2 className="md:text-2xl text-[16px] font-bold">
+                  Add A Review
+                </h2>
 
                 <div className="md:w-[400px] flex flex-col md:gap-4 gap-2 pt-4 ">
                   <div className="grid grid-cols-2 gap-6">
@@ -517,8 +635,12 @@ const RestaurantDetail = () => {
                         </div>
                       ) : (
                         <div className="capitalize">
-                          <p className="md:text-[12px] text-[10px]">click to add image</p>
-                          <p className="md:text-[10px] text-[8px]">Or Drag & drop </p>
+                          <p className="md:text-[12px] text-[10px]">
+                            click to add image
+                          </p>
+                          <p className="md:text-[10px] text-[8px]">
+                            Or Drag & drop{" "}
+                          </p>
                         </div>
                       )}
                     </div>

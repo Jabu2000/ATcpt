@@ -15,7 +15,6 @@ const StoresHero = () => {
 
   // --- Carousel Refs ---
   const vintageRef = useRef(null);
-  const comicRef = useRef(null);
   const handmadeRef = useRef(null);
   const bookstoresRef = useRef(null);
   const marketsRef = useRef(null);
@@ -45,7 +44,6 @@ const StoresHero = () => {
       if (!q) {
         const categories = [
           "Vintage",
-          "Comic",
           "Handmade",
           "Bookstores",
           "Markets",
@@ -137,7 +135,6 @@ const StoresHero = () => {
   useEffect(() => {
     const cleanups = [
       observeCarousel(vintageRef, "Vintage"),
-      observeCarousel(comicRef, "Comic"),
       observeCarousel(handmadeRef, "Handmade"),
       observeCarousel(bookstoresRef, "Bookstores"),
       observeCarousel(marketsRef, "Markets"),
@@ -304,7 +301,6 @@ const StoresHero = () => {
       {/* Explore Section */}
       <div className="flex flex-col px-4 md:px-[100px] my-[50px]">
         {renderCarousel("Vintage & Retro Thrift Stores", "Vintage", vintageRef)}
-        {renderCarousel("Comic & Collectible Shops", "Comic", comicRef)}
         {renderCarousel("Handmade & Artisan Shops", "Handmade", handmadeRef)}
         <div className="w-100% h-[500px] bg-[#AEFF53] mt-[80px] flex justify-center items-center rounded-2xl">
           <img />

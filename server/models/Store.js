@@ -30,7 +30,7 @@ const storeSchema = new mongoose.Schema(
 
     category: {
       type: String,
-      enum: ["Vintage", "Modern", "Handmade", "Bookstores", "Markets", "Music", "Comic"],
+      enum: ["Vintage", "Handmade", "Bookstores", "Markets", "Music", ],
       required: true,
     },
 

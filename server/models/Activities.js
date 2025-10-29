@@ -27,7 +27,7 @@ const activitySchema = new mongoose.Schema(
     cuisine: { type: String },
     images: [{ type: String }],
     rating: { type: Number, min: 0, max: 5 },
-
+    prices: { type: String },
     category: {
       type: String,
       enum: ["IndoorActivities", "OutdoorActivities", "Adventure", "Relaxation", "Cultural", "Friends"],

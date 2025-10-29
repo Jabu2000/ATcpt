@@ -49,12 +49,12 @@ const StarRatingInput = ({ value, onChange }) => {
   );
 };
 
-const StoreImages = ({ restaurant }) => {
+const StoreImages = ({ store }) => {
   const API_URL = import.meta.env.VITE_API_URL || "http://localhost:4000";
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const images = restaurant?.images || [];
+  const images = store?.images || [];
 
   // Auto-slide every 4 seconds
   useEffect(() => {
@@ -98,7 +98,7 @@ const StoreImages = ({ restaurant }) => {
           <img
             key={idx}
             src={img.startsWith("http") ? img : `${API_URL}${img}`}
-            alt={`${restaurant.name} ${idx + 1}`}
+            alt={`${store.name} ${idx + 1}`}
             className={`absolute inset-0 w-full h-full object-cover rounded-3xl transition-opacity duration-700 ${
               idx === currentIndex ? "opacity-100" : "opacity-0"
             }`}
@@ -441,7 +441,7 @@ const StoreDetail = () => {
 
           {/* Right Column - Images + Map */}
           <div className="flex-1 flex flex-col gap-6">
-            <StoreImages restaurant={store} />
+            <StoreImages store={store} />
 
             <div className="w-full h-[23vh] bg-gray-200 flex items-center justify-center rounded-3xl">
               Map Placeholder

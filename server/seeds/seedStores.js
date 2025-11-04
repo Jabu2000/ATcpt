@@ -89,7 +89,7 @@ const data = [
   },
   {
     name: "YBMV Collective",
-    address: " 285B Lower Main Rd, Observatory, Cape Town, 7925",
+    address: "285B Lower Main Rd, Observatory, Cape Town, 7925",
     phone: "077 444 2331",
     cuisine: "N/A",
     images: [
@@ -325,8 +325,7 @@ const data = [
   },
   {
     name: "Denga Candles & Decoration",
-    address:
-      "The Helderberg Village Walk Center Drama cnr, Caledon St, Somerset West, Cape Town, 7129",
+    address: "Caledon St, Somerset West, Cape Town, 7129",
     phone: "082 061 4575",
     cuisine: "N/A",
     images: [
@@ -380,8 +379,7 @@ const data = [
   },
   {
     name: "Baraka Gifts and Decor",
-    address:
-      "Shop 34, Cape Quarter Lifestyle Village, 27 Somerset Rd, Green Point, Cape Town, 8005",
+    address: "27 Somerset Rd, Green Point, Cape Town, 8005",
     phone: "021 425 8883",
     cuisine: "N/A",
     images: [
@@ -607,7 +605,7 @@ const data = [
   },
   {
     name: "Bargain Books",
-    address: "Shop G44&45, Forest Dr Service Rd, Pinelands, Cape Town, 7405",
+    address: "Forest Dr Service Rd, Pinelands, Cape Town, 7405",
     phone: "021 532 2217",
     cuisine: "N/A",
     images: [
@@ -1005,7 +1003,7 @@ const data = [
   {
     name: "The Listening Room",
     address:
-      "Old Cape Quarter, Shop 003, Corner of Dixon and Jarvis Street, De Waterkant, Cape Town, 8001, South Africa, Cape Town, South Africa",
+      "De Waterkant, Cape Town, 8001, South Africa, Cape Town, South Africa",
     phone: "021 418 4379",
     cuisine: "N/A",
     images: [
@@ -1057,7 +1055,7 @@ const data = [
   },
   {
     name: "M.PIRE Music",
-    address: "First Floor, 299 Albert Rd, Woodstock, Cape Town, 7925",
+    address: "299 Albert Rd, Woodstock, Cape Town, 7925",
     phone: "",
     cuisine: "N/A",
     images: [

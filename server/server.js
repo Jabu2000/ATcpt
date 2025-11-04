@@ -14,9 +14,7 @@ import activityRoutes from "./routes/activities.js";
 import postRoutes from "./routes/createpostRoutes.js";
 import savedRoutes from "./routes/savedRoutes.js";
 import storeRoutes from "./routes/stores.js";
-import placeRoutes from "./routes/places.js";
 import eventRoutes from "./routes/events.js";
-import accommodationRoutes from "./routes/accommodations.js";
 import adventureRoutes from "./routes/adventures.js";
 
 
@@ -43,9 +41,7 @@ const dirs = [
   "activities",
   "comments",
   "stores",
-  "places",
   "events",
-  "accommodation",
   "profiles", // ✅ fixed to plural
 ];
 dirs.forEach((d) => {
@@ -62,9 +58,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/restaurants", restaurantRoutes);
 app.use("/api/activities", activityRoutes);
 app.use("/api/stores", storeRoutes);
-app.use("/api/places", placeRoutes);
 app.use("/api/events", eventRoutes);
-app.use("/api/accommodations", accommodationRoutes);
 app.use("/api/saved", savedRoutes);
 app.use("/api/posts", postRoutes);
 app.use("/api/adventures", adventureRoutes);

@@ -20,6 +20,7 @@ import RestaurantCategories from "../../sections/Restaurant/RestaurantCategories
 import Footer from "../../components/Footer";
 import { AnimatePresence, motion } from "framer-motion";
 import { useDropzone } from "react-dropzone";
+import RestaurantMap from "../../sections/Restaurant/RestaurantMap";
 
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:4000";
 
@@ -451,8 +452,11 @@ const RestaurantDetail = () => {
           <div className="flex-1 flex flex-col gap-6">
             <RestaurantImages restaurant={restaurant} />
 
-            <div className="w-full h-[23vh] bg-gray-200 flex items-center justify-center rounded-3xl">
-              Map Placeholder
+            <div className="w-full h-[50vh] bg-gray-200 rounded-3xl">
+              <RestaurantMap
+                address={restaurant.address}
+                name={restaurant.name}
+              />
             </div>
           </div>
         </div>

@@ -88,7 +88,7 @@ const FTTDCategories = () => {
   });
 
   return (
-    <div className="flex flex-col px-6 md:px-[50px] my-[50px]">
+    <div className="flex flex-col px-6 md:px-[50px] my-[30px]">
       {/* Category Carousels */}
       {categories.map((cat) => {
         const catActivities = filterByCategory(cat.key);

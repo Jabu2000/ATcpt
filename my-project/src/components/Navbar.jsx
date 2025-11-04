@@ -38,11 +38,9 @@ const Navbar = () => {
   const [clicked, setClicked] = useState(false);
 
   const [seedEvents, setEvents] = useState([]);
-  const [seedPlaces, setPlaces] = useState([]);
   const [seedStores, setStores] = useState([]);
   const [seedRestaurants, setRestaurants] = useState([]);
   const [seedActivities, setActivities] = useState([]);
-  const [seedAccommodations, setAccommodations] = useState([]);
 
   const [plans, setPlans] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
@@ -82,11 +80,9 @@ const Navbar = () => {
 
   useEffect(() => {
     fetchData("events", setEvents);
-    fetchData("places", setPlaces);
     fetchData("stores", setStores);
     fetchData("restaurants", setRestaurants);
     fetchData("activities", setActivities);
-    fetchData("accommodations", setAccommodations);
   }, []);
 
   // Search logic
@@ -97,14 +93,9 @@ const Navbar = () => {
     const timer = setTimeout(() => {
       const taggedData = [
         ...seedEvents.map((item) => ({ ...item, type: "events" })),
-        ...seedPlaces.map((item) => ({ ...item, type: "places" })),
         ...seedStores.map((item) => ({ ...item, type: "stores" })),
         ...seedRestaurants.map((item) => ({ ...item, type: "restaurants" })),
         ...seedActivities.map((item) => ({ ...item, type: "activities" })),
-        ...seedAccommodations.map((item) => ({
-          ...item,
-          type: "accommodations",
-        })),
       ];
 
       const filtered = taggedData.filter((item) =>
@@ -119,11 +110,9 @@ const Navbar = () => {
   }, [
     searchQuery,
     seedEvents,
-    seedPlaces,
     seedStores,
     seedRestaurants,
     seedActivities,
-    seedAccommodations,
   ]);
 
   // Auto slide in on mount
@@ -353,14 +342,6 @@ const Navbar = () => {
             >
               Activities
             </Link>
-            <Link
-              to="/places"
-              aria-label="places page"
-              onClick={(e) => handleClick(e, "/places")}
-              className="flex grandstander-uniquifier text-[#FF0000] hover:text-red-400 font-semibold md:text-[14px] text-[10px] hover:scale-110 transition-transform duration-300 z-[100] cursor-pointer"
-            >
-              Places
-            </Link>
           </div>
 
           <div className="w-full flex flex-col items-end md:hidden relative">
@@ -395,12 +376,6 @@ const Navbar = () => {
                 className="block px-4 py-2 md:text-sm text-[12px] hover:bg-red-400 text-[#FF0000] font-semibold hover:text-white"
               >
                 Events
-              </Link>
-              <Link
-                to="/places"
-                className="block px-4 py-2 md:text-sm text-[12px] hover:bg-red-400 text-[#FF0000] font-semibold hover:text-white"
-              >
-                Places
               </Link>
               <Link
                 to="/stores"

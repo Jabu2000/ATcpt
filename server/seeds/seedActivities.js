@@ -145,7 +145,7 @@ const data = [
   },
   {
     name: "Tuff Crowd",
-    address: "CapeTown ZA, 243 Bree St, Gardens, Cape Town, 8001",
+    address: "243 Bree St, Gardens, Cape Town, 8001",
     phone: "064 971 6097",
     cuisine: "",
     images: [
@@ -344,7 +344,7 @@ const data = [
   //--- Outdoor Activities ---
   {
     name: "Waterfront Charters",
-    address: "Shop 5 , Quay 5, V&A Waterfront, Victoria & Alfred Waterfront, Cape Town, 8002",
+    address: "Quay 5, V&A Waterfront, Victoria & Alfred Waterfront, Cape Town, 8002",
     phone: "021 418 3168",
     cuisine: "",
     images: [
@@ -427,7 +427,7 @@ const data = [
   },
   {
     name: "Red Bus Tour",
-    address: "Ticket Office outside the Aquarium, Dock Rd, Victoria & Alfred Waterfront, Cape Town, 8005",
+    address: "Dock Rd, Victoria & Alfred Waterfront, Cape Town, 8005",
     phone: "021 511 6000",
     cuisine: "",
     images: [
@@ -504,7 +504,7 @@ const data = [
   },
   {
     name: "Lion's Head",
-    address: " Signal Hill Rd, Signal Hill, Cape Town, 8001",
+    address: "Signal Hill Rd, Signal Hill, Cape Town, 8001",
     phone: "086 110 6417",
     cuisine: "",
     images: [
@@ -589,7 +589,7 @@ const data = [
   //--- Adventure ---
   {
     name: "Zerts Mocaa Museum",
-    address: " S Arm Rd, Victoria & Alfred Waterfront, Cape Town, 8001",
+    address: "Victoria & Alfred Waterfront, Cape Town, 8001",
     phone: "087 350 4777",
     cuisine: "",
     images: [
@@ -1235,7 +1235,7 @@ const data = [
   },
   {
     name: "Sky Hi Ride",
-    address: "28th Floor, Hotel Sky, 9 Lower Long St, Cape Town City Centre, Cape Town, 8001",
+    address: "Hotel Sky, 9 Lower Long St, Cape Town City Centre, Cape Town, 8001",
     phone: "021 879 5040",
     cuisine: "",
     images: [

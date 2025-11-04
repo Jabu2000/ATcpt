@@ -6,11 +6,9 @@ const API_URL = import.meta.env.VITE_API_URL || "http://localhost:4000";
 
 const ExploreHero = () => {
   const [seedEvents, setEvents] = useState([]);
-  const [seedPlaces, setPlaces] = useState([]);
   const [seedStores, setStores] = useState([]);
   const [seedRestaurants, setRestaurants] = useState([]);
   const [seedActivities, setActivities] = useState([]);
-  const [seedAccommodations, setAccommodations] = useState([]);
 
   const [plans, setPlans] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
@@ -50,11 +48,9 @@ const ExploreHero = () => {
 
   useEffect(() => {
     fetchData("events", setEvents);
-    fetchData("places", setPlaces);
     fetchData("stores", setStores);
     fetchData("restaurants", setRestaurants);
     fetchData("activities", setActivities);
-    fetchData("accommodations", setAccommodations);
   }, []);
 
   // Search logic
@@ -65,11 +61,9 @@ const ExploreHero = () => {
     const timer = setTimeout(() => {
       const taggedData = [
         ...seedEvents.map((item) => ({ ...item, type: "events" })),
-        ...seedPlaces.map((item) => ({ ...item, type: "places" })),
         ...seedStores.map((item) => ({ ...item, type: "stores" })),
         ...seedRestaurants.map((item) => ({ ...item, type: "restaurants" })),
         ...seedActivities.map((item) => ({ ...item, type: "activities" })),
-        ...seedAccommodations.map((item) => ({ ...item, type: "accommodations" })),
       ];
 
       const filtered = taggedData.filter((item) =>
@@ -84,11 +78,9 @@ const ExploreHero = () => {
   }, [
     searchQuery,
     seedEvents,
-    seedPlaces,
     seedStores,
     seedRestaurants,
     seedActivities,
-    seedAccommodations,
   ]);
 
   return (
@@ -151,9 +143,9 @@ const ExploreHero = () => {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {[
-            { title: "Top Adventures", img: "/restaurant.jpg" },
-            { title: "Upcoming Events", img: "/restaurant.jpg" },
-            { title: "Spots", img: "/restaurant.jpg" },
+            { title: "Top Adventures", img: "/TopAdventure.png" },
+            { title: "Upcoming Events", img: "/TopEvents.png" },
+            { title: "Spots", img: "/TopSpots.png" },
           ].map((card, i) => (
             <div
               key={i}

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Routes, Route } from "react-router-dom";
 // import Login from "./auth/forms/Login";
 // import Signup from "./auth/forms/Signup";
+import "leaflet/dist/leaflet.css";
 import ProtectedRoute from "./components/ProtectRoute";
 import Explore from "./root/pages/Explore";
 import Home from "./root/pages/Home";
@@ -20,12 +21,6 @@ import StoreDetail from "./root/pages/StoreDetail";
 
 import FunThingToDo from "./root/pages/FunThingToDo";
 import FunThingToDoDetail from "./root/pages/FunThingToDoDetail";
-
-import PlaceToVisit from "./root/pages/PlaceToVisit";
-import PlaceToVisitDetail from "./root/pages/PlaceToVisitDetail";
-
-import Accommodation from "./root/pages/Accommodation";
-import AccommodationDetail from "./root/pages/AccommodationDetail";
 
 import { Toaster, toast } from "react-hot-toast";
 import CreatePost from "./root/pages/CreatePost";
@@ -76,12 +71,6 @@ function App() {
 
         <Route path="/stores" element={<Stores />} />
         <Route path="/stores/:id" element={<StoreDetail />} />
-
-        <Route path="/places" element={<PlaceToVisit />} />
-        <Route path="/places/:id" element={<PlaceToVisitDetail />} />
-
-        <Route path="/accommodation" element={<Accommodation />} />
-        <Route path="/accommodation/:id" element={<AccommodationDetail />} />
 
         <Route
           path="/create-post"

@@ -116,7 +116,9 @@ const RestaurantsExplore = () => {
 
     return (
       <div className="flex flex-col 2xl:mt-[150px] mt-[50px]">
-        <h2 className="md:text-[30px] text-[20px] text-black font-semibold">{title}</h2>
+        <h2 className="md:text-[30px] text-[20px] text-black font-semibold">
+          {title}
+        </h2>
         {loading ? (
           <p className="text-gray-500 mt-2">Loading {title.toLowerCase()}…</p>
         ) : catRestaurants.length === 0 ? (
@@ -143,7 +145,9 @@ const RestaurantsExplore = () => {
                       className="w-full md:h-[350px] h-[240px] object-cover rounded-2xl"
                     />
                     <div className="py-3">
-                      <h2 className="font-semibold text-black md:text-lg text-[14px] mb-1">{r.name}</h2>
+                      <h2 className="font-semibold text-black md:text-lg text-[14px] mb-1">
+                        {r.name}
+                      </h2>
                       {typeof r.rating === "number" && (
                         <div className="flex items-center md:text-[16px] text-[12px] gap-1 text-[#FAA500]">
                           {Array.from({ length: 5 }, (_, i) => {
@@ -243,7 +247,27 @@ const RestaurantsExplore = () => {
       {renderCarousel("Coffee Shops", "coffee", coffeeRef)}
 
       {/* Green banner */}
-      <div className="w-full h-[500px] bg-[#AEFF53] mt-[80px] flex justify-center items-center rounded-2xl"></div>
+      <div className="relative w-full h-[500px] mt-[80px] rounded-2xl overflow-hidden">
+        <video
+          className="w-full h-full object-cover"
+          src="/restaurantvid.MP4"
+          autoPlay
+          muted
+          loop
+          playsInline
+        ></video>
+
+        {/* Optional overlay text */}
+        <div className="absolute inset-0 bg-black/40 flex flex-col justify-center items-center text-center px-6">
+          <h2 className="text-white text-3xl md:text-5xl font-bold mb-3">
+            Taste the Best of Cape Town
+          </h2>
+          <p className="text-white text-lg md:text-xl max-w-2xl">
+            Discover top-rated restaurants, cafés, and hidden gems around every
+            corner.
+          </p>
+        </div>
+      </div>
 
       {renderCarousel("Student Takeaways", "takeaway", takeawayRef)}
       {renderCarousel("Dessert Places", "Dessert", DessertRef)}
@@ -252,7 +276,11 @@ const RestaurantsExplore = () => {
       {/* Green banner */}
       <div className="w-full h-[300px] bg-[#AEFF53] mt-[80px] flex justify-center items-center rounded-2xl"></div>
 
-      {renderCarousel("Breakfast / Brunch Places", "Breakfast / Brunch Places", BufferRef)}
+      {renderCarousel(
+        "Breakfast / Brunch Places",
+        "Breakfast / Brunch Places",
+        BufferRef
+      )}
     </div>
   );
 };

@@ -30,7 +30,6 @@ const Footer = () => {
             <div className="flex flex-col gap-2">
               {[
                 {title: "Register Business", link: ""},
-                {title: "Calendar", link: ""},
                 {title: "About Us", link: ""},
                 {title: "Sign In / Sign Up", link: "/login"},
               ].map((item, index) => (
@@ -54,7 +53,6 @@ const Footer = () => {
                 { title: "Thrift Stores", link: "/stores" },
                 { title: "Events", link: "/events" },
                 { title: "Activities", link: "/activities" },
-                { title: "Places", link: "/places" },
               ].map((item, index) => (
                 <Link
                   key={index}

@@ -67,7 +67,7 @@ const data = [
   },
   {
     name: "Zuney Wagyu Burger Bar",
-    address: "Shop 2, 69A Kloof St, Gardens, Cape Town, 8001",
+    address: "69A Kloof St, Gardens, Cape Town, 8001",
     phone: "076 430 7584",
     cuisine: "Fine Dining",
     category: "restaurant",
@@ -95,8 +95,7 @@ const data = [
   },
   {
     name: "Jerry's Burger Bar",
-    address:
-      "Heritage Square, 98 Shortmarket St, Cape Town City Centre, Cape Town, 8001",
+    address: "98 Shortmarket St, Cape Town City Centre, Cape Town, 8001",
     phone: "021 569 1355",
     cuisine: "Small Plates / ContemAporary",
     category: "restaurant", // ✅ added
@@ -153,8 +152,7 @@ const data = [
   },
   {
     name: "Cape Tandoor",
-    address:
-      "Shop G26, Cape Station -Retail, 7 Adderley St, Foreshore, Cape Town, 8001",
+    address: "Cape Station -Retail, 7 Adderley St, Foreshore, Cape Town, 8001",
     phone: "066 519 8929",
     cuisine: "Tasting Menu",
     category: "restaurant", // ✅ added
@@ -263,7 +261,7 @@ const data = [
   },
   {
     name: "The Poke co",
-    address: "12 Dreyer st, Claremont (7700)",
+    address: "12 Dreyer St, Claremont, Cape Town, 7700",
     phone: "087 470 0583",
     cuisine: "ContemAporary",
     category: "restaurant", // ✅ added
@@ -357,7 +355,6 @@ const data = [
       `${BASE_URL}/uploads/restaurants/SeoulPocha/SPimg3.png`,
       `${BASE_URL}/uploads/restaurants/SeoulPocha/SPimg4.png`,
       `${BASE_URL}/uploads/restaurants/SeoulPocha/SPimg5.png`,
-      `${BASE_URL}/uploads/restaurants/SeoulPocha/SPimg6.png`,
     ],
     about:
       "Experience the vibrant flavors of Korea at Seoul Pocha, your go-to destination for authentic Korean cuisine. Located in the heart of Rondebosch, Cape Town, we serve traditional favorites like bibimbap, Korean BBQ, and hearty stews. Whether you're stopping by for a quick lunch or a full dining experience, our warm atmosphere and friendly service will make you feel right at home or in Seoul. Dine in and taste Korea today at Seoul Pocha",
@@ -610,8 +607,7 @@ const data = [
   },
   {
     name: "Cafe Chiffon",
-    address:
-      "SHOGF007, Old Cape Quarter, 72 Waterkant St, Green Point, Cape Town, 8001",
+    address: "72 Waterkant St, Green Point, Cape Town, 8001",
     phone: "068035 5552",
     cuisine: "Coffee / Café",
     category: "coffee",
@@ -695,8 +691,7 @@ const data = [
   },
   {
     name: "Nice Cafe",
-    address:
-      " Inside Church House, 1a Queen Victoria St, Cape Town City Centre, Cape Town, 8001",
+    address: "1a Queen Victoria St, Cape Town City Centre, Cape Town, 8001",
     phone: "084 333 3336",
     cuisine: "Coffee / Café",
     category: "coffee",
@@ -758,7 +753,7 @@ const data = [
   },
   {
     name: "Vidae Caffe",
-    address: "Rustenburg shops, 41 Main Rd, Rondebosch, Cape Town, 7700",
+    address: "41 Main Rd, Rondebosch, Cape Town, 7700",
     phone: "021 565 0510",
     cuisine: "Coffee / Café",
     category: "coffee",
@@ -929,7 +924,7 @@ const data = [
   },
   {
     name: "Continental",
-    address: "Shop No. 2, 350 Victoria Rd, Salt River, Cape Town, 7925",
+    address: "350 Victoria Rd, Salt River, Cape Town, 7925",
     phone: "021 448 2812",
     cuisine: "Pizza / Fast Food",
     category: "takeaway",
@@ -1359,8 +1354,7 @@ const data = [
   },
   {
     name: "Beestro",
-    address:
-      " Shop G68, Riverlands Mall, Gogosoa St, Observatory, Cape Town, 7925",
+    address: "Riverlands Mall, Gogosoa St, Observatory, Cape Town, 7925",
     phone: "021 180 2980",
     cuisine: "Bakery / Brunch",
     category: "Breakfast / Brunch Places",
@@ -1531,8 +1525,7 @@ const data = [
   },
   {
     name: "Sweet Revenge",
-    address:
-      "Shop 6, Kloof Street Junction, 115 Kloof St, Gardens, Cape Town, 8005",
+    address: "Kloof Street Junction, 115 Kloof St, Gardens, Cape Town, 8005",
     phone: "",
     cuisine: "Cakes / Coffee",
     category: "Dessert",
@@ -1618,8 +1611,7 @@ const data = [
   },
   {
     name: "Cake Princess",
-    address:
-      "Shop 002 Cape Gate Lifestyle Centre Cnr Okavango Road &, Tanner St, Brackenfell, Cape Town, 7560",
+    address: "Cape Gate Lifestyle Centre Cnr Okavango Road &, Tanner St, Brackenfell, Cape Town, 7560",
     phone: "063 319 3584",
     cuisine: "Cakes / Coffee",
     category: "Dessert",
@@ -1646,8 +1638,7 @@ const data = [
   },
   {
     name: "Switl’n Sa",
-    address:
-      "Shop 8 Le Coutzenbourg Building, Church St, CBD, Stellenbosch, 7600",
+    address: "Church St, CBD, Stellenbosch, 7600",
     phone: "021 493 8767",
     cuisine: "Cakes / Coffee",
     category: "Dessert",
@@ -1675,7 +1666,7 @@ const data = [
   },
   {
     name: "Coca Cha Chi",
-    address: "Shop 20, Lower Main Rd, Observatory, Cape Town, 7935",
+    address: "Lower Main Rd, Observatory, Cape Town, 7935",
     phone: "064 872 1074",
     cuisine: "Cakes / Coffee",
     category: "Dessert",
@@ -1763,7 +1754,7 @@ const data = [
   //--- Hangout Bars & Social Eateries ---
   {
     name: "Coca Cha Chi",
-    address: "Shop 20, Lower Main Rd, Observatory, Cape Town, 7935",
+    address: "Lower Main Rd, Observatory, Cape Town, 7935",
     phone: "064 872 1074",
     cuisine: "Rooftop Bar / Asian",
     category: "Hangout",
@@ -1877,8 +1868,7 @@ const data = [
   },
   {
     name: "Beestro",
-    address:
-      " Shop G68, Riverlands Mall, Gogosoa St, Observatory, Cape Town, 7925",
+    address: "Riverlands Mall, Gogosoa St, Observatory, Cape Town, 7925",
     phone: "021 180 2980",
     cuisine: "Asian Fusion / Bar",
     category: "Hangout",

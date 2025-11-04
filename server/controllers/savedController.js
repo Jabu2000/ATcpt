@@ -2,10 +2,9 @@ import User from "../models/User.js";
 import Restaurant from "../models/Restaurant.js";
 import Activity from "../models/Activities.js";
 import Store from "../models/Store.js";
-import Place from "../models/Place.js";
 import Event from "../models/Event.js";
 
-const isValidType = (t) => ["restaurant", "activity", "store", "place", "Event"].includes(t);
+const isValidType = (t) => ["restaurant", "activity", "store", "Event"].includes(t);
 
 export async function getSaved(req, res) {
   try {
@@ -13,7 +12,6 @@ export async function getSaved(req, res) {
       .populate({ path: "savedRestaurants", select: "name images address rating" })
       .populate({ path: "savedActivities", select: "name images address rating" })
       .populate({ path: "savedStores", select: "name images address rating" })
-      .populate({ path: "savedPlaces", select: "name images address rating" })
       .populate({ path: "savedEvents", select: "name images address rating" });
 
     if (!user) return res.status(404).json({ error: "User not found" });
@@ -38,14 +36,6 @@ export async function getSaved(req, res) {
       ...(user.savedStores || []).map((doc) => ({
         _id: doc._id,
         type: "store",
-        name: doc.name,
-        image: doc.images?.[0] || null,
-        address: doc.address || "",
-        rating: doc.rating || 0,
-      })),
-      ...(user.savedPlaces || []).map((doc) => ({
-        _id: doc._id,
-        type: "place",
         name: doc.name,
         image: doc.images?.[0] || null,
         address: doc.address || "",
@@ -102,14 +92,6 @@ export async function saveItem(req, res) {
         { _id: user._id },
         { $addToSet: { savedStores: itemId } }
       );
-    } else if (itemType === "place") {
-      const exists = await Place.exists({ _id: itemId });
-      if (!exists) return res.status(404).json({ error: "Place not found" });
-
-      await User.updateOne(
-        { _id: user._id },
-        { $addToSet: { savedPlaces: itemId } }
-      );
     } else if (itemType === "Event") {
       const exists = await Event.exists({ _id: itemId });
       if (!exists) return res.status(404).json({ error: "Event not found" });
@@ -145,8 +127,6 @@ export async function removeItem(req, res) {
       update = { $pull: { savedActivities: itemId } };
     } else if (type === "store") {
       update = { $pull: { savedStores: itemId } };
-    } else if (type === "place") {
-      update = { $pull: { savedPlaces: itemId } };
     } else if (type === "Event") {
       update = { $pull: { savedEvents: itemId } };
     }

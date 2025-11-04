@@ -10,7 +10,7 @@ const ExploreFYP = () => {
           Explore Categories
         </h2>
 
-        <div className="grid grid-cols-2 lg:grid-cols-5 gap-6">
+        <div className="grid grid-cols-2 lg:grid-cols-4 items-center justify-center gap-6">
           {[
             {
               title: "Restaurants",
@@ -24,7 +24,6 @@ const ExploreFYP = () => {
               image: "/Activities.png",
               link: "/activities",
             },
-            { title: "Places", image: "/Visit.png", link: "/places" },
           ].map((item, index) => (
             <Link
               key={index}
@@ -47,16 +46,17 @@ const ExploreFYP = () => {
         </div>
       </div>
 
-      {/* Discover Section */}
+      {/* Discover Section */} 
       <div className="mt-[100px] flex flex-col items-center text-center">
         <h2 className="text-[28px] sm:text-[36px] md:text-[40px] font-bold mb-6">
           Discover The Mother City
         </h2>
-        <p className="w-full sm:w-[80%] md:w-[60%] lg:w-[44%] font-medium text-sm sm:text-base leading-relaxed">
-          Built by a creative for creatives. Future artist and creatives.
-          Painting the black and white world with color. Built by a creative for
-          creatives. Future artist and creatives. Painting the black and white
-          world with color. Built by a creative for creatives.
+        <p className="w-full sm:w-[80%] md:w-[60%] lg:w-[60%] font-medium text-sm sm:text-base leading-relaxed">
+          Adventure Time is your go-to guide for exploring student life in Cape
+          Town. Find the best restaurants, events, thrift stores, and hidden
+          gems around the city — all in one place. Plan your adventures,
+          discover local favorites, and connect with experiences that make
+          student life unforgettable.
         </p>
       </div>
     </div>

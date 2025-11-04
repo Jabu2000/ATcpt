@@ -302,9 +302,27 @@ const StoresHero = () => {
       <div className="flex flex-col px-4 md:px-[100px] my-[50px]">
         {renderCarousel("Vintage & Retro Thrift Stores", "Vintage", vintageRef)}
         {renderCarousel("Handmade & Artisan Shops", "Handmade", handmadeRef)}
-        <div className="w-100% h-[500px] bg-[#AEFF53] mt-[80px] flex justify-center items-center rounded-2xl">
-          <img />
+        <div className="relative w-full h-[500px] mt-[80px] rounded-2xl overflow-hidden">
+        <video
+          className="w-full h-full object-cover"
+          src="/storevid.MP4"
+          autoPlay
+          muted
+          loop
+          playsInline
+        ></video>
+
+        {/* Optional overlay text */}
+        <div className="absolute inset-0 bg-black/40 flex flex-col justify-center items-center text-center px-6">
+          <h2 className="text-white text-3xl md:text-5xl font-bold mb-3">
+            Taste the Best of Cape Town
+          </h2>
+          <p className="text-white text-lg md:text-xl max-w-2xl">
+            Discover top-rated restaurants, cafés, and hidden gems around every
+            corner.
+          </p>
         </div>
+      </div>
 
         {renderCarousel(
           "Bookstores & Stationery Shops",

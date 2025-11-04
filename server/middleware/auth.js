@@ -14,20 +14,6 @@ export const verifyToken = (req, res, next) => {
   }
 };
 
-// export const verifyToken = (req, res, next) => {
-//   const token = req.cookies?.token; // make sure cookies are parsed
-//   if (!token) return res.status(401).json({ msg: "No token provided" });
-
-//   try {
-//     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-//     req.userId = decoded.userId; // <-- set req.userId directly
-//     next();
-//   } catch {
-//     res.status(403).json({ msg: "Invalid token" });
-//   }
-// };
-
-
 export const authMiddleware = async (req, res, next) => {
   const token = req.cookies.token;
   if (!token) return res.status(401).json({ error: "Unauthorized" });

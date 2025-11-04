@@ -186,8 +186,26 @@ const NightLifeExplore = () => {
       )}
 
       {/* Green banner */}
-      <div className="w-full h-[500px] bg-[#AEFF53] mt-[80px] flex justify-center items-center rounded-2xl">
-        <img alt="banner" />
+      <div className="relative w-full h-[500px] mt-[80px] rounded-2xl overflow-hidden">
+        <video
+          className="w-full h-full object-cover"
+          src="/eventvid.MP4"
+          autoPlay
+          muted
+          loop
+          playsInline
+        ></video>
+
+        {/* Optional overlay text */}
+        <div className="absolute inset-0 bg-black/40 flex flex-col justify-center items-center text-center px-6">
+          <h2 className="text-white text-3xl md:text-5xl font-bold mb-3">
+            Taste the Best of Cape Town
+          </h2>
+          <p className="text-white text-lg md:text-xl max-w-2xl">
+            Discover top-rated restaurants, cafés, and hidden gems around every
+            corner.
+          </p>
+        </div>
       </div>
       {renderCarousel("Live Music & Open Mic", "MusicOpenMic", MusicOpenMicRef)}
       {renderCarousel("Creative Events", "CreativeEvents", CreativeEventsRef)}

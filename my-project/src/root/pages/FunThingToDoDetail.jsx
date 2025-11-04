@@ -20,6 +20,7 @@ import FTTDCategories from "../../sections/FunThingsToDo/FTTDCategories";
 import Footer from "../../components/Footer";
 import { AnimatePresence, motion } from "framer-motion";
 import { useDropzone } from "react-dropzone";
+import ActivitiesMap from "../../sections/FunThingsToDo/ActivitiesMap";
 
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:4000";
 
@@ -405,7 +406,7 @@ const FunThingToDoDetail = () => {
                         ([day, hours]) => (
                           <tr
                             key={day}
-                            className="text-white lg:text-[12px] text-[16px]"
+                            className="text-white lg:text-[11px] text-[16px]"
                           >
                             <td className="py-2 font-medium capitalize">
                               {day}
@@ -455,8 +456,11 @@ const FunThingToDoDetail = () => {
           <div className="flex-1 flex flex-col gap-6">
             <ActivitiesImages activity={activity} />
 
-            <div className="w-full h-[23vh] bg-gray-200 flex items-center justify-center rounded-3xl">
-              Map Placeholder
+            <div className="w-full h-[50vh] bg-gray-200 rounded-3xl">
+              <ActivitiesMap
+                address={activity.address}
+                name={activity.name}
+              />
             </div>
           </div>
         </div>

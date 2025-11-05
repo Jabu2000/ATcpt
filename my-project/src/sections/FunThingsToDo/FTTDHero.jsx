@@ -14,6 +14,9 @@ const FTTDHero = () => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [loading, setLoading] = useState(true);
 
+  // --- Fade effect for hero images ---
+  const [fade, setFade] = useState(true);
+
   const searchRef = useRef(null);
 
   // --- Carousel Refs ---
@@ -146,6 +149,20 @@ const FTTDHero = () => {
     Cultural: 0,
     Friends: 0,
   });
+
+  const images = ["/activitiespost1.png", "/activitiespost2.png"];
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setFade(false); // start fade-out
+      setTimeout(() => {
+        setCurrentIndex((prev) => (prev + 1) % images.length);
+        setFade(true); // fade-in
+      }, 500); // fade duration (must match CSS transition)
+    }, 4000); // time per image
+
+    return () => clearInterval(interval);
+  }, [images.length]);
 
   useEffect(() => {
     const cleanups = [
@@ -324,26 +341,25 @@ const FTTDHero = () => {
           indooractivitiesRef
         )}
         <div className="relative w-full h-[500px] mt-[80px] rounded-2xl overflow-hidden">
-        <video
-          className="w-full h-full object-cover"
-          src="/activitiesvid.MP4"
-          autoPlay
-          muted
-          loop
-          playsInline
-        ></video>
+          <video
+            className="w-full h-full object-cover"
+            src="/activitiesvid.MP4"
+            autoPlay
+            muted
+            loop
+            playsInline
+          ></video>
 
-        {/* Optional overlay text */}
-        <div className="absolute inset-0 bg-black/40 flex flex-col justify-center items-center text-center px-6">
-          <h2 className="text-white text-3xl md:text-5xl font-bold mb-3">
-            Taste the Best of Cape Town
-          </h2>
-          <p className="text-white text-lg md:text-xl max-w-2xl">
-            Discover top-rated restaurants, cafés, and hidden gems around every
-            corner.
-          </p>
+          {/* Optional overlay text */}
+          <div className="absolute inset-0 bg-black/40 flex flex-col justify-center items-center text-center px-6">
+            <h2 className="text-white text-3xl md:text-5xl font-bold mb-3">
+              Explore More Activities 
+            </h2>
+            <p className="text-white md:text-lg text-sm">
+              Discover a variety of fun things to do for everyone!
+            </p>
+          </div>
         </div>
-      </div>
         {renderCarousel(
           "Outdoor Activities",
           "OutdoorActivities",
@@ -352,8 +368,20 @@ const FTTDHero = () => {
         {renderCarousel("Adventure", "Adventure", adventureRef)}
         {renderCarousel("Cultural Experiences", "Cultural", culturalRef)}
         {renderCarousel("Fun with Friends", "Friends", friendsRef)}
-        <div className="w-100% h-[300px] bg-[#AEFF53] mt-[80px] flex justify-center items-center rounded-2xl">
-          <img />
+        <div className="w-full md:h-full h-[600px] mt-[80px] flex justify-center items-center rounded-2xl">
+          <img
+            src={images[currentIndex]}
+            alt="banner"
+            className={`w-full h-full md:object-cover rounded-2xl transition-opacity duration-500 md:hidden flex ${
+              fade ? "opacity-100" : "opacity-0"
+            }`}
+          />
+
+          <img
+            src="/activitiespost1.png"
+            alt="banner"
+            className="w-full h-full object-cover rounded-2xl md:flex hidden"
+          />
         </div>
       </div>
     </>

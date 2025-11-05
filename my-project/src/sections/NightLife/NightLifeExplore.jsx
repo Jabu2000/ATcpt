@@ -9,6 +9,9 @@ const NightLifeExplore = () => {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [fade, setFade] = useState(true);
+
   const ClubNightsPartiesRef = useRef(null);
   const MusicOpenMicRef = useRef(null);
   const CreativeEventsRef = useRef(null);
@@ -22,6 +25,26 @@ const NightLifeExplore = () => {
     SocialNights: 0,
     OutdoorNightEvents: 0,
   });
+
+  const images = [
+    "/eventspost1.png",
+    "/eventspost2.png",
+    "/eventspost3.png",
+    "/eventspost4.png",
+    "/eventspost5.png",
+  ];
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setFade(false); // start fade-out
+      setTimeout(() => {
+        setCurrentIndex((prev) => (prev + 1) % images.length);
+        setFade(true); // fade-in
+      }, 500); // fade duration (must match CSS transition)
+    }, 4000); // time per image
+
+    return () => clearInterval(interval);
+  }, [images.length]);
 
   const fetchEvents = async () => {
     try {
@@ -199,26 +222,33 @@ const NightLifeExplore = () => {
         {/* Optional overlay text */}
         <div className="absolute inset-0 bg-black/40 flex flex-col justify-center items-center text-center px-6">
           <h2 className="text-white text-3xl md:text-5xl font-bold mb-3">
-            Taste the Best of Cape Town
+            Explore Nightlife Like Never Before
           </h2>
           <p className="text-white text-lg md:text-xl max-w-2xl">
-            Discover top-rated restaurants, cafés, and hidden gems around every
-            corner.
+            Discover the best clubs, events, and nightlife experiences in Cape
+            Town. Your ultimate guide to unforgettable nights out.
           </p>
         </div>
       </div>
       {renderCarousel("Live Music & Open Mic", "MusicOpenMic", MusicOpenMicRef)}
       {renderCarousel("Creative Events", "CreativeEvents", CreativeEventsRef)}
       {renderCarousel("Social Nights", "SocialNights", SocialNightsRef)}
-      {/* {renderCarousel(
-        "Outdoor Night Events",
-        "OutdoorNightEvents",
-        OutdoorNightEventsRef
-      )} */}
 
       {/* Green banner */}
-      <div className="w-full h-[300px] bg-[#AEFF53] mt-[80px] flex justify-center items-center rounded-2xl">
-        <img alt="banner" />
+      <div className="w-full md:h-full h-[600px] mt-[80px] flex justify-center items-center rounded-2xl">
+        <img
+          src={images[currentIndex]}
+          alt="banner"
+          className={`w-full h-full md:object-cover rounded-2xl transition-opacity duration-500 md:hidden flex ${
+            fade ? "opacity-100" : "opacity-0"
+          }`}
+        />
+
+        <img
+          src="/eventspost3.png"
+          alt="banner"
+          className="w-full h-full object-cover rounded-2xl md:flex hidden"
+        />
       </div>
     </div>
   );

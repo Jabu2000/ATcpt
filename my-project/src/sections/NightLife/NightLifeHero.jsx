@@ -58,7 +58,7 @@ const NightLifeHero = () => {
   return (
     <div
       className="relative w-full h-screen bg-cover bg-center flex items-center justify-center sm:justify-start"
-      style={{ backgroundImage: "url(/Events.png)" }}
+      style={{ backgroundImage: "url(/event1.png)" }}
     >
       <div className="w-full sm:w-[80%] lg:w-[60%] px-6 sm:px-12 lg:pl-[80px] sm:text-left">
         <h1 className="text-white font-extrabold leading-tight title w-[80%] 2xl:text-[150px] md:text-[100px] text-[50px] mb-4">

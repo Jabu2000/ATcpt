@@ -177,6 +177,25 @@ const RestaurantDetail = () => {
   const [loading, setLoading] = useState(true);
   const [isSaved, setIsSaved] = useState(false);
 
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [fade, setFade] = useState(true);
+
+  const images = [
+    "/foodpost1.png",
+  ];
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setFade(false); // start fade-out
+      setTimeout(() => {
+        setCurrentIndex((prev) => (prev + 1) % images.length);
+        setFade(true); // fade-in
+      }, 500); // fade duration (must match CSS transition)
+    }, 4000); // time per image
+
+    return () => clearInterval(interval);
+  }, [images.length]);
+
   // Comment state
   const [showCommentFormOverlay, setShowCommentFormOverlay] = useState(false);
   const [newComment, setNewComment] = useState({
@@ -661,8 +680,20 @@ const RestaurantDetail = () => {
           )}
         </AnimatePresence>
       </div>
-      <div className=" h-[300px] bg-[#AEFF53] lg:mx-[50px] mx-6 flex justify-center items-center rounded-2xl">
-        <img />
+      <div className="w-full md:h-full h-[600px] px-6 lg:px-[50px] mt-[80px] flex justify-center items-center rounded-2xl">
+        <img
+          src={images[currentIndex]}
+          alt="banner"
+          className={`w-full h-full md:object-cover rounded-2xl transition-opacity duration-500 md:hidden flex ${
+            fade ? "opacity-100" : "opacity-0"
+          }`}
+        />
+
+        <img
+          src="/foodpost1.png"
+          alt="banner"
+          className="w-full h-full object-cover rounded-2xl md:flex hidden"
+        />
       </div>
       <RestaurantCategories />
       <Footer />

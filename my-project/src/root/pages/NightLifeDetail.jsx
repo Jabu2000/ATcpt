@@ -177,6 +177,29 @@ const NightLifeDetail = () => {
   const [loading, setLoading] = useState(true);
   const [isSaved, setIsSaved] = useState(false);
 
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [fade, setFade] = useState(true);
+
+  const images = [
+    "/eventspost1.png",
+    "/eventspost2.png",
+    "/eventspost3.png",
+    "/eventspost4.png",
+    "/eventspost5.png",
+  ];
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setFade(false); // start fade-out
+      setTimeout(() => {
+        setCurrentIndex((prev) => (prev + 1) % images.length);
+        setFade(true); // fade-in
+      }, 500); // fade duration (must match CSS transition)
+    }, 4000); // time per image
+
+    return () => clearInterval(interval);
+  }, [images.length]);
+
   // Comment state
   const [showCommentFormOverlay, setShowCommentFormOverlay] = useState(false);
   const [newComment, setNewComment] = useState({
@@ -421,7 +444,9 @@ const NightLifeDetail = () => {
                   About
                 </h2>
                 {event.about && (
-                  <p className="mt-4 text-black text-[14px] font-medium">{event.about}</p>
+                  <p className="mt-4 text-black text-[14px] font-medium">
+                    {event.about}
+                  </p>
                 )}
                 {event.website && (
                   <a
@@ -434,7 +459,9 @@ const NightLifeDetail = () => {
                   </a>
                 )}
                 {event.phone && (
-                  <p className="mt-2 text-[14px] font-semibold text-black">☎ {event.phone}</p>
+                  <p className="mt-2 text-[14px] font-semibold text-black">
+                    ☎ {event.phone}
+                  </p>
                 )}
               </div>
             </div>
@@ -445,10 +472,7 @@ const NightLifeDetail = () => {
             <EventImages event={event} />
 
             <div className="w-full h-[50vh] bg-gray-200 rounded-3xl">
-              <EventMap
-                address={event.address}
-                name={event.name}
-              />
+              <EventMap address={event.address} name={event.name} />
             </div>
           </div>
         </div>
@@ -652,8 +676,20 @@ const NightLifeDetail = () => {
           )}
         </AnimatePresence>
       </div>
-      <div className="h-[300px] bg-[#AEFF53] lg:mx-[50px] mx-6 flex justify-center items-center rounded-2xl">
-        <img />
+      <div className="w-full md:h-full h-[600px] px-6 lg:px-[50px] mt-[80px] flex justify-center items-center rounded-2xl">
+        <img
+          src={images[currentIndex]}
+          alt="banner"
+          className={`w-full h-full md:object-cover rounded-2xl transition-opacity duration-500 md:hidden flex ${
+            fade ? "opacity-100" : "opacity-0"
+          }`}
+        />
+
+        <img
+          src="/eventspost3.png"
+          alt="banner"
+          className="w-full h-full object-cover rounded-2xl md:flex hidden"
+        />
       </div>
       <NightLifeCategories />
       <Footer />

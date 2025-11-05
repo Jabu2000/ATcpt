@@ -8,6 +8,7 @@ const API_URL = import.meta.env.VITE_API_URL || "http://localhost:4000";
 const StoresHero = () => {
   const [seedStores, setSeedStores] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [fade, setFade] = useState(true);
   const [search, setSearch] = useState("");
   const [stores, setStores] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -28,6 +29,25 @@ const StoresHero = () => {
     Markets: 0,
     Music: 0,
   });
+
+  const images = [
+    "/storepost1.png",
+    "/storepost2.png",
+    "/storepost3.png",
+    "/storepost4.png",
+  ];
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setFade(false); // start fade-out
+      setTimeout(() => {
+        setCurrentIndex((prev) => (prev + 1) % images.length);
+        setFade(true); // fade-in
+      }, 500); // fade duration (must match CSS transition)
+    }, 4000); // time per image
+
+    return () => clearInterval(interval);
+  }, [images.length]);
 
   // --- Fetch stores ---
   const fetchStores = async (q = "") => {
@@ -303,26 +323,26 @@ const StoresHero = () => {
         {renderCarousel("Vintage & Retro Thrift Stores", "Vintage", vintageRef)}
         {renderCarousel("Handmade & Artisan Shops", "Handmade", handmadeRef)}
         <div className="relative w-full h-[500px] mt-[80px] rounded-2xl overflow-hidden">
-        <video
-          className="w-full h-full object-cover"
-          src="/storevid.MP4"
-          autoPlay
-          muted
-          loop
-          playsInline
-        ></video>
+          <video
+            className="w-full h-full object-cover"
+            src="/storevid.MP4"
+            autoPlay
+            muted
+            loop
+            playsInline
+          ></video>
 
-        {/* Optional overlay text */}
-        <div className="absolute inset-0 bg-black/40 flex flex-col justify-center items-center text-center px-6">
-          <h2 className="text-white text-3xl md:text-5xl font-bold mb-3">
-            Taste the Best of Cape Town
-          </h2>
-          <p className="text-white text-lg md:text-xl max-w-2xl">
-            Discover top-rated restaurants, cafés, and hidden gems around every
-            corner.
-          </p>
+          {/* Optional overlay text */}
+          <div className="absolute inset-0 bg-black/40 flex flex-col justify-center items-center text-center px-6">
+            <h2 className="text-white text-3xl md:text-5xl font-bold mb-3">
+              Discover More Stores 
+            </h2>
+            <p className="text-white text-lg md:text-xl max-w-2xl">
+              Explore a variety of unique stores and shopping experiences in
+              Cape Town.
+            </p>
+          </div>
         </div>
-      </div>
 
         {renderCarousel(
           "Bookstores & Stationery Shops",
@@ -336,8 +356,20 @@ const StoresHero = () => {
         )}
         {renderCarousel("Fun with Music & Vinyl Stores", "Music", musicRef)}
 
-        <div className="w-100% h-[300px] bg-[#AEFF53] mt-[80px] flex justify-center items-center rounded-2xl">
-          <img />
+        <div className="w-full md:h-full h-[600px] mt-[80px] flex justify-center items-center rounded-2xl">
+          <img
+            src={images[currentIndex]}
+            alt="banner"
+            className={`w-full h-full md:object-cover rounded-2xl transition-opacity duration-500 md:hidden flex ${
+              fade ? "opacity-100" : "opacity-0"
+            }`}
+          />
+
+          <img
+            src="/storepost1.png"
+            alt="banner"
+            className="w-full h-full object-cover rounded-2xl md:flex hidden"
+          />
         </div>
       </div>
     </>

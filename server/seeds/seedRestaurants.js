@@ -166,7 +166,7 @@ const data = [
     ],
     about:
       "Cape Tandoor is an Indian restaurant located in Cape Town, South Africa. Known for its authentic Indian cuisine, the restaurant offers a variety of traditional dishes prepared with rich spices and fresh ingredients. The ambiance is warm and inviting, making it a popular spot for both locals and tourists looking to enjoy a flavorful dining experience.",
-    website: "@cape_tandoor",
+    website: "https://www.instagram.com/cape_tandoor/",
     openingHours: {
       monday: { open: "09:00 am", close: "20:00 pm" },
       tuesday: { open: "09:00 am", close: "20:00 pm" },
@@ -220,7 +220,7 @@ const data = [
     ],
     about:
       "Nolz Kitchen is a vibrant eatery located in Salt River, Cape Town, known for its innovative and flavorful dishes. The restaurant offers a diverse menu that blends local ingredients with international culinary techniques, creating a unique dining experience. With a focus on fresh, seasonal produce and bold flavors, Nolz Kitchen has become a favorite among food enthusiasts looking for something different in the Cape Town dining scene.",
-    website: "@nolz_kitchen",
+    website: "https://www.instagram.com/nolz_kitchen/",
     openingHours: {
       monday: { open: "12:00 pm", close: "22:00 pm" },
       tuesday: { close: "Closed" },
@@ -621,7 +621,7 @@ const data = [
     rating: 4.7,
     about:
       "Cafe Chiffon is a charming café located in the heart of Cape Town, South Africa. Known for its delightful ambiance and cozy atmosphere, Cafe Chiffon offers a variety of freshly brewed coffees, teas, and a selection of delicious pastries and light meals. The café is a popular spot for both locals and tourists looking to relax and enjoy quality food and beverages in a welcoming environment.",
-    website: "@cafechiffon.cpt",
+    website: "https://www.instagram.com/cafechiffon.cpt/",
     openingHours: {
       monday: { open: "07:30 am", close: "17:30 pm" },
       tuesday: { open: "07:30 am", close: "17:30 pm" },
@@ -678,7 +678,7 @@ const data = [
     ],
     rating: 5,
     about: "Because every bestie deserves a perfect coffee moment",
-    website: "@fiencoffeeph",
+    website: "https://www.instagram.com/fiencoffeeph/",
     openingHours: {
       monday: { open: "07:30 am", close: "18:00 pm" },
       tuesday: { open: "07:30 am", close: "18:00 pm" },
@@ -740,7 +740,7 @@ const data = [
     rating: 4.7,
     about:
       " The Grind is a specialty coffee roastery and café located in Salt River, Cape Town. We are passionate about sourcing, roasting, and serving the highest quality coffee beans from around the world. Our café offers a cozy and welcoming atmosphere where you can enjoy expertly crafted coffee beverages, from classic espressos to innovative specialty drinks. Whether you're a coffee connoisseur or just looking for a great cup of coffee, The Grind is the perfect destination for all your caffeine needs.",
-    website: "@thegrind_322",
+    website: "https://www.instagram.com/thegrind_322/",
     openingHours: {
       monday: { open: "06:00 am", close: "18:00 pm" },
       tuesday: { open: "06:00 am", close: "18:00 pm" },
@@ -894,7 +894,7 @@ const data = [
 
   // --- Student Takeaways ---
   {
-    name: "Mj Bugers",
+    name: "Mj Burgers",
     address: "59 CamApground Rd, Rondebosch, Cape Town, 7700",
     phone: "061 602 2069",
     cuisine: "Portuguese / Fast Casual",
@@ -911,7 +911,7 @@ const data = [
     rating: 4.7,
     about:
       "MJ’s Burgers hit the Cape Town smash burger scene in early 2023 from their garage at their home in Rondebosch. After killing it at Pop-Ups and events they now have a stand alone store and fans couldn’t be happier.",
-    website: "@mjsburgercpt",
+    website: "https://www.instagram.com/mjsburgercpt/",
     openingHours: {
       monday: { close: "Closed" },
       tuesday: { open: "14:30 pm", close: "22:00 pm" },
@@ -993,7 +993,7 @@ const data = [
     rating: 4.4,
     about:
       "Here's a mouth-watering business description for Smashwagon, your burger joint *Smashwagon: Fuel Your Cravings* Get ready to buckle up and indulge in the ultimate burger experience at Smashwagon! Our burger joint is dedicated to serving up mouth-watering, smash-style burgers that will satisfy your cravings and leave you wanting more. *Our Story* At Smashwagon, we're passionate about burgers, and we're on a mission to elevate the classic burger joint experience. Our chefs use only the freshest ingredients, sourced locally whenever possible, to craft burgers that are both delicious and visually stunning. *Our Menu* From classic cheeseburgers to gourmet masterpieces, our menu features a range of options to suit every taste and dietary",
-    website: "@smashwagoncpt",
+    website: "https://www.instagram.com/smashwagoncpt/",
     openingHours: {
       monday: { open: "11:00 am", close: "21:30 pm" },
       tuesday: { open: "11:00 am", close: "21:30 pm" },
@@ -1021,7 +1021,7 @@ const data = [
     ],
     rating: 3.9,
     about: "Buttermilk Fried Chicken Tenders Wings Chicken Sandwiches",
-    website: "@hermanoschicken_za",
+    website: "https://www.instagram.com/hermanoschicken_za/",
     openingHours: {
       monday: { close: "Closed" },
       tuesday: { open: "12:00 pm", close: "21:00 pm" },
@@ -1050,7 +1050,7 @@ const data = [
     ],
     rating: 4.1,
     about: "Crazy Good Fast Food Burgers, Wings, Fries & More",
-    website: "@karbros_takeaways",
+    website: "https://www.instagram.com/karbros_takeaways/",
     openingHours: {
       monday: { open: "09:00 am", close: "23:00 pm" },
       tuesday: { open: "09:00 am", close: "23:00 pm" },
@@ -1104,7 +1104,7 @@ const data = [
     rating: 4.3,
     about:
       "Smasht Burger Restaurant in Rondebosch, Cape Town, is a popular eatery known for its gourmet smash burgers. They offer a variety of delicious burger options made with fresh ingredients, along with sides like fries and shakes. The casual and vibrant atmosphere makes it a great spot for burger enthusiasts looking for a satisfying meal.",
-    website: "@smashtburgers",
+    website: "https://www.instagram.com/smashtburgers/",
     openingHours: {
       monday: { close: "Closed" },
       tuesday: { open: "10:00 am", close: "21:00 pm" },
@@ -1163,7 +1163,7 @@ const data = [
     rating: 4.7,
     about:
       "Bigga D’s Pop Up Food Truck offers various unique authentic cuisines from all over the world.",
-    website: "@bigga_d_s_foodstruck",
+    website: "https://www.instagram.com/bigga_d_s_foodstruck/",
     openingHours: {
       monday: { close: "Closed" },
       tuesday: { close: "Closed" },
@@ -1193,7 +1193,7 @@ const data = [
     rating: 4.3,
     about:
       "Regional Indian, Chinese and Turkish street food from a string of bustling stalls with seating area.",
-    website: "@easternfoodbazaarct",
+    website: "https://www.instagram.com/easternfoodbazaarct/",
     openingHours: {
       monday: { open: "10:00 am", close: "21:00 pm" },
       tuesday: { open: "10:00 am", close: "21:00 pm" },
@@ -1313,7 +1313,7 @@ const data = [
     rating: 4.7,
     about:
       " The Grind is a specialty coffee roastery and café located in Salt River, Cape Town. We are passionate about sourcing, roasting, and serving the highest quality coffee beans from around the world. Our café offers a cozy and welcoming atmosphere where you can enjoy expertly crafted coffee beverages, from classic espressos to innovative specialty drinks. Whether you're a coffee connoisseur or just looking for a great cup of coffee, The Grind is the perfect destination for all your caffeine needs.",
-    website: "@thegrind_322",
+    website: "https://www.instagram.com/thegrind_322/",
     openingHours: {
       monday: { open: "06:00 am", close: "18:00 pm" },
       tuesday: { open: "06:00 am", close: "18:00 pm" },
@@ -1482,7 +1482,7 @@ const data = [
     ],
     rating: 4.4,
     about: "We offer choice. We are delicious. We are Rapt.",
-    website: "@raptindulgence",
+    website: "https://www.instagram.com/raptindulgence/",
     openingHours: {
       monday: { open: "10:00 am", close: "18:00 pm" },
       tuesday: { open: "10:00 am", close: "18:00 pm" },
@@ -1568,7 +1568,7 @@ const data = [
     rating: 4.4,
     about:
       "Gelato Mania ® is a unique, family-run Gelateria, found in the heart of the Western Cape, South Africa, which specializes in Artisanal gelato (traditional home-made Italian style ice cream). Using an age-old traditional recipe, Gelato Mania ® offers taste sensations, which are refreshing bursts of exceptional flavours, leaving you craving more! Every scoop of Gelato Mania ® is a unique blend of quality, flavour and an unforgettable experience, bringing to life our promise- Memories you can taste. Come in and experience our unique gelato.",
-    website: "https://gelatomania.co.za/",
+    website: "https://www.gelatomania.co.za/",
     openingHours: {
       monday: { open: "10:00 am", close: "22:00 pm" },
       tuesday: { open: "10:00 am", close: "22:00 pm" },
@@ -1598,7 +1598,7 @@ const data = [
     rating: 4.4,
     about:
       "Delicious healthy snacks are hard to find. That's why we've dedicated ourselves to crafting crunchy dry roasted chickpea snacks. This one's for the snackers of South Africa. We hope they make you a little less grumpy too",
-    website: "@grumpyandrunt",
+    website: "https://www.instagram.com/grumpyandrunt/",
     openingHours: {
       monday: { open: "09:00 am", close: "17:00 pm" },
       tuesday: { open: "09:00 am", close: "17:00 pm" },
@@ -1653,7 +1653,7 @@ const data = [
     rating: 3.9,
     about:
       "Self Service soft serve ice cream, Frozen yogurt , vegan ice cream and sorbet with a range of different toppings and sauce available all sold per weight.",
-    website: "@swirln.sa",
+    website: "https://www.instagram.com/swirln.sa/",
     openingHours: {
       monday: { open: "10:00 am", close: "22:00 pm" },
       tuesday: { open: "10:00 am", close: "22:00 pm" },
@@ -1709,7 +1709,7 @@ const data = [
     rating: 4.2,
     about:
       "Bubble Waffle is a trendy dessert spot known for its unique Hong Kong-style bubble waffles, which are crispy on the outside and soft on the inside. Customers can customize their waffles with a variety of toppings, including ice cream, fresh fruit, chocolate sauce, and sprinkles. The vibrant and playful atmosphere makes it a popular destination for dessert lovers and social media enthusiasts alike.",
-    website: "@bubblewaffle_za",
+    website: "https://www.instagram.com/bubblewaffle_za/",
     openingHours: {
       monday: { open: "11:30 am", close: "21:30 pm" },
       tuesday: { open: "09:00 am", close: "21:30 pm" },
@@ -1828,7 +1828,7 @@ const data = [
     rating: 4.6,
     about:
       "Our small coffee shop is tucked away in the serenity of the Company's Garden. We are one of those interesting secret little spots that you can explore. We specialize in excellent coffee served in old fashioned china. Our Rose Pelargonium cheesecake is one of the best in Cape Town. We offer botanical and fynbos talks that include teas and snacks. Booking is essential for talks. Our gourmet toasted sandwich is also very popular. Bring your doggy for a walk; we are doggy-friendly. The perfect spot for having a warm or cold beverage and do some shopping: for yourself or a friend. The Heritage shop is just next to our little deli. Lots of history on our walls inside the Old Director's house - Company's Garden museum.",
-    website: "@coffeevine",
+    website: "https://www.instagram.com/coffeevine/",
     openingHours: {
       monday: { open: "09:00 am", close: "17:00 pm" },
       tuesday: { open: "09:00 am", close: "17:00 pm" },
@@ -1855,7 +1855,7 @@ const data = [
     rating: 4.6,
     about:
       "Fair-trade coffee and light meals by day; bespoke cocktails and tasty snacks by night. Great space for remote work, meetings, socials, and even private events!",
-    website: "@thecove.cpt",
+    website: "https://www.instagram.com/thecove.cpt/",
     openingHours: {
       monday: { open: "07:00 am", close: "13:00 pm" },
       tuesday: { open: "07:00 am", close: "13:00 pm" },
@@ -1905,7 +1905,7 @@ const data = [
     rating: 4.7,
     about:
       "For many years, the old clinic at 7 Victoria Street in the town of Stellenbosch nurtured the physical health of local communities. The newly refurbished CoCreate Hub now offers a welcoming gathering space that nurtures the vibrant entrepreneurial spirit in our midst – and offers residents and visitors to the town the opportunity to buy local, eat local and connect local.",
-    website: "https://cocreatehub.co.za/",
+    website: "https://www.cocreatehub.co.za/",
     openingHours: {
       monday: { open: "08:00 am", close: "16:30 pm" },
       tuesday: { open: "08:00 am", close: "16:30 pm" },
@@ -1933,7 +1933,7 @@ const data = [
     rating: 4.5,
     about:
       "Welcome to The Good Neighbour Café & Bakery, a laid-back eatery in the heart of Newlands. We proudly serve freshly baked, naturally leavened breads and pastries, crafted with a focus on seasonal, locally-sourced produce. Our all-day breakfast menu is available daily, along with a delicious lunch menu starting at 11am.",
-    website: "https://thegoodneighbourcafe.co.za/",
+    website: "https://www.thegoodneighbourcafe.co.za/",
     openingHours: {
       monday: { open: "07:00 am", close: "20:30 pm" },
       tuesday: { open: "07:00 am", close: "20:30 pm" },

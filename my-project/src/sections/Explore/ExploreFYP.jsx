@@ -37,7 +37,7 @@ const ExploreFYP = () => {
                 className="object-cover w-full h-full group-hover:scale-110 transition-transform duration-500"
               />
               <div className="absolute inset-x-0 bottom-0 bg-black/60 backdrop-blur-sm">
-                <h3 className="pl-4 py-4 text-white text-lg md:text-base font-semibold drop-shadow-lg">
+                <h3 className="pl-4 py-4 text-white text-[14px] md:text-base font-semibold drop-shadow-lg">
                   {item.title}
                 </h3>
               </div>

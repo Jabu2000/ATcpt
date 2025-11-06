@@ -16,11 +16,9 @@ const BottomNav = () => {
 
   
     const [seedEvents, setEvents] = useState([]);
-    const [seedPlaces, setPlaces] = useState([]);
     const [seedStores, setStores] = useState([]);
     const [seedRestaurants, setRestaurants] = useState([]);
     const [seedActivities, setActivities] = useState([]);
-    const [seedAccommodations, setAccommodations] = useState([]);
   
     const [plans, setPlans] = useState([]);
     const [searchQuery, setSearchQuery] = useState("");
@@ -60,11 +58,9 @@ const BottomNav = () => {
   
     useEffect(() => {
       fetchData("events", setEvents);
-      fetchData("places", setPlaces);
       fetchData("stores", setStores);
       fetchData("restaurants", setRestaurants);
       fetchData("activities", setActivities);
-      fetchData("accommodations", setAccommodations);
     }, []);
   
     // Search logic
@@ -75,14 +71,9 @@ const BottomNav = () => {
       const timer = setTimeout(() => {
         const taggedData = [
           ...seedEvents.map((item) => ({ ...item, type: "events" })),
-          ...seedPlaces.map((item) => ({ ...item, type: "places" })),
           ...seedStores.map((item) => ({ ...item, type: "stores" })),
           ...seedRestaurants.map((item) => ({ ...item, type: "restaurants" })),
           ...seedActivities.map((item) => ({ ...item, type: "activities" })),
-          ...seedAccommodations.map((item) => ({
-            ...item,
-            type: "accommodations",
-          })),
         ];
   
         const filtered = taggedData.filter((item) =>
@@ -97,11 +88,9 @@ const BottomNav = () => {
     }, [
       searchQuery,
       seedEvents,
-      seedPlaces,
       seedStores,
       seedRestaurants,
       seedActivities,
-      seedAccommodations,
     ]);
 
   const avatar =

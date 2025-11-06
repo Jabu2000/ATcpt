@@ -13,7 +13,7 @@ const postSchema = new mongoose.Schema(
   {
     content: { type: String, required: true },
     hashtags: { type: [String], default: [] },
-    image: { type: String },
+    images: [{ type: String }],
     userId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
     comments: [commentSchema],
   },

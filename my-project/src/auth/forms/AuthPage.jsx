@@ -114,10 +114,10 @@ const AuthPage = () => {
         <div className="flex flex-col md:flex-row w-full h-full">
           <div className="w-full md:w-1/2 bg-white flex flex-col justify-center items-center px-6 py-10 md:py-0 relative z-40">
             <h1 className="text-3xl md:text-4xl font-bold">Sign In</h1>
-            <div className="flex gap-3 mt-2">
+            {/* <div className="flex gap-3 mt-2">
               <FaInstagram className="text-xl" />
               <FaFacebook className="text-xl" />
-            </div>
+            </div> */}
             <p className="text-sm text-center mt-4 w-[85%]">
               Our experienced artist brings out your beauty with precision.
             </p>
@@ -202,10 +202,10 @@ const AuthPage = () => {
         {/* Signup Form */}
         <div className="absolute top-0 right-0 w-full md:w-1/2 h-full bg-white flex flex-col justify-center items-center px-6 py-10 md:py-0 z-[20]">
           <h1 className="text-3xl md:text-4xl font-bold">Create Account</h1>
-          <div className="flex gap-3 mt-2">
+          {/* <div className="flex gap-3 mt-2">
             <FaInstagram className="text-xl" />
             <FaFacebook className="text-xl" />
-          </div>
+          </div> */}
           <p className="text-sm text-center mt-4 w-[85%]">
             Our experienced artist brings out your beauty with precision.
           </p>

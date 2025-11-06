@@ -15,16 +15,24 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 // CREATE POST
-router.post("/", protect, upload.single("image"), async (req, res) => {
+router.post("/", protect, upload.array("images", 10), async (req, res) => {
   try {
     const { content, hashtags } = req.body;
     if (!content) return res.status(400).json({ message: "Content is required" });
+
+    // Map multiple images
+    const imagePaths = req.files
+      ? req.files.map(
+          (file) =>
+            `${process.env.SERVER_URL || "http://localhost:4000"}/uploads/posts/${file.filename}`
+        )
+      : [];
 
     const newPost = new Post({
       content,
       hashtags: hashtags ? hashtags.split(",").map((tag) => tag.trim()) : [],
       userId: req.user._id,
-      image: req.file ? `${process.env.SERVER_URL || "http://localhost:4000"}/uploads/posts/${req.file.filename}` : undefined,
+      images: imagePaths,
     });
 
     const savedPost = await newPost.save();

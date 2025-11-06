@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { MoreVertical } from "lucide-react";
 import { FaRegStar, FaStar, FaStarHalfAlt } from "react-icons/fa";
+import { AnimatePresence, motion } from "framer-motion";
 
 const API_URL = "http://localhost:4000";
 
@@ -54,7 +55,9 @@ export const SavedAdventureItem = ({ item, onRemove }) => {
           <h3 className="font-semibold text-[16px] sm:text-xl">
             {item.name || item.details?.name}
           </h3>
-          <p className="text-[12px] md:text-sm text-[#FF0000] capitalize">{item.type}</p>
+          <p className="text-[12px] md:text-sm text-[#FF0000] capitalize">
+            {item.type}
+          </p>
 
           {/* ⭐ Rating Stars */}
           {typeof rating === "number" && (
@@ -115,8 +118,14 @@ export const SavedAdventureItem = ({ item, onRemove }) => {
   );
 };
 
-export const GalleryPost = ({ post, onDelete, activePostId, setActivePostId }) => {
+export const GalleryPost = ({
+  post,
+  onDelete,
+  activePostId,
+  setActivePostId,
+}) => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [deleteIndex, setDeleteIndex] = useState(null); // controls delete modal
   const menuRef = useRef(null);
 
   const isActive = activePostId === post._id;
@@ -133,22 +142,55 @@ export const GalleryPost = ({ post, onDelete, activePostId, setActivePostId }) =
         setActivePostId(null);
       }
     };
+
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [setActivePostId]);
 
+  // Delete handler
+  const handleDelete = (id) => {
+    onDelete(id);
+    setMenuOpen(false);
+    setActivePostId(null);
+    setDeleteIndex(null);
+  };
+
+  // Share handler
+  const handleShare = () => {
+    if (navigator.share) {
+      navigator.share({
+        title: post.title,
+        text: post.content,
+        url: window.location.href,
+      });
+    } else {
+      alert("Sharing not supported in this browser.");
+    }
+    setMenuOpen(false);
+    setActivePostId(null);
+  };
+
   return (
     <div className="relative group overflow-hidden rounded-md shadow-md">
-      {/* Post image */}
-      {post.image && (
-        <img
-          src={post.image.startsWith("http") ? post.image : `${API_URL}${post.image}`}
-          alt={post.title}
-          className="w-full xl:h-[420px] h-[100%] object-cover rounded-md cursor-pointer post-image"
-          onClick={() =>
-            setActivePostId(isActive ? null : post._id) // toggle only this
-          }
-        />
+      {/* Post Image */}
+      {Array.isArray(post.images) && post.images.length > 0 ? (
+        post.images.map((imgUrl, idx) => (
+          <img
+            key={idx}
+            src={
+              imgUrl.startsWith("http")
+                ? imgUrl
+                : `${API_URL}/uploads/posts/${imgUrl}`
+            }
+            alt={post.content || "Post image"}
+            className="w-full xl:h-[420px] h-[100%] object-cover rounded-md cursor-pointer post-image"
+            onClick={() => setActivePostId(isActive ? null : post._id)}
+          />
+        ))
+      ) : (
+        <div className="bg-gray-100 w-full h-64 flex items-center justify-center text-gray-500">
+          No Image
+        </div>
       )}
 
       {/* Content Overlay */}
@@ -157,19 +199,24 @@ export const GalleryPost = ({ post, onDelete, activePostId, setActivePostId }) =
           absolute bottom-0 left-0 w-full 
           bg-black/60 text-white px-4 py-2 rounded-b-md
           transform transition-all duration-300
-          ${isActive ? "translate-y-0 opacity-100" : "translate-y-full opacity-0 md:translate-y-0 md:opacity-0 md:group-hover:opacity-100"}
+          ${
+            isActive
+              ? "translate-y-0 opacity-100"
+              : "translate-y-full opacity-0 md:translate-y-0 md:opacity-0 md:group-hover:opacity-100"
+          }
         `}
       >
         <p className="text-xs sm:text-sm">{post.content}</p>
       </div>
 
-      {/* Dropdown trigger & menu */}
+      {/* Dropdown Menu */}
       <div className="absolute top-2 right-2" ref={menuRef}>
+        {/* Menu Toggle Button */}
         <button
           onClick={(e) => {
             e.stopPropagation();
             setMenuOpen((prev) => !prev);
-            setActivePostId(post._id); // ensure overlay opens with menu
+            setActivePostId(post._id);
           }}
           className={`
             bg-white shadow p-1 rounded-full transition
@@ -179,32 +226,17 @@ export const GalleryPost = ({ post, onDelete, activePostId, setActivePostId }) =
           <MoreVertical className="w-5 h-5 text-gray-700" />
         </button>
 
+        {/* Dropdown Items */}
         {menuOpen && (
           <div className="absolute right-0 mt-2 w-32 bg-white shadow-lg rounded-lg z-10">
             <button
-              onClick={() => {
-                onDelete(post._id);
-                setMenuOpen(false);
-                setActivePostId(null);
-              }}
+              onClick={() => setDeleteIndex(post._id)}
               className="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
             >
               Delete
             </button>
             <button
-              onClick={() => {
-                if (navigator.share) {
-                  navigator.share({
-                    title: post.title,
-                    text: post.content,
-                    url: window.location.href,
-                  });
-                } else {
-                  alert("Sharing not supported in this browser.");
-                }
-                setMenuOpen(false);
-                setActivePostId(null);
-              }}
+              onClick={handleShare}
               className="block w-full text-left px-4 py-2 text-sm text-blue-600 hover:bg-gray-100"
             >
               Share
@@ -212,6 +244,53 @@ export const GalleryPost = ({ post, onDelete, activePostId, setActivePostId }) =
           </div>
         )}
       </div>
+
+      {/* Animated Delete Confirmation Modal */}
+      <AnimatePresence>
+        {deleteIndex !== null && (
+          <>
+            {/* Background Overlay */}
+            <motion.div
+              className="fixed inset-0 bg-black/50 z-40"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setDeleteIndex(null)}
+            />
+
+            {/* Modal Box */}
+            <motion.div
+              className="fixed inset-0 flex items-center justify-center z-50"
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.8, opacity: 0 }}
+              transition={{ type: "spring", stiffness: 300, damping: 20 }}
+            >
+              <div className="bg-white rounded-xl p-6 shadow-lg w-80 max-w-full text-center">
+                <h3 className="text-lg font-bold mb-4">Delete</h3>
+                <p className="text-sm text-gray-600 mb-6">
+                  Are you sure you want to delete this image?
+                </p>
+
+                <div className="flex justify-center gap-4">
+                  <button
+                    onClick={() => setDeleteIndex(null)}
+                    className="px-4 py-2 rounded-lg border border-gray-300 hover:bg-gray-100 transition"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    onClick={() => handleDelete(deleteIndex)}
+                    className="px-4 py-2 rounded-lg bg-red-600 text-white hover:bg-red-700 transition"
+                  >
+                    Delete
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
     </div>
   );
 };

@@ -35,7 +35,10 @@ const HomeCategories = () => {
             )}`;
 
           return (
-            <div key={post._id} className="flex flex-col items-center rounded-xl px-4 md-px-0">
+            <div
+              key={post._id}
+              className="flex flex-col items-center rounded-xl px-4 md-px-0"
+            >
               {/* Post header */}
               <div className="md:w-[70%] w-full flex items-center gap-3 py-4">
                 <img
@@ -59,12 +62,17 @@ const HomeCategories = () => {
 
               {/* Post image */}
               <div className="md:w-[70%] w-full rounded-2xl flex justify-center items-center">
-                {post.image && (
-                  <img
-                    src={post.image}
-                    alt={post.content}
-                    className="w-full rounded-3xl object-cover"
-                  />
+                {Array.isArray(post.images) && post.images.length > 0 && (
+                  <div className="flex flex-col gap-3">
+                    {post.images.map((img, idx) => (
+                      <img
+                        key={idx}
+                        src={img}
+                        alt={`Post image ${idx + 1}`}
+                        className="w-full rounded-3xl object-cover"
+                      />
+                    ))}
+                  </div>
                 )}
               </div>
 

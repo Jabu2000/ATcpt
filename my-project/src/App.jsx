@@ -6,7 +6,7 @@ import "leaflet/dist/leaflet.css";
 import ProtectedRoute from "./components/ProtectRoute";
 import Explore from "./root/pages/Explore";
 import Home from "./root/pages/Home";
-
+import About from "./root/pages/About";
 import Profile from "./root/pages/Profile";
 
 import Restaurants from "./root/pages/Restaurants";
@@ -26,6 +26,9 @@ import { Toaster, toast } from "react-hot-toast";
 import CreatePost from "./root/pages/CreatePost";
 import AuthPage from "./auth/forms/AuthPage";
 import ScrollToTop from "./components/ScrollToTop";
+import PrivacyPolicy from "./root/pages/PrivacyPolicy";
+import PageTransition from "./components/PageTransition";
+
 
 
 function App() {
@@ -45,8 +48,6 @@ function App() {
       <Toaster position="top-right" reverseOrder={false} />
 
       <Routes>
-        {/* <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} /> */}
         <Route path="/login" element={<AuthPage />} />
         <Route
           path="/explore"
@@ -58,6 +59,9 @@ function App() {
         />
         <Route path="/" element={<Explore />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/policy" element={<PrivacyPolicy />} />
+        <Route path="/transition" element={<PageTransition />} />
 
         <Route path="/restaurants" element={<Restaurants />} />
         <Route path="/restaurants/:id" element={<RestaurantDetail />} />

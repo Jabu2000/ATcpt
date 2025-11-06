@@ -107,13 +107,7 @@ const Navbar = () => {
     }, 300);
 
     return () => clearTimeout(timer);
-  }, [
-    searchQuery,
-    seedEvents,
-    seedStores,
-    seedRestaurants,
-    seedActivities,
-  ]);
+  }, [searchQuery, seedEvents, seedStores, seedRestaurants, seedActivities]);
 
   // Auto slide in on mount
   useEffect(() => {
@@ -398,7 +392,7 @@ const Navbar = () => {
       {isOpen && (
         <div
           ref={menuRef}
-          className="fixed left-0 top-0 h-screen bg-white border-r border-green-500 flex flex-col justify-between md:py-6 py-2
+          className="fixed left-0 top-0 h-screen bg-white border-r border-green-500 flex flex-col justify-between md:py-2 py-2
           w-20 sm:w-28 md:w-40 lg:w-56 xl:w-[20%] 2xl:w-[16%] z-[100]"
         >
           {/* Top Section */}

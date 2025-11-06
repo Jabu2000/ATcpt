@@ -329,9 +329,13 @@ const ProfileInfo = () => {
                     <p className="text-gray-700">Drop image here...</p>
                   ) : (
                     <div className="capitalize">
-                          <p className="md:text-[12px] text-[10px]">click to add image</p>
-                          <p className="md:text-[10px] text-[8px]">Or Drag & drop </p>
-                        </div>
+                      <p className="md:text-[12px] text-[10px]">
+                        click to add image
+                      </p>
+                      <p className="md:text-[10px] text-[8px]">
+                        Or Drag & drop{" "}
+                      </p>
+                    </div>
                   )}
                 </div>
 
@@ -491,10 +495,9 @@ const ProfileInfo = () => {
               {activeTab === 2 && (
                 <div className=" pb-[50px] md:px-[20px] px-[50px]">
                   <AdventurePlanner
-                  onPlansChange={(plans) => setPlannedCount(plans.length)}
-                />
+                    onPlansChange={(plans) => setPlannedCount(plans.length)}
+                  />
                 </div>
-                
               )}
             </motion.div>
           </AnimatePresence>

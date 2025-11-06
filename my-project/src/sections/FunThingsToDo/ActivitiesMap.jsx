@@ -56,7 +56,7 @@ const ActivitiesMap = ({ address, name }) => {
   }
 
   return (
-    <div className="relative w-full h-full rounded-3xl overflow-hidden shadow-lg border border-gray-200">
+    <div className="w-full h-full rounded-3xl overflow-hidden shadow-lg border border-gray-200">
       <MapContainer
         center={position}
         zoom={15}

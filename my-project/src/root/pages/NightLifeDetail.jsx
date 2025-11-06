@@ -471,7 +471,7 @@ const NightLifeDetail = () => {
           <div className="flex-1 flex flex-col gap-6">
             <EventImages event={event} />
 
-            <div className="w-full h-[50vh] bg-gray-200 rounded-3xl">
+            <div className="w-full h-[50vh] z-10 bg-gray-200 rounded-3xl">
               <EventMap address={event.address} name={event.name} />
             </div>
           </div>

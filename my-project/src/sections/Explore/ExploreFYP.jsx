@@ -51,7 +51,7 @@ const ExploreFYP = () => {
         <h2 className="text-[28px] sm:text-[36px] md:text-[40px] font-bold mb-6">
           Discover The Mother City
         </h2>
-        <p className="w-full sm:w-[80%] md:w-[60%] lg:w-[60%] font-medium text-sm sm:text-base leading-relaxed">
+        <p className="w-full sm:w-[80%] md:w-[60%] lg:w-[60%] font-medium text-sm sm:text-base text-gray-600 leading-relaxed">
           Adventure Time is your go-to guide for exploring student life in Cape
           Town. Find the best restaurants, events, thrift stores, and hidden
           gems around the city — all in one place. Plan your adventures,

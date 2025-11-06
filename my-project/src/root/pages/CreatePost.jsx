@@ -4,7 +4,6 @@ import Cropper from "react-easy-crop";
 import { createPost } from "../../services/api";
 import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import Navbar from "../../components/Navbar";
 import { getCroppedImg } from "../../lib/cropImage";
 import TopNav from "../../components/TopNav";
 import BottomNav from "../../components/BottomNav";
@@ -117,7 +116,7 @@ const CreatePost = ({ currentUser, onPostCreated }) => {
         <LeftSidebar />
       </div>
       <TopNav />
-      <div className="w-full flex justify-center mt-[100px]">
+      <div className="w-full flex justify-center mt-[50px]">
         <form
           onSubmit={handleSubmit}
           className="bg-white rounded-3xl p-10 flex flex-col gap-3 w-[500px] max-w-full"

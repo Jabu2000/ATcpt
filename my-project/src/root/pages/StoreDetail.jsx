@@ -470,7 +470,7 @@ const StoreDetail = () => {
           <div className="flex-1 flex flex-col gap-6">
             <StoreImages store={store} />
 
-            <div className="w-full h-[50vh] bg-gray-200  rounded-3xl">
+            <div className="w-full h-[50vh] z-10 bg-gray-200  rounded-3xl">
               <StoresMap address={store.address} name={store.name} />
             </div>
           </div>

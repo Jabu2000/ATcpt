@@ -182,6 +182,8 @@ const RestaurantDetail = () => {
 
   const images = [
     "/foodpost1.png",
+    "/foodpost2.png",
+    "/foodpost3.png",
   ];
 
   useEffect(() => {
@@ -471,7 +473,7 @@ const RestaurantDetail = () => {
           <div className="flex-1 flex flex-col gap-6">
             <RestaurantImages restaurant={restaurant} />
 
-            <div className="w-full h-[50vh] bg-gray-200 rounded-3xl">
+            <div className="w-full h-[50vh] z-10 bg-gray-200 rounded-3xl">
               <RestaurantMap
                 address={restaurant.address}
                 name={restaurant.name}

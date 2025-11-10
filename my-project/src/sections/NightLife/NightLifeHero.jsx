@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { FaSearch } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:4000";
+const API_URL = import.meta.env.VITE_API_URL || "https://adventuretimecpt.onrender.com";
 
 const NightLifeHero = () => {
   const [search, setSearch] = useState("");

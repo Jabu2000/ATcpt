@@ -16,6 +16,7 @@ import savedRoutes from "./routes/savedRoutes.js";
 import storeRoutes from "./routes/stores.js";
 import eventRoutes from "./routes/events.js";
 import adventureRoutes from "./routes/adventures.js";
+import businessRoutes from "./routes/businessRoutes.js";
 
 
 const __filename = fileURLToPath(import.meta.url);
@@ -62,6 +63,7 @@ app.use("/api/events", eventRoutes);
 app.use("/api/saved", savedRoutes);
 app.use("/api/posts", postRoutes);
 app.use("/api/adventures", adventureRoutes);
+app.use("/api/businesses", businessRoutes);
 
 
 // Root

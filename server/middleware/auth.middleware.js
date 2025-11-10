@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken";
 import User from "../models/User.js";
+import Business from "../models/Business.js";
 
 export default async function requireAuth(req, res, next) {
   const token =
@@ -68,6 +69,7 @@ export const protect = async (req, res, next) => {
     const userId = decoded.userId || decoded.id || decoded._id;
 
     const user = await User.findById(userId).select("-password");
+    const business = await Business.findById(decoded.id).select("-password");
     if (!user) return res.status(401).json({ message: "User not found" });
 
     req.userId = user._id.toString();
@@ -76,5 +78,15 @@ export const protect = async (req, res, next) => {
   } catch (err) {
     console.error("protect error:", err);
     res.status(401).json({ message: "Not authorized, token failed" });
+  }
+};
+
+
+// ✅ Admin check middleware
+export const adminOnly = (req, res, next) => {
+  if (req.user && req.user.role === "admin") {
+    next();
+  } else {
+    res.status(403).json({ message: "Access denied. Admins only." });
   }
 };

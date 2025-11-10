@@ -24,23 +24,6 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 router.use("/uploads", express.static(path.join(path.resolve(), "uploads")));
 
-// router.get("/", async (req, res) => {
-//   const { q, category } = req.query;
-//   const filter = {};
-//   if (category) filter.category = category;
-//   if (q)
-//     filter.$or = [
-//       { name: new RegExp(q, "i") },
-//       { cuisine: new RegExp(q, "i") },
-//       { address: new RegExp(q, "i") },
-//     ];
-//   const events = await Event.find(filter).sort({
-//     rating: -1,
-//     createdAt: -1,
-//   });
-//   res.json(events);
-// });
-
 // GET /api/events?query=&category=
 router.get("/", async (req, res) => {
   const { query, category } = req.query;

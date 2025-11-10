@@ -28,8 +28,8 @@ import AuthPage from "./auth/forms/AuthPage";
 import ScrollToTop from "./components/ScrollToTop";
 import PrivacyPolicy from "./root/pages/PrivacyPolicy";
 import PageTransition from "./components/PageTransition";
-
-
+import BusinessRegistration from "./sections/Business/BusinessRegistration";
+import BusinessProfile from "./sections/Business/BusinessProfile";
 
 function App() {
   const [posts, setPosts] = useState([]);
@@ -43,7 +43,7 @@ function App() {
 
   return (
     <>
-    <ScrollToTop />
+      <ScrollToTop />
       {/* Toast Notifications */}
       <Toaster position="top-right" reverseOrder={false} />
 
@@ -75,6 +75,10 @@ function App() {
 
         <Route path="/stores" element={<Stores />} />
         <Route path="/stores/:id" element={<StoreDetail />} />
+
+        <Route path="/register-business" element={<BusinessRegistration />} />
+        <Route path="/business-profile" element={<BusinessProfile />} />
+
 
         <Route
           path="/create-post"

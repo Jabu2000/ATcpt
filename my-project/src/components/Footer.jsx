@@ -5,7 +5,6 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { MotionPathPlugin } from "gsap/MotionPathPlugin";
 
-
 gsap.registerPlugin(ScrollTrigger, MotionPathPlugin);
 
 const Footer = () => {
@@ -19,7 +18,7 @@ const Footer = () => {
       path: [
         { x: -200, y: 300 }, // start off bottom-left
         { x: 300, y: -100 }, // middle arc
-        { x: 800, y: -600 }, // end off top-right
+        { x: 800, y: -900 }, // end off top-right
       ],
       // curviness: 1.25,
       // autoRotate: true,
@@ -92,7 +91,7 @@ const Footer = () => {
             </h3>
             <div className="flex flex-col gap-2">
               {[
-                { title: "Register Business", link: "" },
+                { title: "Register Business", link: "/register-business" },
                 { title: "About Us", link: "/about" },
                 { title: "Sign In / Sign Up", link: "/login" },
               ].map((item, index) => (

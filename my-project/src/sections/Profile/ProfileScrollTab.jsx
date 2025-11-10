@@ -1,9 +1,9 @@
 import React, { useState, useRef, useEffect } from "react";
-import { MoreVertical } from "lucide-react";
+import { MoreVertical, X, ChevronLeft, ChevronRight } from "lucide-react";
 import { FaRegStar, FaStar, FaStarHalfAlt } from "react-icons/fa";
 import { AnimatePresence, motion } from "framer-motion";
 
-const API_URL = "http://localhost:4000";
+const API_URL = import.meta.env.VITE_API_URL ||"http://localhost:4000";
 
 export const SavedAdventureItem = ({ item, onRemove }) => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -125,9 +125,11 @@ export const GalleryPost = ({
   setActivePostId,
 }) => {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [deleteIndex, setDeleteIndex] = useState(null); // controls delete modal
-  const menuRef = useRef(null);
+  const [deleteIndex, setDeleteIndex] = useState(null);
+  const [viewerOpen, setViewerOpen] = useState(false);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
+  const menuRef = useRef(null);
   const isActive = activePostId === post._id;
 
   // Close menu if clicking outside
@@ -170,6 +172,28 @@ export const GalleryPost = ({
     setActivePostId(null);
   };
 
+  // Image Viewer Controls
+  const openViewer = (index) => {
+    setCurrentImageIndex(index);
+    setViewerOpen(true);
+  };
+
+  const closeViewer = () => {
+    setViewerOpen(false);
+  };
+
+  const showNext = () => {
+    setCurrentImageIndex((prev) =>
+      prev === post.images.length - 1 ? 0 : prev + 1
+    );
+  };
+
+  const showPrev = () => {
+    setCurrentImageIndex((prev) =>
+      prev === 0 ? post.images.length - 1 : prev - 1
+    );
+  };
+
   return (
     <div className="relative group overflow-hidden rounded-md shadow-md">
       {/* Post Image */}
@@ -184,7 +208,7 @@ export const GalleryPost = ({
             }
             alt={post.content || "Post image"}
             className="w-full xl:h-[420px] h-[100%] object-cover rounded-md cursor-pointer post-image"
-            onClick={() => setActivePostId(isActive ? null : post._id)}
+            onClick={() => openViewer(idx)}
           />
         ))
       ) : (
@@ -195,38 +219,33 @@ export const GalleryPost = ({
 
       {/* Content Overlay */}
       <div
-        className={`
-          absolute bottom-0 left-0 w-full 
+        className={`absolute bottom-0 left-0 w-full 
           bg-black/60 text-white px-4 py-2 rounded-b-md
           transform transition-all duration-300
           ${
             isActive
               ? "translate-y-0 opacity-100"
               : "translate-y-full opacity-0 md:translate-y-0 md:opacity-0 md:group-hover:opacity-100"
-          }
-        `}
+          }`}
       >
         <p className="text-xs sm:text-sm">{post.content}</p>
       </div>
 
       {/* Dropdown Menu */}
       <div className="absolute top-2 right-2" ref={menuRef}>
-        {/* Menu Toggle Button */}
         <button
           onClick={(e) => {
             e.stopPropagation();
             setMenuOpen((prev) => !prev);
             setActivePostId(post._id);
           }}
-          className={`
-            bg-white shadow p-1 rounded-full transition
-            ${isActive ? "opacity-100" : "opacity-0 md:group-hover:opacity-100"}
-          `}
+          className={`bg-white shadow p-1 rounded-full transition ${
+            isActive ? "opacity-100" : "opacity-0 md:group-hover:opacity-100"
+          }`}
         >
           <MoreVertical className="w-5 h-5 text-gray-700" />
         </button>
 
-        {/* Dropdown Items */}
         {menuOpen && (
           <div className="absolute right-0 mt-2 w-32 bg-white shadow-lg rounded-lg z-10">
             <button
@@ -245,11 +264,10 @@ export const GalleryPost = ({
         )}
       </div>
 
-      {/* Animated Delete Confirmation Modal */}
+      {/* Delete Confirmation Modal */}
       <AnimatePresence>
         {deleteIndex !== null && (
           <>
-            {/* Background Overlay */}
             <motion.div
               className="fixed inset-0 bg-black/50 z-40"
               initial={{ opacity: 0 }}
@@ -258,7 +276,6 @@ export const GalleryPost = ({
               onClick={() => setDeleteIndex(null)}
             />
 
-            {/* Modal Box */}
             <motion.div
               className="fixed inset-0 flex items-center justify-center z-50"
               initial={{ scale: 0.8, opacity: 0 }}
@@ -271,7 +288,6 @@ export const GalleryPost = ({
                 <p className="text-sm text-gray-600 mb-6">
                   Are you sure you want to delete this image?
                 </p>
-
                 <div className="flex justify-center gap-4">
                   <button
                     onClick={() => setDeleteIndex(null)}
@@ -286,6 +302,82 @@ export const GalleryPost = ({
                     Delete
                   </button>
                 </div>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+
+      {/* Image Viewer Modal */}
+      <AnimatePresence>
+        {viewerOpen && (
+          <>
+            {/* Overlay */}
+            <motion.div
+              className="fixed inset-0 bg-black/90 z-[999]"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={closeViewer}
+            />
+
+            {/* Image Container */}
+            <motion.div
+              className="fixed inset-0 flex items-center justify-center z-[1000] p-4"
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              transition={{ type: "spring", stiffness: 200, damping: 20 }}
+            >
+              <div className="relative max-w-5xl w-full flex items-center justify-center">
+                {/* Close Button */}
+                <button
+                  className="absolute top-4 right-4 text-white bg-black/40 hover:bg-black/60 rounded-full p-2"
+                  onClick={closeViewer}
+                >
+                  <X className="w-6 h-6" />
+                </button>
+
+                {/* Prev Button */}
+                {post.images.length > 1 && (
+                  <button
+                    className="absolute left-2 md:left-6 text-white bg-black/40 hover:bg-black/60 rounded-full p-2"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      showPrev();
+                    }}
+                  >
+                    <ChevronLeft className="w-6 h-6" />
+                  </button>
+                )}
+
+                {/* Image */}
+                <motion.img
+                  key={currentImageIndex}
+                  src={
+                    post.images[currentImageIndex].startsWith("http")
+                      ? post.images[currentImageIndex]
+                      : `${API_URL}/uploads/posts/${post.images[currentImageIndex]}`
+                  }
+                  alt="Full Image"
+                  className="max-h-[90vh] max-w-full object-contain rounded-lg"
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.95 }}
+                />
+
+                {/* Next Button */}
+                {post.images.length > 1 && (
+                  <button
+                    className="absolute right-2 md:right-6 text-white bg-black/40 hover:bg-black/60 rounded-full p-2"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      showNext();
+                    }}
+                  >
+                    <ChevronRight className="w-6 h-6" />
+                  </button>
+                )}
               </div>
             </motion.div>
           </>

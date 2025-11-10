@@ -194,7 +194,7 @@ const ProfileInfo = () => {
     )}`;
 
   return (
-    <div className="w-full pt-[120px]">
+    <div className="w-full pt-[120px] pb-[50px]">
       {/* Profile Header */}
       <div className="w-full flex flex-col md:flex-row gap-6 md:gap-8 md:items-center items-start justify-center px-4 ">
         <div className="flex flex-row gap-4">

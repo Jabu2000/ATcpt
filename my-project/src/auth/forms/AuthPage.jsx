@@ -16,6 +16,7 @@ const AuthPage = () => {
     username: "",
     email: "",
     password: "",
+    type: "",
   });
 
   // Separate refs for desktop + mobile
@@ -114,12 +115,9 @@ const AuthPage = () => {
         <div className="flex flex-col md:flex-row w-full h-full">
           <div className="w-full md:w-1/2 bg-white flex flex-col justify-center items-center px-6 py-10 md:py-0 relative z-40">
             <h1 className="text-3xl md:text-4xl font-bold">Sign In</h1>
-            {/* <div className="flex gap-3 mt-2">
-              <FaInstagram className="text-xl" />
-              <FaFacebook className="text-xl" />
-            </div> */}
+            
             <p className="text-sm text-center mt-4 w-[85%]">
-              Our experienced artist brings out your beauty with precision.
+              Find your next adventure with us.
             </p>
 
             <form
@@ -163,9 +161,11 @@ const AuthPage = () => {
             style={{ transform: "translateX(100%)" }}
           >
             <div className="flex flex-col justify-center items-center px-6 text-center">
-              <h1 className="text-3xl md:text-4xl font-bold text-white">Hello!</h1>
+              <h1 className="text-3xl md:text-4xl font-bold text-white">
+                Hello!
+              </h1>
               <p className="text-sm text-white">
-                Our experienced artist brings out your beauty with precision.
+                Plan an adventure that leaves a lasting impression.
               </p>
               <button
                 type="button"
@@ -187,7 +187,7 @@ const AuthPage = () => {
           <div className="flex flex-col justify-center items-center h-full px-6 text-center">
             <h1 className="text-3xl md:text-4xl font-bold">Welcome Back!</h1>
             <p className="text-sm text-white/90 mt-2">
-              Our experienced artist brings out your beauty with precision.
+              To keep connected with us please login with your info.
             </p>
             <button
               type="button"
@@ -207,7 +207,8 @@ const AuthPage = () => {
             <FaFacebook className="text-xl" />
           </div> */}
           <p className="text-sm text-center mt-4 w-[85%]">
-            Our experienced artist brings out your beauty with precision.
+            Join us today and start your journey towards unforgettable
+            experiences.
           </p>
           <form
             onSubmit={handleSubmit}

@@ -13,15 +13,20 @@ const cookieOptions = {
 
 export const register = async (req, res) => {
   try {
+    console.log("🟢 Register request body:", req.body);
+
     const { username, email, password, profilePicture } = req.body;
 
     if (!username?.trim() || !email?.trim() || !password?.trim()) {
+      console.log("❌ Missing fields");
       return res.status(400).json({ message: "All fields are required." });
     }
 
     const existing = await User.findOne({ email });
-    if (existing)
+    if (existing) {
+      console.log("⚠️ Email already in use");
       return res.status(409).json({ message: "Email already in use." });
+    }
 
     const fallbackAvatar = `https://ui-avatars.com/api/?name=${encodeURIComponent(
       username
@@ -34,7 +39,11 @@ export const register = async (req, res) => {
       profilePicture: profilePicture?.trim() || fallbackAvatar,
     });
 
+    console.log("✅ Created user:", user);
+
     const token = signToken(user._id);
+    console.log("🔐 Token created");
+
     res
       .cookie("token", token, cookieOptions)
       .status(201)
@@ -48,7 +57,7 @@ export const register = async (req, res) => {
         message: "Registered successfully.",
       });
   } catch (err) {
-    console.error(err);
+    console.error("❌ Register error:", err);
     res.status(500).json({ message: "Server error." });
   }
 };

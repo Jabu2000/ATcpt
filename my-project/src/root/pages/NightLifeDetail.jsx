@@ -22,7 +22,7 @@ import { useDropzone } from "react-dropzone";
 import NightLifeCategories from "../../sections/NightLife/NightLifeCategories";
 import EventMap from "../../sections/NightLife/EventMap";
 
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:4000";
+const API_URL = import.meta.env.VITE_API_URL || "https://adventuretimecpt.onrender.com";
 
 /** ⭐ Star Rating Input Component */
 const StarRatingInput = ({ value, onChange }) => {
@@ -51,7 +51,7 @@ const StarRatingInput = ({ value, onChange }) => {
 };
 
 const EventImages = ({ event }) => {
-  const API_URL = import.meta.env.VITE_API_URL || "http://localhost:4000";
+  const API_URL = import.meta.env.VITE_API_URL || "https://adventuretimecpt.onrender.com";
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
 

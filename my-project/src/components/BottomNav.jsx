@@ -6,7 +6,7 @@ import { FaHome, FaMap, FaPlusCircle, FaSearch } from "react-icons/fa";
 import { X } from "lucide-react";
 import gsap from "gsap";
 
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:4000";
+const API_URL = import.meta.env.VITE_API_URL || "https://adventuretimecpt.onrender.com";
 
 const BottomNav = () => {
   const location = useLocation();

@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 import "dotenv/config";
 import Restaurant from "../models/Restaurant.js";
 
-const BASE_URL = process.env.BASE_URL || "http://localhost:4000";
+const BASE_URL = process.env.BASE_URL || "https://adventuretimecpt.onrender.com";
 
 const data = [
   // --- Restaurants ---

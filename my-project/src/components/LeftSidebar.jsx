@@ -12,7 +12,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../auth/AuthContext"; // adjust path
 import { X } from "lucide-react";
 
-const API_URL = import.meta.env.VITE_API_URL || "https://adventuretimecpt.onrender.com";
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:4000";
 
 const LeftSidebar = () => {
   const navigate = useNavigate();

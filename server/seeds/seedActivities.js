@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 import "dotenv/config";
 import Activity from "../models/Activities.js";
 
-const BASE_URL = process.env.BASE_URL || "https://adventuretimecpt.onrender.com";
+const BASE_URL = process.env.BASE_URL || "http://localhost:4000";
 
 const data = [
   //--- Indoor Activities ---

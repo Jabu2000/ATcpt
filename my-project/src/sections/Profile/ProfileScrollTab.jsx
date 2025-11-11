@@ -3,7 +3,7 @@ import { MoreVertical, X, ChevronLeft, ChevronRight } from "lucide-react";
 import { FaRegStar, FaStar, FaStarHalfAlt } from "react-icons/fa";
 import { AnimatePresence, motion } from "framer-motion";
 
-const API_URL = import.meta.env.VITE_API_URL ||"https://adventuretimecpt.onrender.com";
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:4000";
 
 export const SavedAdventureItem = ({ item, onRemove }) => {
   const [menuOpen, setMenuOpen] = useState(false);

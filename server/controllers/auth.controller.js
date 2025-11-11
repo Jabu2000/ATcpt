@@ -150,7 +150,7 @@ export const uploadProfilePic = async (req, res) => {
       return res.status(400).json({ message: "No file uploaded" });
     }
 
-    const baseUrl = process.env.BASE_URL || "https://adventuretimecpt.onrender.com";
+    const baseUrl = process.env.BASE_URL || "http://localhost:4000";
     const imageUrl = `${baseUrl}/uploads/profiles/${req.file.filename}`;
 
     const user = await User.findByIdAndUpdate(

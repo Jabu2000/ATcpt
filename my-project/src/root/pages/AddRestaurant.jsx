@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const API_URL = import.meta.env.VITE_API_URL || "https://adventuretimecpt.onrender.com";
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:4000";
 
 const AddRestaurant = () => {
   const [form, setForm] = useState({

@@ -22,7 +22,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useDropzone } from "react-dropzone";
 import StoresMap from "../../sections/Stores/StoresMap";
 
-const API_URL = import.meta.env.VITE_API_URL || "https://adventuretimecpt.onrender.com";
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:4000";
 
 /** ⭐ Star Rating Input Component */
 const StarRatingInput = ({ value, onChange }) => {
@@ -51,7 +51,7 @@ const StarRatingInput = ({ value, onChange }) => {
 };
 
 const StoreImages = ({ store }) => {
-  const API_URL = import.meta.env.VITE_API_URL || "https://adventuretimecpt.onrender.com";
+  const API_URL = import.meta.env.VITE_API_URL || "http://localhost:4000";
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
 

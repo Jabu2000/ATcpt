@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const API_URL =
-  import.meta.env.VITE_API_URL || "https://adventuretimecpt.onrender.com";
+  import.meta.env.VITE_API_URL || "http://localhost:4000";
 
 const BusinessRegistration = () => {
   const [isLogin, setIsLogin] = useState(true);

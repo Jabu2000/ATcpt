@@ -3,7 +3,7 @@ import { FaStar, FaStarHalfAlt, FaRegStar, FaSearch } from "react-icons/fa";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Link } from "react-router-dom";
 
-const API_URL = import.meta.env.VITE_API_URL || "https://adventuretimecpt.onrender.com";
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:4000";
 
 const StoreCategories = () => {
   const [stores, setStores] = useState([]);

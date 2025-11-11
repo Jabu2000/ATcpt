@@ -6,7 +6,7 @@ import {
   removeAdventure,
 } from "../../services/portfolioService";
 
-const API_URL = import.meta.env.VITE_API_URL || "https://adventuretimecpt.onrender.com";
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:4000";
 
 export default function ProfileSaved() {
   const [items, setItems] = useState([]);

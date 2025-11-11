@@ -30,7 +30,7 @@ app.use(cookieParser());
 
 // ✅ CORS
 app.use(cors({
-  origin: process.env.CLIENT_URL || "https://adventuretimecpt-mltm.onrender.com",
+  origin: process.env.CLIENT_URL || "http://localhost:5173",
   credentials: true
 }));
 

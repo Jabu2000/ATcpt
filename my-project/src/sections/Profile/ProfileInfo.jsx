@@ -13,7 +13,7 @@ import { useAuth } from "../../auth/AuthContext";
 import { Bookmark, Image, Map } from "lucide-react";
 import * as Tooltip from "@radix-ui/react-tooltip";
 
-const API_BASE = "http://localhost:4000";
+const API_BASE = "https://adventuretimecpt.onrender.com";
 
 const ProfileInfo = () => {
   const { user, setUser } = useAuth();

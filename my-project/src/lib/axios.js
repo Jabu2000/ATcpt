@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "http://localhost:4000", // backend base URL
+  baseURL: "https://adventuretimecpt.onrender.com/api", // backend base URL
   withCredentials: true, // ✅ send cookies with every request
 });
 

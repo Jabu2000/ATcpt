@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: "http://localhost:4000/api",
+  baseURL: "https://adventuretimecpt.onrender.com/api",
   withCredentials: true, // <--- allow sending cookies
 });
 

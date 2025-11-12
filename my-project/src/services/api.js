@@ -1,8 +1,10 @@
 import axios from "axios";
 
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:4000";
+
 const API = axios.create({
-  baseURL: "https://adventuretimecpt.onrender.com/api",
-  withCredentials: true, // <--- allow sending cookies
+  baseURL: `${API_URL}/api`,
+  withCredentials: true, // send cookies (important for auth)
 });
 
 // POSTS

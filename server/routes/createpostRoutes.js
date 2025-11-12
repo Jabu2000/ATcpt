@@ -24,7 +24,7 @@ router.post("/", protect, upload.array("images", 10), async (req, res) => {
     const imagePaths = req.files
       ? req.files.map(
           (file) =>
-            `${process.env.SERVER_URL || "http://localhost:4000"}/uploads/posts/${file.filename}`
+            `${process.env.SERVER_URL || "https://adventuretimecpt.onrender.com"}/uploads/posts/${file.filename}`
         )
       : [];
 

@@ -4,8 +4,8 @@ const commentSchema = new mongoose.Schema(
   {
     user: {
       _id: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-      username: String,
-      profilePicture: String,
+      username: { type: String },
+      profilePicture: { type: String, default: "" },
     },
     text: { type: String, required: true },
     ratings: {
@@ -19,6 +19,11 @@ const commentSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+const daySchema = new mongoose.Schema({
+  open: { type: String },
+  close: { type: String },
+}, { _id: false });
+
 const restaurantSchema = new mongoose.Schema(
   {
     name: { type: String, required: true },
@@ -30,45 +35,62 @@ const restaurantSchema = new mongoose.Schema(
 
     category: {
       type: String,
-      enum: ["restaurant", "coffee", "takeaway", "Breakfast / Brunch Places", "TikTok", "Dessert", "Buffer","Hangout" ],
+      enum: [
+        "restaurant",
+        "coffee",
+        "takeaway",
+        "Breakfast / Brunch Places",
+        "TikTok",
+        "Dessert",
+        "Buffer",
+        "Hangout",
+      ],
       required: true,
     },
 
-    // 🆕 About section
     about: { type: String },
-
-    // 🆕 Website / link
     website: { type: String },
 
-    // 🆕 Opening hours (per day)
     openingHours: {
-      monday: { open: String, close: String },
-      tuesday: { open: String, close: String },
-      wednesday: { open: String, close: String },
-      thursday: { open: String, close: String },
-      friday: { open: String, close: String },
-      saturday: { open: String, close: String },
-      sunday: { open: String, close: String },
+      monday: { type: daySchema, default: {} },
+      tuesday: { type: daySchema, default: {} },
+      wednesday: { type: daySchema, default: {} },
+      thursday: { type: daySchema, default: {} },
+      friday: { type: daySchema, default: {} },
+      saturday: { type: daySchema, default: {} },
+      sunday: { type: daySchema, default: {} },
     },
+
     comments: [commentSchema],
   },
   { timestamps: true }
 );
 
 restaurantSchema.methods.getOpenStatus = function () {
-  const now = new Date();
-  const currentDay = now.toLocaleString("en-US", { weekday: "long" }).toLowerCase();
-  const currentTime = now.toTimeString().slice(0, 5); // "HH:mm"
+  try {
+    const now = new Date();
+    // Use server locale; if you want specific tz handling use a lib like moment-timezone
+    const currentDay = now
+      .toLocaleString("en-US", { weekday: "long" })
+      .toLowerCase();
+    const hours = this.openingHours?.[currentDay];
 
-  const todaySchedule = this.openingHours?.[currentDay];
-  if (!todaySchedule) return "Closed today";
+    if (!hours || !hours.open || !hours.close) return "Closed today";
 
-  const { open, close } = todaySchedule;
+    const pad = (s) => (s.length === 4 ? "0" + s : s); // e.g. "9:00" -> "09:00"
+    const currentTime = now.toTimeString().slice(0, 5); // "HH:mm"
 
-  if (currentTime >= open && currentTime <= close) {
-    return `Open now (closes at ${close})`;
-  } else {
-    return `Closed, opens at ${open}`;
+    // Normalize strings to "HH:mm" if provided as "9:00" or "09:00"
+    const open = hours.open.length <= 5 ? pad(hours.open) : hours.open;
+    const close = hours.close.length <= 5 ? pad(hours.close) : hours.close;
+
+    if (currentTime >= open && currentTime <= close) {
+      return `Open now (closes at ${close})`;
+    } else {
+      return `Closed, opens at ${open}`;
+    }
+  } catch (err) {
+    return "";
   }
 };
 

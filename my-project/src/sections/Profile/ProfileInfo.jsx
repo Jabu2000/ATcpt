@@ -2,14 +2,14 @@ import React, { useEffect, useState, useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 import { motion, AnimatePresence } from "framer-motion";
 import { toast } from "react-hot-toast";
-import API from "../../lib/axios";
+import API from "../../services/api";
 import {
   getSavedAdventures,
   removeAdventure,
 } from "../../services/portfolioService";
 import { GalleryPost, SavedAdventureItem } from "./ProfileScrollTab";
 import AdventurePlanner from "./AdventurePlanner";
-import { useAuth } from "../../context/AuthContext";
+import { useAuth } from "../../auth/AuthContext";
 import { Bookmark, Image, Map } from "lucide-react";
 import * as Tooltip from "@radix-ui/react-tooltip";
 
@@ -18,8 +18,8 @@ const ProfileInfo = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({
     username: "",
-    description: "",
     profilePicture: "",
+    description: "",
   });
   const [msg, setMsg] = useState("");
   const [uploading, setUploading] = useState(false);
@@ -33,27 +33,26 @@ const ProfileInfo = () => {
     exit: { opacity: 0, x: -50 },
   };
 
-  // Data states
   const [savedAdventures, setSavedAdventures] = useState([]);
   const [loadingSaved, setLoadingSaved] = useState(false);
+  const [plannedCount, setPlannedCount] = useState(0);
 
   const [galleryPosts, setGalleryPosts] = useState([]);
   const [loadingGallery, setLoadingGallery] = useState(false);
   const [activePostId, setActivePostId] = useState(null);
 
-  const [plannedCount, setPlannedCount] = useState(0);
-
-  // Sync formData when user changes
+  // --- Sync profile form with user ---
   useEffect(() => {
-    if (user)
+    if (user) {
       setFormData({
         username: user.username || "",
         profilePicture: user.profilePicture || "",
         description: user.description || "",
       });
+    }
   }, [user]);
 
-  // --- Saved Adventures ---
+  // --- Load saved adventures ---
   const loadSavedAdventures = async () => {
     if (!user) return;
     setLoadingSaved(true);
@@ -66,14 +65,11 @@ const ProfileInfo = () => {
       setLoadingSaved(false);
     }
   };
+  useEffect(() => loadSavedAdventures(), [user]);
 
-  useEffect(() => {
-    loadSavedAdventures();
-  }, [user]);
-
-  const handleRemove = async (id, type, refId) => {
+  const handleRemove = async (id) => {
     try {
-      await removeAdventure(type, refId);
+      await removeAdventure(id);
       setSavedAdventures((prev) => prev.filter((a) => a._id !== id));
       toast.success("Removed from saved");
     } catch {
@@ -81,7 +77,7 @@ const ProfileInfo = () => {
     }
   };
 
-  // --- Gallery ---
+  // --- Load gallery posts ---
   useEffect(() => {
     if (!user) return;
     const fetchUserPosts = async () => {
@@ -90,8 +86,7 @@ const ProfileInfo = () => {
         const { data } = await API.get(`/posts/user/${user._id}`);
         setGalleryPosts(data);
       } catch (err) {
-        console.error(err);
-        toast.error("Failed to load gallery");
+        console.error("Error fetching gallery:", err);
       } finally {
         setLoadingGallery(false);
       }
@@ -104,13 +99,13 @@ const ProfileInfo = () => {
     try {
       await API.delete(`/posts/${id}`);
       setGalleryPosts((prev) => prev.filter((p) => p._id !== id));
-      toast.success("Post deleted!");
+      toast.success("Post deleted successfully!");
     } catch {
       toast.error("Failed to delete post");
     }
   };
 
-  // --- Profile Picture Upload ---
+  // --- Profile picture upload ---
   const onDrop = useCallback(
     async (acceptedFiles) => {
       const file = acceptedFiles[0];
@@ -123,24 +118,20 @@ const ProfileInfo = () => {
         const fd = new FormData();
         fd.append("profilePic", file);
 
-        const res = await fetch(`${API.defaults.baseURL}/auth/upload-profile`, {
-          method: "POST",
-          body: fd,
-          credentials: "include",
+        const { data } = await API.post("/auth/upload-profile", fd, {
+          headers: { "Content-Type": "multipart/form-data" },
         });
 
-        const data = await res.json();
-        if (data.user) {
+        if (data?.user) {
           setUser(data.user);
           setFormData((prev) => ({
             ...prev,
             profilePicture: data.user.profilePicture,
           }));
-          toast.success("Profile picture updated!");
-        } else {
-          setMsg("Upload failed");
+          setMsg("Uploaded ✔");
         }
-      } catch {
+      } catch (err) {
+        console.error(err);
         setMsg("Upload failed");
       } finally {
         setUploading(false);
@@ -154,22 +145,16 @@ const ProfileInfo = () => {
     accept: { "image/*": [] },
   });
 
-  // --- Save Profile ---
+  // --- Save profile changes ---
   const handleSaveProfile = async () => {
+    setMsg("");
     try {
-      const res = await fetch(`${API.defaults.baseURL}/auth/profile`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-        body: JSON.stringify(formData),
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.message || "Update failed");
+      const { data } = await API.patch("/auth/profile", formData);
       setUser(data.user);
       setIsEditing(false);
-      toast.success("Profile updated!");
+      setMsg("✅ Profile updated!");
     } catch (err) {
-      setMsg(err.message);
+      setMsg(err.response?.data?.message || "Update failed");
     }
   };
 
@@ -180,31 +165,32 @@ const ProfileInfo = () => {
 
   const avatar =
     formData.profilePicture ||
-    user.profilePicture ||
+    user?.profilePicture ||
     `https://ui-avatars.com/api/?name=${encodeURIComponent(
-      user.username || "User"
+      user?.username || "User"
     )}`;
 
   return (
     <div className="w-full pt-[120px] pb-[50px]">
       {/* Profile Header */}
-      <div className="w-full flex flex-col md:flex-row gap-6 md:gap-8 md:items-center items-start justify-center px-4">
-        <div className="flex flex-row gap-4">
+      <div className="flex flex-col md:flex-row gap-6 items-center justify-center px-4">
+        <div className="flex gap-4">
           <img
             src={avatar}
             alt="profile"
             className="h-[8rem] w-[8rem] md:h-[10rem] md:w-[10rem] rounded-full object-cover border-2 border-green-500"
           />
-          <h1 className="flex md:hidden text-[28px] sm:text-[32px] md:text-[38px] font-bold text-black">
+          <h1 className="md:hidden text-[28px] font-bold">
             Welcome, {formData.username}!
           </h1>
         </div>
+
         <div className="flex flex-col md:flex-row md:items-start md:gap-6 w-full md:w-auto">
           <div className="flex flex-col">
-            <h1 className="md:flex hidden text-[28px] sm:text-[32px] md:text-[38px] font-bold text-black">
+            <h1 className="hidden md:flex text-[28px] font-bold">
               Welcome, {formData.username}!
             </h1>
-            <div className="flex flex-wrap gap-4 sm:gap-6 text-[14px] sm:text-[16px] mt-3 text-gray-700">
+            <div className="flex flex-wrap gap-4 mt-3 text-gray-700 text-[14px]">
               <div>
                 <span className="font-semibold text-black">
                   {savedAdventures.length}
@@ -222,11 +208,12 @@ const ProfileInfo = () => {
                 Planned Adventures
               </div>
             </div>
-            <p className="text-[14px] sm:text-[16px] text-black max-w-[350px] mt-3">
+            <p className="mt-3 text-black">
               {formData.description || "No description yet"}
             </p>
           </div>
-          <div className="mt-4 md:mt-0 flex">
+
+          <div className="mt-4 md:mt-0">
             <button
               onClick={() => {
                 setMsg("");
@@ -240,7 +227,7 @@ const ProfileInfo = () => {
         </div>
       </div>
 
-      {/* Edit Overlay */}
+      {/* Edit Profile Overlay */}
       {isEditing && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
           <motion.div
@@ -256,67 +243,71 @@ const ProfileInfo = () => {
             >
               ✕
             </button>
-            <h2 className="md:text-2xl text-[16px] font-bold text-gray-800 mb-4">
-              Edit Profile
-            </h2>
+            <h2 className="text-2xl font-bold mb-4">Edit Profile</h2>
 
-            <div className="w-[300px] md:w-[400px] flex flex-col md:gap-4 gap-2 pt-2">
-              <label className="block text-black md:text-[16px] text-[12px] font-semibold mb-1">
-                Username
-              </label>
-              <input
-                name="username"
-                value={formData.username}
-                onChange={handleChange}
-                className="rounded-lg px-4 py-2 border-2 border-black w-full"
-              />
-
-              <label className="block text-black md:text-[16px] text-[12px] font-semibold mb-1 mt-4">
-                Description
-              </label>
-              <textarea
-                name="description"
-                value={formData.description}
-                onChange={handleChange}
-                rows="3"
-                className="rounded-lg px-4 py-2 border-2 border-black w-full"
-              />
-
-              <label className="block text-black md:text-[16px] text-[12px] font-semibold mb-1 mt-4">
-                Profile Picture
-              </label>
-              <div
-                {...getRootProps()}
-                className={`border-2 border-black rounded-lg p-6 text-center cursor-pointer transition-colors ${
-                  isDragActive
-                    ? "bg-green-100 border-green-400"
-                    : "bg-gray-100 border-gray-300"
-                }`}
-              >
-                <input {...getInputProps()} />
-                {uploading ? (
-                  <p className="text-gray-500">Uploading...</p>
-                ) : (
-                  <p className="text-gray-700">Click or drag to upload</p>
-                )}
+            <div className="w-[300px] md:w-[400px] flex flex-col gap-4">
+              <div>
+                <label className="block font-semibold mb-1">Username</label>
+                <input
+                  name="username"
+                  value={formData.username}
+                  onChange={handleChange}
+                  className="w-full border-2 rounded-lg px-4 py-2"
+                />
               </div>
 
-              {formData.profilePicture && (
-                <div className="mt-3">
-                  <p className="text-gray-600 mb-1">Preview:</p>
-                  <img
-                    src={avatar}
-                    alt="Preview"
-                    className="h-24 w-24 rounded-full object-cover border-2 border-green-400"
-                  />
+              <div>
+                <label className="block font-semibold mb-1">Description</label>
+                <textarea
+                  name="description"
+                  value={formData.description}
+                  onChange={handleChange}
+                  rows="3"
+                  className="w-full border-2 rounded-lg px-4 py-2"
+                  placeholder="Write a short description..."
+                />
+              </div>
+
+              <div>
+                <label className="block font-semibold mb-1">
+                  Profile Picture
+                </label>
+                <div
+                  {...getRootProps()}
+                  className={`border-2 rounded-lg p-6 text-center cursor-pointer ${
+                    isDragActive
+                      ? "bg-green-100 border-green-400"
+                      : "bg-gray-100 border-gray-300"
+                  }`}
+                >
+                  <input {...getInputProps()} />
+                  {uploading ? (
+                    <p>Uploading...</p>
+                  ) : (
+                    <p>
+                      {isDragActive
+                        ? "Drop image here..."
+                        : "Click or drag to upload"}
+                    </p>
+                  )}
                 </div>
-              )}
+                {formData.profilePicture && (
+                  <div className="mt-3">
+                    <p className="mb-1">Preview:</p>
+                    <img
+                      src={avatar}
+                      alt="preview"
+                      className="h-24 w-24 rounded-full object-cover border-2 border-green-400"
+                    />
+                  </div>
+                )}
+              </div>
             </div>
 
             <div className="flex justify-end gap-3 mt-8">
               <button
                 onClick={handleSaveProfile}
-                className="bg-[#AEFF53] hover:bg-green-400 px-6 py-2 rounded-full shadow-md"
+                className="bg-[#AEFF53] px-6 py-2 rounded-full shadow-md"
               >
                 Save
               </button>
@@ -330,19 +321,18 @@ const ProfileInfo = () => {
                     description: user.description,
                   });
                 }}
-                className="bg-[#FF0000] hover:bg-red-500 px-6 py-2 rounded-full shadow-md"
+                className="bg-[#FF0000] px-6 py-2 rounded-full shadow-md text-white"
               >
                 Cancel
               </button>
             </div>
-
-            {msg && <p className="mt-3 text-sm text-red-500">{msg}</p>}
+            {msg && <p className="mt-3 text-red-500">{msg}</p>}
           </motion.div>
         </div>
       )}
 
       {/* Tabs */}
-      <div className="w-full flex flex-col justify-center items-center md:pt-[100px] pt-[50px]">
+      <div className="w-full flex flex-col justify-center items-center pt-10">
         <div className="xl:w-[1200px] w-[93vw] sticky top-0 z-10 bg-white">
           <div className="flex border-b border-gray-300 mt-8 relative">
             {tabs.map((tab, idx) => {
@@ -355,7 +345,7 @@ const ProfileInfo = () => {
                 <button
                   key={tab}
                   onClick={() => setActiveTab(idx)}
-                  className={`flex-1 py-3 flex items-center justify-center gap-2 font-bold text-[14px] md:text-[26px] transition-colors ${
+                  className={`flex-1 py-3 flex items-center justify-center gap-2 font-bold text-[14px] md:text-[26px] ${
                     activeTab === idx ? "text-black" : "text-gray-500"
                   }`}
                 >
@@ -373,7 +363,6 @@ const ProfileInfo = () => {
                 </button>
               );
             })}
-
             <motion.div
               layout
               className="absolute bottom-0 h-1 bg-black"
@@ -412,15 +401,14 @@ const ProfileInfo = () => {
                     ))}
                   </ul>
                 ))}
-
-              {activeTab === 1 &&
-                (loadingGallery ? (
-                  <p>Loading gallery...</p>
-                ) : galleryPosts.length === 0 ? (
-                  <p>No gallery posts yet.</p>
-                ) : (
-                  <div className="grid grid-cols-3 gap-2">
-                    {galleryPosts.map((post) => (
+              {activeTab === 1 && (
+                <div className="grid grid-cols-3 gap-2">
+                  {loadingGallery ? (
+                    <p>Loading gallery...</p>
+                  ) : galleryPosts.length === 0 ? (
+                    <p>No gallery posts yet.</p>
+                  ) : (
+                    galleryPosts.map((post) => (
                       <GalleryPost
                         key={post._id}
                         post={post}
@@ -428,12 +416,12 @@ const ProfileInfo = () => {
                         activePostId={activePostId}
                         setActivePostId={setActivePostId}
                       />
-                    ))}
-                  </div>
-                ))}
-
+                    ))
+                  )}
+                </div>
+              )}
               {activeTab === 2 && (
-                <div className="pb-[50px] md:px-[20px]">
+                <div className="pb-12 px-4">
                   <AdventurePlanner
                     onPlansChange={(plans) => setPlannedCount(plans.length)}
                   />

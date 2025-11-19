@@ -1,5 +1,4 @@
 import express from "express";
-import Adventure from "../models/Adventure.js";
 import User from "../models/User.js";
 import { requireAuth } from "../middlewares/auth.js";
 

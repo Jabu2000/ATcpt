@@ -9,7 +9,7 @@ import {
 } from "../../services/portfolioService";
 import { GalleryPost, SavedAdventureItem } from "./ProfileScrollTab";
 import AdventurePlanner from "./AdventurePlanner";
-import { useAuth } from "../../auth/AuthContext";
+import { useAuth } from "../../context/AuthContext";
 import { Bookmark, Image, Map } from "lucide-react";
 import * as Tooltip from "@radix-ui/react-tooltip";
 

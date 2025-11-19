@@ -5,6 +5,8 @@ import { FaStar, FaStarHalfAlt, FaRegStar } from "react-icons/fa";
 
 import DatePicker from "react-datepicker";
 
+const API_URL = import.meta.env.VITE_API_URL || "https://adventuretimecpt.onrender.com";
+
 export default function AdventurePlanner({ onPlansChange }) {
   const [isOpen, setIsOpen] = useState(false);
   const [formData, setFormData] = useState({
@@ -21,7 +23,6 @@ export default function AdventurePlanner({ onPlansChange }) {
   const [editIndex, setEditIndex] = useState(null); // new: track editing plan
 
   const [seedEvents, setEvents] = useState([]);
-  const [seedPlaces, setPlaces] = useState([]);
   const [seedStores, setStores] = useState([]);
   const [seedRestaurants, setRestaurants] = useState([]);
   const [seedActivities, setActivities] = useState([]);
@@ -38,7 +39,7 @@ export default function AdventurePlanner({ onPlansChange }) {
   // Fetch data helper
   const fetchData = async (endpoint, setter) => {
     try {
-      const res = await fetch(`http://localhost:4000/api/${endpoint}`);
+      const res = await fetch(`${API_URL}/api/${endpoint}`);
       const data = await res.json();
       setter(data);
     } catch (err) {
@@ -59,22 +60,22 @@ export default function AdventurePlanner({ onPlansChange }) {
   }, []);
 
   useEffect(() => {
-    const savedPlans = localStorage.getItem("adventurePlans");
+    const savedPlans = API_URL.getItem("adventurePlans");
     if (savedPlans) setPlans(JSON.parse(savedPlans));
   }, []);
 
   // useEffect(() => {
-  //   localStorage.setItem("adventurePlans", JSON.stringify(plans));
+  //   API_URL.setItem("adventurePlans", JSON.stringify(plans));
   // }, [plans]);
 
   useEffect(() => {
     const fetchAdventures = async () => {
       try {
-        const res = await fetch("http://localhost:4000/api/adventures", {
+        const res = await fetch(`${API_URL}/api/adventures`, {
           credentials: "include", // send cookies (if JWT in cookie)
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`, // if JWT stored in localStorage
+            Authorization: `Bearer ${API_URL.getItem("token")}`, // if JWT stored in API_URL
           },
         });
         const data = await res.json();
@@ -89,7 +90,6 @@ export default function AdventurePlanner({ onPlansChange }) {
 
   useEffect(() => {
     fetchData("events", setEvents);
-    fetchData("places", setPlaces);
     fetchData("stores", setStores);
     fetchData("restaurants", setRestaurants);
     fetchData("activities", setActivities);
@@ -103,7 +103,6 @@ export default function AdventurePlanner({ onPlansChange }) {
     const timer = setTimeout(() => {
       const combined = [
         ...seedEvents,
-        ...seedPlaces,
         ...seedStores,
         ...seedRestaurants,
         ...seedActivities,
@@ -119,7 +118,6 @@ export default function AdventurePlanner({ onPlansChange }) {
   }, [
     searchQuery,
     seedEvents,
-    seedPlaces,
     seedStores,
     seedRestaurants,
     seedActivities,
@@ -148,15 +146,15 @@ export default function AdventurePlanner({ onPlansChange }) {
       const method = editIndex !== null ? "PUT" : "POST";
       const url =
         editIndex !== null
-          ? `http://localhost:4000/api/adventures/${plans[editIndex]._id}`
-          : "http://localhost:4000/api/adventures";
+          ? `${API_URL}/api/adventures/${plans[editIndex]._id}`
+          : `${API_URL}/api/adventures`;
 
       const res = await fetch(url, {
         method,
         credentials: "include",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          Authorization: `Bearer ${API_URL.getItem("token")}`,
         },
         body: JSON.stringify(formData),
       });
@@ -192,11 +190,11 @@ export default function AdventurePlanner({ onPlansChange }) {
   // handle delete
   const handleDelete = async (index) => {
     try {
-      await fetch(`http://localhost:4000/api/adventures/${plans[index]._id}`, {
+      await fetch(`${API_URL}/api/adventures/${plans[index]._id}`, {
         method: "DELETE",
         credentials: "include",
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          Authorization: `Bearer ${API_URL.getItem("token")}`,
         },
       });
 

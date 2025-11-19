@@ -22,7 +22,8 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useDropzone } from "react-dropzone";
 import RestaurantMap from "../../sections/Restaurant/RestaurantMap";
 
-const API_URL = import.meta.env.VITE_API_URL || "https://adventuretimecpt.onrender.com";
+const API_URL =
+  import.meta.env.VITE_API_URL || "https://adventuretimecpt.onrender.com";
 
 /** ⭐ Star Rating Input Component */
 const StarRatingInput = ({ value, onChange }) => {
@@ -206,7 +207,9 @@ const RestaurantDetail = () => {
         setRestaurant(data);
 
         const saved = await getSavedAdventures();
-        const found = saved.find((s) => s.type === "restaurant" && s.refId === data._id);
+        const found = saved.find(
+          (s) => s.type === "restaurant" && s.refId === data._id
+        );
         setIsSaved(!!found);
       } catch (err) {
         console.error(err);
@@ -239,7 +242,8 @@ const RestaurantDetail = () => {
 
   // Submit new comment
   const submitComment = async () => {
-    if (!newComment.text.trim()) return toast.error("Comment text cannot be empty!");
+    if (!newComment.text.trim())
+      return toast.error("Comment text cannot be empty!");
 
     try {
       const formData = new FormData();
@@ -248,11 +252,14 @@ const RestaurantDetail = () => {
       // NEW: server expects field name 'commentImages'
       newComment.images.forEach((img) => formData.append("commentImages", img));
 
-      const res = await fetch(`${API_URL}/api/restaurants/${restaurant._id}/comment`, {
-        method: "POST",
-        body: formData,
-        credentials: "include",
-      });
+      const res = await fetch(
+        `${API_URL}/api/restaurants/${restaurant._id}/comment`,
+        {
+          method: "POST",
+          body: formData,
+          credentials: "include",
+        }
+      );
 
       const data = await res.json();
 
@@ -306,7 +313,8 @@ const RestaurantDetail = () => {
   };
 
   if (loading) return <p className="text-center mt-10">Loading...</p>;
-  if (!restaurant) return <p className="text-center mt-10">Restaurant not found</p>;
+  if (!restaurant)
+    return <p className="text-center mt-10">Restaurant not found</p>;
 
   const rating = restaurant.rating || 0;
 
@@ -324,13 +332,18 @@ const RestaurantDetail = () => {
               </h1>
               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
                 <div className="flex flex-col gap-1">
-                  <p className="text-black text-sm sm:text-base font-semibold">{restaurant.address}</p>
-                  <p className="text-black text-sm sm:text-base font-semibold">{restaurant.cuisine}</p>
+                  <p className="text-black text-sm sm:text-base font-semibold">
+                    {restaurant.address}
+                  </p>
+                  <p className="text-black text-sm sm:text-base font-semibold">
+                    {restaurant.cuisine}
+                  </p>
                   <div className="flex items-center gap-1 text-[#FAA500]">
                     {Array.from({ length: 5 }, (_, i) => {
                       const starValue = i + 1;
                       if (rating >= starValue) return <FaStar key={i} />;
-                      if (rating >= starValue - 0.5) return <FaStarHalfAlt key={i} />;
+                      if (rating >= starValue - 0.5)
+                        return <FaStarHalfAlt key={i} />;
                       return <FaRegStar key={i} />;
                     })}
                     <span className="ml-2 text-black">{rating.toFixed(1)}</span>
@@ -339,7 +352,9 @@ const RestaurantDetail = () => {
                 <button
                   onClick={toggleSave}
                   className={`text-[14px] py-2 mt-2 px-6 rounded-2xl ${
-                    isSaved ? "bg-green-500 hover:bg-[#FF0000] text-white" : "bg-[#FF0000] hover:bg-green-500 text-white"
+                    isSaved
+                      ? "bg-green-500 hover:bg-[#FF0000] text-white"
+                      : "bg-[#FF0000] hover:bg-green-500 text-white"
                   }`}
                 >
                   {isSaved ? "Saved ✓ (click to remove)" : "Save"}
@@ -348,33 +363,65 @@ const RestaurantDetail = () => {
             </div>
 
             <div className="flex flex-col lg:flex-row gap-6 mt-6 lg:mt-0">
-              {restaurant.openStatus && <p className="mt-2 font-medium text-green-600">{restaurant.openStatus}</p>}
+              {restaurant.openStatus && (
+                <p className="mt-2 font-medium text-green-600">
+                  {restaurant.openStatus}
+                </p>
+              )}
 
               {restaurant.openingHours && (
                 <div className="w-full lg:w-[60%] bg-[#FF0000] rounded-3xl px-[20px] pt-[40px] pb-[20px]">
-                  <h2 className="text-white md:text-[35px] text-[25px] font-bold mb-2">Hours</h2>
+                  <h2 className="text-white md:text-[35px] text-[25px] font-bold mb-2">
+                    Hours
+                  </h2>
                   <table className="w-full mt-6 border border-gray-200 rounded-lg overflow-hidden">
                     <tbody>
-                      {Object.entries(restaurant.openingHours).map(([day, hours]) => (
-                        <tr key={day} className="text-white lg:text-[11px] text-[16px]">
-                          <td className="py-2 font-medium capitalize">{day}</td>
-                          <td className="py-2 ">{hours.open && hours.close ? `${hours.open} - ${hours.close}` : "Closed"}</td>
-                        </tr>
-                      ))}
+                      {Object.entries(restaurant.openingHours).map(
+                        ([day, hours]) => (
+                          <tr
+                            key={day}
+                            className="text-white lg:text-[11px] text-[16px]"
+                          >
+                            <td className="py-2 font-medium capitalize">
+                              {day}
+                            </td>
+                            <td className="py-2 ">
+                              {hours.open && hours.close
+                                ? `${hours.open} - ${hours.close}`
+                                : "Closed"}
+                            </td>
+                          </tr>
+                        )
+                      )}
                     </tbody>
                   </table>
                 </div>
               )}
 
               <div className="w-full flex flex-col bg-[#AEFF53] rounded-3xl px-[20px] pt-[40px] pb-[20px] gap-4">
-                <h2 className="text-black md:text-[35px] text-[25px] font-bold ">About</h2>
-                {restaurant.about && <p className="mt-4 text-black text-[14px] font-medium">{restaurant.about}</p>}
+                <h2 className="text-black md:text-[35px] text-[25px] font-bold ">
+                  About
+                </h2>
+                {restaurant.about && (
+                  <p className="mt-4 text-black text-[14px] font-medium">
+                    {restaurant.about}
+                  </p>
+                )}
                 {restaurant.website && (
-                  <a href={restaurant.website} target="_blank" rel="noopener noreferrer" className="mt-2 inline-block text-blue-600 underline">
+                  <a
+                    href={restaurant.website}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-2 inline-block text-blue-600 underline"
+                  >
                     Visit Website
                   </a>
                 )}
-                {restaurant.phone && <p className="mt-2 text-[14px] font-semibold text-black">☎ {restaurant.phone}</p>}
+                {restaurant.phone && (
+                  <p className="mt-2 text-[14px] font-semibold text-black">
+                    ☎ {restaurant.phone}
+                  </p>
+                )}
               </div>
             </div>
           </div>
@@ -383,25 +430,43 @@ const RestaurantDetail = () => {
             <RestaurantImages restaurant={restaurant} />
 
             <div className="w-full h-[50vh] z-10 bg-gray-200 rounded-3xl">
-              <RestaurantMap address={restaurant.address} name={restaurant.name} />
+              <RestaurantMap
+                address={restaurant.address}
+                name={restaurant.name}
+              />
             </div>
           </div>
         </div>
 
         <div className="mt-[100px] flex flex-col gap-4">
           <h2 className="text-2xl font-bold">Reviews & Comments</h2>
-          <button onClick={() => setShowCommentFormOverlay(true)} className="px-6 py-2 bg-green-500 text-white text-[14px] rounded-2xl hover:bg-green-600 w-fit">
+          <button
+            onClick={() => setShowCommentFormOverlay(true)}
+            className="px-6 py-2 bg-green-500 text-white text-[14px] rounded-2xl hover:bg-green-600 w-fit"
+          >
             Write A Review
           </button>
 
           {restaurant.comments?.length > 0 ? (
             <div className="flex flex-wrap md:flex-col-2 mt-[50px] gap-[40px]">
               {restaurant.comments.map((comment) => (
-                <div key={comment._id} className="w-full lg:w-[48%] flex flex-col gap-2">
+                <div
+                  key={comment._id}
+                  className="w-full lg:w-[48%] flex flex-col gap-2"
+                >
                   <div className="flex flex-row items-center gap-3">
-                    <img src={comment.user.profilePicture || "/default-avatar.png"} alt={comment.user.username} className="w-10 h-10 rounded-full object-cover" />
-                    <p className="w-full md:w-[60%] font-semibold">{comment.user.username}</p>
-                    <button onClick={() => handleDeleteComment(comment._id)} className="ml-auto text-red-500 hover:text-red-700">
+                    <img
+                      src={comment.user.profilePicture || "/default-avatar.png"}
+                      alt={comment.user.username}
+                      className="w-10 h-10 rounded-full object-cover"
+                    />
+                    <p className="w-full md:w-[60%] font-semibold">
+                      {comment.user.username}
+                    </p>
+                    <button
+                      onClick={() => handleDeleteComment(comment._id)}
+                      className="ml-auto text-red-500 hover:text-red-700"
+                    >
                       <FaTrash />
                     </button>
                   </div>
@@ -415,7 +480,8 @@ const RestaurantDetail = () => {
                           {Array.from({ length: 5 }, (_, i) => {
                             const starValue = i + 1;
                             if (r >= starValue) return <FaStar key={i} />;
-                            if (r >= starValue - 0.5) return <FaStarHalfAlt key={i} />;
+                            if (r >= starValue - 0.5)
+                              return <FaStarHalfAlt key={i} />;
                             return <FaRegStar key={i} />;
                           })}
                         </div>
@@ -430,7 +496,9 @@ const RestaurantDetail = () => {
                       {comment.images.map((img, idx) => (
                         <img
                           key={idx}
-                          src={img.startsWith("http") ? img : `${API_URL}${img}`}
+                          src={
+                            img.startsWith("http") ? img : `${API_URL}${img}`
+                          }
                           alt={`comment-${idx}`}
                           className="w-[140px] h-32 object-cover rounded-xl"
                         />
@@ -447,7 +515,8 @@ const RestaurantDetail = () => {
                           {Array.from({ length: 5 }, (_, i) => {
                             const starValue = i + 1;
                             if (r >= starValue) return <FaStar key={i} />;
-                            if (r >= starValue - 0.5) return <FaStarHalfAlt key={i} />;
+                            if (r >= starValue - 0.5)
+                              return <FaStarHalfAlt key={i} />;
                             return <FaRegStar key={i} />;
                           })}
                         </div>
@@ -466,47 +535,103 @@ const RestaurantDetail = () => {
         {/* Comment Form Overlay */}
         <AnimatePresence>
           {showCommentFormOverlay && (
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 bg-black bg-opacity-50 z-50 flex justify-center items-center overflow-auto" onClick={(e) => e.target === e.currentTarget && setShowCommentFormOverlay(false)}>
-              <motion.div initial={{ y: -50, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: -50, opacity: 0 }} className="bg-white rounded-3xl max-w-4xl p-10 flex flex-col  relative">
-                <button onClick={() => setShowCommentFormOverlay(false)} className="absolute top-4 right-4 text-[#FF0000] hover:text-green-600 md:text-2xl text-[16px] font-bold">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 bg-black bg-opacity-50 z-50 flex justify-center items-center overflow-auto"
+              onClick={(e) =>
+                e.target === e.currentTarget && setShowCommentFormOverlay(false)
+              }
+            >
+              <motion.div
+                initial={{ y: -50, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                exit={{ y: -50, opacity: 0 }}
+                className="bg-white rounded-3xl max-w-4xl p-10 flex flex-col  relative"
+              >
+                <button
+                  onClick={() => setShowCommentFormOverlay(false)}
+                  className="absolute top-4 right-4 text-[#FF0000] hover:text-green-600 md:text-2xl text-[16px] font-bold"
+                >
                   &times;
                 </button>
 
-                <h2 className="md:text-2xl text-[16px] font-bold">Add A Review</h2>
+                <h2 className="md:text-2xl text-[16px] font-bold">
+                  Add A Review
+                </h2>
 
                 <div className="md:w-[400px] flex flex-col md:gap-4 gap-2 pt-4 ">
                   <div className="grid grid-cols-2 gap-6">
                     {["food", "service", "vibes", "overall"].map((key) => (
                       <div key={key} className="flex flex-col ">
-                        <label className="capitalize font-semibold md:text-[14px] text-[10px]">{key}</label>
-                        <StarRatingInput value={newComment.ratings[key]} onChange={(val) => setNewComment({ ...newComment, ratings: { ...newComment.ratings, [key]: val } })} />
+                        <label className="capitalize font-semibold md:text-[14px] text-[10px]">
+                          {key}
+                        </label>
+                        <StarRatingInput
+                          value={newComment.ratings[key]}
+                          onChange={(val) =>
+                            setNewComment({
+                              ...newComment,
+                              ratings: { ...newComment.ratings, [key]: val },
+                            })
+                          }
+                        />
                       </div>
                     ))}
                   </div>
                   <div className="pt-4">
-                    <label className="md:text-[16px] text-[12px] font-semibold">Write A Review</label>
-                    <textarea className="p-3 rounded-lg border-2 border-black w-full md:text-[14px] text-[10px] md:h-[100px] h-[60px]" placeholder="Write your comment..." value={newComment.text} onChange={(e) => setNewComment({ ...newComment, text: e.target.value })} />
+                    <label className="md:text-[16px] text-[12px] font-semibold">
+                      Write A Review
+                    </label>
+                    <textarea
+                      className="p-3 rounded-lg border-2 border-black w-full md:text-[14px] text-[10px] md:h-[100px] h-[60px]"
+                      placeholder="Write your comment..."
+                      value={newComment.text}
+                      onChange={(e) =>
+                        setNewComment({ ...newComment, text: e.target.value })
+                      }
+                    />
                   </div>
 
                   <div className="">
-                    <label className="md:text-[16px text-[10px] font-semibold">Add Images</label>
-                    <div {...getRootProps()} className="p-6 border-2 border-black rounded-lg text-center cursor-pointer hover:border-gray-600">
+                    <label className="md:text-[16px text-[10px] font-semibold">
+                      Add Images
+                    </label>
+                    <div
+                      {...getRootProps()}
+                      className="p-6 border-2 border-black rounded-lg text-center cursor-pointer hover:border-gray-600"
+                    >
                       <input {...getInputProps()} />
                       {newComment.images.length > 0 ? (
                         <div className="flex flex-wrap gap-2 justify-center">
                           {newComment.images.map((file, idx) => (
-                            <img key={idx} src={URL.createObjectURL(file)} alt={file.name} className="w-24 h-24 object-cover rounded-lg" />
+                            <img
+                              key={idx}
+                              src={URL.createObjectURL(file)}
+                              alt={file.name}
+                              className="w-24 h-24 object-cover rounded-lg"
+                            />
                           ))}
                         </div>
                       ) : (
                         <div className="capitalize">
-                          <p className="md:text-[12px] text-[10px]">click to add image</p>
-                          <p className="md:text-[10px] text-[8px]">Or Drag & drop </p>
+                          <p className="md:text-[12px] text-[10px]">
+                            click to add image
+                          </p>
+                          <p className="md:text-[10px] text-[8px]">
+                            Or Drag & drop{" "}
+                          </p>
                         </div>
                       )}
                     </div>
                   </div>
-                  <button onClick={submitComment} className="px-6 py-2 bg-green-500 text-white text-[14px] rounded-2xl hover:bg-[#FF0000] w-full">Submit Comment</button>
+                  <button
+                    onClick={submitComment}
+                    className="px-6 py-2 bg-green-500 text-white text-[14px] rounded-2xl hover:bg-[#FF0000] w-full"
+                  >
+                    Submit Comment
+                  </button>
                 </div>
               </motion.div>
             </motion.div>
@@ -515,7 +640,11 @@ const RestaurantDetail = () => {
       </div>
 
       <div className="w-full md:h-full h-[600px] px-6 lg:px-[50px] mt-[80px] flex justify-center items-center rounded-2xl">
-        <img src="/foodpost1.png" alt="banner" className="w-full h-full object-cover rounded-2xl md:flex hidden" />
+        <img
+          src="/foodpost1.png"
+          alt="banner"
+          className="w-full h-full object-cover rounded-2xl md:flex hidden"
+        />
       </div>
 
       <RestaurantCategories />

@@ -1,13 +1,13 @@
 import React, { useState, useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 import Cropper from "react-easy-crop";
-import { createPost } from "../../services/api";
+import { createPost } from "../services/api";
 import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import { getCroppedImg } from "../../lib/cropImage";
-import TopNav from "../../components/TopNav";
-import BottomNav from "../../components/BottomNav";
-import LeftSidebar from "../../components/LeftSidebar";
+import { getCroppedImg } from "../lib/cropImage";
+import TopNav from "../components/TopNav";
+import BottomNav from "../components/BottomNav";
+import LeftSidebar from "../components/LeftSidebar";
 
 const CreatePost = ({ currentUser, onPostCreated }) => {
   const [content, setContent] = useState("");

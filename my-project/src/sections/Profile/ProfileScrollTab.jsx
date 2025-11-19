@@ -9,47 +9,32 @@ export const SavedAdventureItem = ({ item, onRemove }) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef(null);
 
-  const imageSrc = item.images?.[0]
-    ? item.images[0].startsWith("http")
-      ? item.images[0]
-      : `${API_URL}${item.images[0]}`
-    : item.details?.images?.[0]
-    ? item.details.images[0].startsWith("http")
-      ? item.details.images[0]
-      : `${API_URL}${item.details.images[0]}`
-    : "/placeholder.png";
+  const imageSrc = (() => {
+    const possible = item.images?.[0] || item.details?.images?.[0];
+    if (!possible) return "/placeholder.png";
+    return possible.startsWith("http") ? possible : `${API_URL}${possible}`;
+  })();
 
   const rating = item.rating ?? item.details?.rating;
 
-  // Close menu on outside click
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (menuRef.current && !menuRef.current.contains(e.target)) {
         setMenuOpen(false);
       }
     };
-
-    if (menuOpen) {
-      document.addEventListener("mousedown", handleClickOutside);
-    } else {
-      document.removeEventListener("mousedown", handleClickOutside);
-    }
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [menuOpen]);
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   return (
     <li className="flex flex-col sm:flex-row gap-4 sm:gap-6 py-4 rounded-lg relative overflow-hidden">
-      {/* Image */}
       <img
         src={imageSrc}
         alt={item.name || item.details?.name || "Adventure"}
         className="w-full sm:w-48 h-28 sm:h-28 object-cover rounded-lg flex-shrink-0"
       />
 
-      {/* Info */}
       <div className="flex flex-row gap-6">
         <div className="flex flex-col flex-1 justify-center">
           <h3 className="font-semibold text-[16px] sm:text-xl">
@@ -59,7 +44,6 @@ export const SavedAdventureItem = ({ item, onRemove }) => {
             {item.type}
           </p>
 
-          {/* ⭐ Rating Stars */}
           {typeof rating === "number" && (
             <div className="flex items-center gap-1 text-[#FAA500] mt-1 flex-wrap">
               {Array.from({ length: 5 }, (_, i) => {
@@ -73,8 +57,7 @@ export const SavedAdventureItem = ({ item, onRemove }) => {
           )}
         </div>
 
-        {/* Dropdown Menu */}
-        <div className="relative  self-start sm:self-center" ref={menuRef}>
+        <div className="relative self-start sm:self-center" ref={menuRef}>
           <button
             onClick={() => setMenuOpen((prev) => !prev)}
             className="bg-white shadow p-2 rounded-full hover:bg-gray-100"
@@ -86,13 +69,15 @@ export const SavedAdventureItem = ({ item, onRemove }) => {
             <div className="absolute right-0 mt-2 w-32 bg-white shadow-lg rounded-lg z-10">
               <button
                 onClick={() => {
-                  onRemove(item._id, item.type, item.refId);
+                  // Prefer a single object param for clarity: pass item._id or item.refId depending on how delete works
+                  onRemove({ id: item._id || item.refId, type: item.type });
                   setMenuOpen(false);
                 }}
                 className="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
               >
                 Delete
               </button>
+
               <button
                 onClick={() => {
                   if (navigator.share) {

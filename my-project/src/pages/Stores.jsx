@@ -1,8 +1,8 @@
 import React from 'react'
-import Navbar from '../../components/Navbar'
-import Footer from '../../components/Footer'
-import StoresHero from '../../sections/Stores/StoresHero'
-import HomeInfo from '../../components/HomeInfo'
+import Navbar from '../components/Navbar'
+import Footer from '../components/Footer'
+import StoresHero from '../sections/Stores/StoresHero'
+import HomeInfo from '../components/HomeInfo'
 // import StoresCategories from '../../sections/Stores/StoreCategories'
 
 const Stores = () => {

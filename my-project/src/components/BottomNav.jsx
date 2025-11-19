@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
-import { useAuth } from "../auth/AuthContext"; // adjust path
 import { FaHome, FaMap, FaPlusCircle, FaSearch } from "react-icons/fa";
 import { X } from "lucide-react";
 import gsap from "gsap";
+import { useAuth } from "../context/AuthContext";
 
 const API_URL = import.meta.env.VITE_API_URL || "https://adventuretimecpt.onrender.com";
 

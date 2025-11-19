@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { getPosts } from "../../services/api";
 import { formatDistanceToNow } from "date-fns";
-import { useAuth } from "../../auth/AuthContext"; // adjust path
+import { useAuth } from "../../context/AuthContext";
 
 const HomeCategories = () => {
   const { user } = useAuth();

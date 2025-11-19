@@ -3,11 +3,12 @@ import mongoose from "mongoose";
 export const connectDB = async () => {
   try {
     const conn = await mongoose.connect(process.env.MONGO_URI, {
-      dbName: process.env.MONGO_DB || undefined,
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
     });
-    console.log(`MongoDB connected: ${conn.connection.host}/${conn.connection.name}`);
+    console.log(`MongoDB connected: ${conn.connection.host}`);
   } catch (err) {
-    console.error("MongoDB connection error:", err.message);
+    console.error(err);
     process.exit(1);
   }
 };

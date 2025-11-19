@@ -1,9 +1,9 @@
 import React from "react";
-import HomeCategories from "../../sections/Home/HomeCategories";
-import LeftSidebar from "../../components/LeftSidebar";
-import RightSidebar from "../../components/RightSidebar";
-import BottomNav from "../../components/BottomNav";
-import TopNav from "../../components/TopNav";
+import HomeCategories from "../sections/Home/HomeCategories";
+import LeftSidebar from "../components/LeftSidebar";
+import RightSidebar from "../components/RightSidebar";
+import BottomNav from "../components/BottomNav";
+import TopNav from "../components/TopNav";
 
 const Home = ({ posts, newPostId }) => {
   return (

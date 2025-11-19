@@ -1,49 +1,48 @@
 import express from "express";
-import SavedItem from "../models/SavedItem.js";
 import { protect } from "../middleware/auth.middleware.js";
+import User from "../models/User.js";
 
 const router = express.Router();
 
-// All routes require authentication
-router.use(protect);
-
-// Get saved items for current user
-router.get("/", async (req, res) => {
-  try {
-    const items = await SavedItem.find({ userId: req.userId });
-    res.json(items);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Failed to get saved items" });
-  }
+// GET all saved items
+router.get("/", protect, async (req, res) => {
+  const user = await User.findById(req.userId).populate("savedItems");
+  res.json(user.savedItems);
 });
 
-// Save an item
-router.post("/", async (req, res) => {
-  try {
-    const { type, refId, details } = req.body;
-    const existing = await SavedItem.findOne({ userId: req.userId, type, refId });
-    if (existing) return res.status(400).json({ error: "Already saved" });
+// Save restaurant
+router.post("/", protect, async (req, res) => {
+  const { type, refId } = req.body;
 
-    const item = new SavedItem({ userId: req.userId, type, refId, details });
-    await item.save();
-    res.json(item);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Failed to save item" });
+  if (type !== "restaurant")
+    return res.status(400).json({ message: "Invalid save type" });
+
+  const user = await User.findById(req.userId);
+
+  if (!user.savedItems.includes(refId)) {
+    user.savedItems.push(refId);
+    await user.save();
   }
+
+  res.json({ savedItems: user.savedItems });
 });
 
-// Remove an item
-router.delete("/:type/:refId", async (req, res) => {
-  try {
-    const { type, refId } = req.params;
-    await SavedItem.deleteOne({ userId: req.userId, type, refId });
-    res.json({ success: true });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Failed to remove item" });
-  }
+// Remove saved restaurant
+router.delete("/:type/:refId", protect, async (req, res) => {
+  const { type, refId } = req.params;
+
+  if (type !== "restaurant")
+    return res.status(400).json({ message: "Invalid type" });
+
+  const user = await User.findById(req.userId);
+
+  user.savedItems = user.savedItems.filter(
+    (item) => item.toString() !== refId.toString()
+  );
+
+  await user.save();
+
+  res.json({ savedItems: user.savedItems });
 });
 
 export default router;

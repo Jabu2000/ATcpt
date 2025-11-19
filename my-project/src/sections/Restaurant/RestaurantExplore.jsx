@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { FaStar, FaStarHalfAlt, FaRegStar, FaSearch } from "react-icons/fa";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Link } from "react-router-dom";
+import { restaurantsApi } from "../../lib/client";
 
 const API_URL = import.meta.env.VITE_API_URL || "https://adventuretimecpt.onrender.com";
 
@@ -12,51 +13,40 @@ const RestaurantsExplore = () => {
   const [loading, setLoading] = useState(true);
 
   const [currentIndex, setCurrentIndex] = useState(0);
-    const [fade, setFade] = useState(true);
+  const [fade, setFade] = useState(true);
 
   const restaurantRef = useRef(null);
   const coffeeRef = useRef(null);
   const takeawayRef = useRef(null);
-  const DessertRef = useRef(null);
-  const HangoutRef = useRef(null);
-  const BufferRef = useRef(null);
+  const dessertRef = useRef(null);
+  const hangoutRef = useRef(null);
+  const breakfastRef = useRef(null);
 
-  const [activeIndex, setActiveIndex] = useState({
-    restaurant: 0,
-    coffee: 0,
-    takeaway: 0,
-    Dessert: 0,
-    Hangout: 0,
-    Buffer: 0,
-  });
+  // dynamic active index keyed by categoryKey (identifiers)
+  const [activeIndex, setActiveIndex] = useState({});
 
-  const images = [
-      "/foodpost1.png",
-      "/foodpost2.png",
-      "/foodpost3.png",
-    ];
-  
-    useEffect(() => {
-      const interval = setInterval(() => {
-        setFade(false); // start fade-out
-        setTimeout(() => {
-          setCurrentIndex((prev) => (prev + 1) % images.length);
-          setFade(true); // fade-in
-        }, 500); // fade duration (must match CSS transition)
-      }, 4000); // time per image
-  
-      return () => clearInterval(interval);
-    }, [images.length]);
+  const images = ["/foodpost1.png", "/foodpost2.png", "/foodpost3.png"];
 
-  // --- Fetch all restaurants once ---
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setFade(false);
+      setTimeout(() => {
+        setCurrentIndex((prev) => (prev + 1) % images.length);
+        setFade(true);
+      }, 400); // matched shorter fade for snappy UX
+    }, 4000);
+
+    return () => clearInterval(interval);
+  }, [images.length]);
+
+  // fetch restaurants
   const fetchRestaurants = async () => {
     try {
       setLoading(true);
-      const res = await fetch(`${API_URL}/api/restaurants`);
-      const data = await res.json();
-      setRestaurants(data);
+      const res = await restaurantsApi.list();
+      setRestaurants(res.data || []);
     } catch (err) {
-      console.error(err);
+      console.error("Error fetching restaurants:", err);
     } finally {
       setLoading(false);
     }
@@ -66,74 +56,86 @@ const RestaurantsExplore = () => {
     fetchRestaurants();
   }, []);
 
-  // --- Live filter while typing ---
+  // live search
   useEffect(() => {
     if (!search.trim()) {
       setFilteredResults([]);
       return;
     }
+    const q = search.toLowerCase();
     const results = restaurants.filter(
       (r) =>
-        r.name?.toLowerCase().includes(search.toLowerCase()) ||
-        r.cuisine?.toLowerCase().includes(search.toLowerCase()) ||
-        r.address?.toLowerCase().includes(search.toLowerCase())
+        (r.name || "").toLowerCase().includes(q) ||
+        (r.cuisine || "").toLowerCase().includes(q) ||
+        (r.address || "").toLowerCase().includes(q)
     );
     setFilteredResults(results);
   }, [search, restaurants]);
 
-  // --- Scroll helper ---
+  // robust category filter (case-insensitive, substring)
+  const filterByCategory = (categoryKey) =>
+    restaurants.filter((r) => {
+      if (!r.category) return false;
+      const cat = String(r.category).toLowerCase();
+      return cat.includes(String(categoryKey).toLowerCase());
+    });
+
+  // scroll helper
   const scroll = (ref, direction) => {
-    if (!ref.current) return;
+    if (!ref?.current) return;
     const card = ref.current.querySelector(".carousel-card");
     if (!card) return;
     const scrollAmount = card.offsetWidth + 16;
     ref.current.scrollTo({
       left:
         direction === "left"
-          ? ref.current.scrollLeft - scrollAmount
+          ? Math.max(0, ref.current.scrollLeft - scrollAmount)
           : ref.current.scrollLeft + scrollAmount,
       behavior: "smooth",
     });
   };
 
-  // --- Category filter ---
-  const filterByCategory = (category) =>
-    restaurants.filter((r) => r.category === category);
-
-  // --- IntersectionObserver for snap indicators ---
+  // observe carousel and update activeIndex
   const observeCarousel = (ref, key) => {
-    if (!ref.current) return;
+    if (!ref?.current) return () => {};
+    const container = ref.current;
+    const cards = container.querySelectorAll(".carousel-card");
+    if (!cards?.length) return () => {};
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            const idx = parseInt(entry.target.dataset.index);
+            const idx = parseInt(entry.target.dataset.index, 10);
             setActiveIndex((prev) => ({ ...prev, [key]: idx }));
           }
         });
       },
-      { root: ref.current, threshold: 0.6 }
+      { root: container, threshold: 0.6 }
     );
-    const cards = ref.current.querySelectorAll(".carousel-card");
-    cards.forEach((card) => observer.observe(card));
+
+    cards.forEach((c) => observer.observe(c));
+
     return () => observer.disconnect();
   };
 
+  // run observers when restaurants change (cards rendered)
   useEffect(() => {
     const cleanups = [
       observeCarousel(restaurantRef, "restaurant"),
       observeCarousel(coffeeRef, "coffee"),
       observeCarousel(takeawayRef, "takeaway"),
-      observeCarousel(DessertRef, "Dessert"),
-      observeCarousel(HangoutRef, "Hangout"),
-      observeCarousel(BufferRef, "Buffer"),
+      observeCarousel(dessertRef, "dessert"),
+      observeCarousel(hangoutRef, "hangout"),
+      observeCarousel(breakfastRef, "breakfast"),
     ];
-    return () => cleanups.forEach((c) => c && c());
+    return () => cleanups.forEach((f) => f && f());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [restaurants]);
 
-  // --- Helper to render carousel section ---
-  const renderCarousel = (title, key, ref) => {
-    const catRestaurants = filterByCategory(key);
+  // Helper render function — categoryKey must be an identifier used by your backend (or substring matched)
+  const renderCarousel = (title, categoryKey, ref) => {
+    const catRestaurants = filterByCategory(categoryKey);
 
     return (
       <div className="flex flex-col 2xl:mt-[150px] mt-[50px]">
@@ -148,11 +150,14 @@ const RestaurantsExplore = () => {
           <div className="relative group mt-6">
             <div
               ref={ref}
-              className="flex gap-8 overflow-hidden scroll-smooth snap-x snap-mandatory pb-4  scrollbar-hide"
+              className="flex gap-8 overflow-hidden scroll-smooth snap-x snap-mandatory pb-4 scrollbar-hide"
             >
               {catRestaurants.map((r, idx) => {
-                const img =
-                  r.images?.[0] || "https://placehold.co/600x400?text=Image";
+                const img = r.images?.[0]
+                  ? r.images[0].startsWith("http")
+                    ? r.images[0]
+                    : `${API_URL}${r.images[0]}`
+                  : "https://placehold.co/600x400?text=Image";
                 return (
                   <Link
                     to={`/restaurants/${r._id}`}
@@ -173,8 +178,7 @@ const RestaurantsExplore = () => {
                         <div className="flex items-center md:text-[16px] text-[12px] gap-1 text-[#FAA500]">
                           {Array.from({ length: 5 }, (_, i) => {
                             const starValue = i + 1;
-                            if (r.rating >= starValue)
-                              return <FaStar key={i} />;
+                            if (r.rating >= starValue) return <FaStar key={i} />;
                             else if (r.rating >= starValue - 0.5)
                               return <FaStarHalfAlt key={i} />;
                             else return <FaRegStar key={i} />;
@@ -199,7 +203,7 @@ const RestaurantsExplore = () => {
             </button>
             <button
               onClick={() => scroll(ref, "right")}
-              className=" flex absolute right-2 top-1/2 -translate-y-1/2 bg-white shadow-lg rounded-full p-2 hover:bg-gray-100 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+              className="flex absolute right-2 top-1/2 -translate-y-1/2 bg-white shadow-lg rounded-full p-2 hover:bg-gray-100 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
             >
               <ChevronRight size={24} />
             </button>
@@ -210,7 +214,7 @@ const RestaurantsExplore = () => {
                 <div
                   key={idx}
                   className={`w-3 h-3 rounded-full transition-all ${
-                    activeIndex[key] === idx ? "bg-green-500 w-5" : "bg-black"
+                    activeIndex[categoryKey] === idx ? "bg-green-500 w-5" : "bg-black"
                   }`}
                 />
               ))}
@@ -249,7 +253,7 @@ const RestaurantsExplore = () => {
                 className="flex items-center gap-4 px-4 py-3 hover:bg-gray-100 transition"
               >
                 <img
-                  src={r.images?.[0] || "https://placehold.co/60x60"}
+                  src={r.images?.[0] ? (r.images[0].startsWith("http") ? r.images[0] : `${API_URL}${r.images[0]}`) : "https://placehold.co/60x60"}
                   alt={r.name}
                   className="w-14 h-14 rounded-lg object-cover"
                 />
@@ -263,7 +267,7 @@ const RestaurantsExplore = () => {
         )}
       </div>
 
-      {/* Explicit sections */}
+      {/* Use normalized category keys for rendering */}
       {renderCarousel("Restaurants", "restaurant", restaurantRef)}
       {renderCarousel("Coffee Shops", "coffee", coffeeRef)}
 
@@ -278,7 +282,6 @@ const RestaurantsExplore = () => {
           playsInline
         ></video>
 
-        {/* Optional overlay text */}
         <div className="absolute inset-0 bg-black/40 flex flex-col justify-center items-center text-center px-6">
           <h2 className="text-white text-3xl md:text-5xl font-bold mb-3">
             Taste the Best of Cape Town
@@ -291,31 +294,26 @@ const RestaurantsExplore = () => {
       </div>
 
       {renderCarousel("Student Takeaways", "takeaway", takeawayRef)}
-      {renderCarousel("Dessert Places", "Dessert", DessertRef)}
-      {renderCarousel("Hangout Bars & Social Eateries", "Hangout", HangoutRef)}
+      {renderCarousel("Dessert Places", "dessert", dessertRef)}
+      {renderCarousel("Hangout Bars & Social Eateries", "hangout", hangoutRef)}
 
-      {/* Green banner */}
       <div className="w-full md:h-full h-[600px] mt-[80px] flex justify-center items-center rounded-2xl">
         <img
-        src={images[currentIndex]}
-        alt="banner"
-        className={`w-full h-full md:object-cover rounded-2xl transition-opacity duration-500 md:hidden flex ${
-          fade ? "opacity-100" : "opacity-0"
-        }`}
-      />
+          src={images[currentIndex]}
+          alt="banner"
+          className={`w-full h-full md:object-cover rounded-2xl transition-opacity duration-500 md:hidden flex ${
+            fade ? "opacity-100" : "opacity-0"
+          }`}
+        />
 
-      <img
-        src="/foodpost1.png"
-        alt="banner"
-        className="w-full h-full object-cover rounded-2xl md:flex hidden"
-      />
+        <img
+          src="/foodpost1.png"
+          alt="banner"
+          className="w-full h-full object-cover rounded-2xl md:flex hidden"
+        />
       </div>
 
-      {renderCarousel(
-        "Breakfast / Brunch Places",
-        "Breakfast / Brunch Places",
-        BufferRef
-      )}
+      {renderCarousel("Breakfast / Brunch Places", "breakfast", breakfastRef)}
     </div>
   );
 };

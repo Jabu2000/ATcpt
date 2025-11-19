@@ -1,29 +1,47 @@
 import express from "express";
-import Adventure from "../models/Adventure.js";
 import { requireAuth } from "../middlewares/auth.js";
+import User from "../models/User.js";
+import Adventure from "../models/Adventure.js";
 
 const router = express.Router();
 
-// Save adventure (push to user saved list)
-router.post("/save/:adventureId", requireAuth, async (req, res) => {
-  const adv = await Adventure.findById(req.params.adventureId);
-  if (!adv) return res.status(404).json({ message: "Adventure not found" });
-  req.user.savedAdventures.push(adv._id);
-  await req.user.save();
-  res.json({ message: "Saved" });
-});
-
-// Get saved adventures
+// GET SAVED ADVENTURES
 router.get("/saved", requireAuth, async (req, res) => {
-  const adventures = await Adventure.find({ _id: { $in: req.user.savedAdventures } });
-  res.json(adventures);
+  try {
+    const user = await User.findById(req.user._id).populate("savedAdventures");
+    res.json(user.savedAdventures);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
+  }
 });
 
-// Remove saved adventure
-router.delete("/saved/:id", requireAuth, async (req, res) => {
-  req.user.savedAdventures = req.user.savedAdventures.filter(a => a.toString() !== req.params.id);
-  await req.user.save();
-  res.json({ message: "Removed" });
+// REMOVE SAVED ADVENTURE
+router.delete("/saved/:adventureId", requireAuth, async (req, res) => {
+  try {
+    const { adventureId } = req.params;
+    await User.findByIdAndUpdate(req.user._id, {
+      $pull: { savedAdventures: adventureId },
+    });
+    res.json({ message: "Removed from saved adventures" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
+// OPTIONAL: ADD TO SAVED
+router.post("/save/:adventureId", requireAuth, async (req, res) => {
+  try {
+    const { adventureId } = req.params;
+    await User.findByIdAndUpdate(req.user._id, {
+      $addToSet: { savedAdventures: adventureId },
+    });
+    res.json({ message: "Adventure saved" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
+  }
 });
 
 export default router;

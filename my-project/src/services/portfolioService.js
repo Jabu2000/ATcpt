@@ -1,45 +1,49 @@
-import axios from "axios";
+import API from "./api"; // your axios instance
+import { toast } from "react-hot-toast";
 
-const API_URL = import.meta.env.VITE_API_URL || "https://adventuretimecpt.onrender.com";
-
-// Axios instance with auth + cookies
-const API = axios.create({
-  baseURL: `${API_URL}/api`,
-  withCredentials: true,
-});
-
-// Add token if stored
-API.interceptors.request.use((req) => {
-  const token = localStorage.getItem("token");
-  if (token) req.headers.Authorization = `Bearer ${token}`;
-  return req;
-});
-
-// ---------------- SAVED ADVENTURES ----------------
+/**
+ * Fetch saved adventures for the current user
+ * GET /api/adventures/saved
+ */
 export const getSavedAdventures = async () => {
-  const { data } = await API.get("/saved");
-  return data;
+  try {
+    const { data } = await API.get("/adventures/saved", { withCredentials: true });
+    return data; // returns an array of adventures
+  } catch (err) {
+    console.error("Error fetching saved adventures:", err);
+    toast.error("Failed to load saved adventures");
+    return [];
+  }
 };
 
-export const saveAdventure = async (type, refId, details) => {
-  const { data } = await API.post("/saved", { type, refId, details });
-  return data;
-};
-
+/**
+ * Remove a saved adventure by ID
+ * DELETE /api/adventures/saved/:id
+ */
 export const removeAdventure = async (type, refId) => {
-  const { data } = await API.delete(`/saved/${type}/${refId}`);
-  return data;
+  // type can be "adventure" for now
+  try {
+    await API.delete(`/adventures/saved/${refId}`, { withCredentials: true });
+    toast.success("Removed from saved adventures");
+  } catch (err) {
+    console.error("Error removing saved adventure:", err);
+    toast.error("Failed to remove adventure");
+    throw err;
+  }
 };
 
-// ---------------- COMMENTS ----------------
-export const addComment = async (type, refId, formData) => {
-  const { data } = await API.post(`/${type}s/${refId}/comment`, formData, {
-    headers: { "Content-Type": "multipart/form-data" },
-  });
-  return data;
-};
-
-export const deleteComment = async (type, refId, commentId) => {
-  const { data } = await API.delete(`/${type}s/${refId}/comment/${commentId}`);
-  return data;
+/**
+ * Save a new adventure (optional)
+ * POST /api/adventures/save/:adventureId
+ */
+export const saveAdventure = async (adventureId) => {
+  try {
+    const { data } = await API.post(`/adventures/save/${adventureId}`, {}, { withCredentials: true });
+    toast.success("Adventure saved!");
+    return data;
+  } catch (err) {
+    console.error("Error saving adventure:", err);
+    toast.error("Failed to save adventure");
+    throw err;
+  }
 };

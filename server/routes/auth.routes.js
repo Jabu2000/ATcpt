@@ -1,7 +1,12 @@
 import express from "express";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+
 import User from "../models/User.js";
+
+import multer from "multer";
+import path from "path";
+import { requireAuth } from "../middlewares/auth.js";
 
 const router = express.Router();
 
@@ -113,5 +118,65 @@ router.delete("/delete", async (req, res) => {
     res.status(400).json({ message: "Server error" });
   }
 });
+
+// -------- PROFILE PICTURE UPLOAD SETUP --------
+
+// --- GET PROFILE ---
+router.get("/profile", requireAuth, async (req, res) => {
+  try {
+    res.json(req.user);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
+// --- UPDATE PROFILE ---
+router.patch("/profile", requireAuth, async (req, res) => {
+  const { username, description } = req.body;
+  try {
+    const updated = await User.findByIdAndUpdate(
+      req.user._id,
+      { username, description },
+      { new: true } // return updated document
+    );
+    res.json({ user: updated });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: err.message });
+  }
+});
+
+// --- PROFILE PICTURE UPLOAD ---
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => cb(null, "uploads/"),
+  filename: (req, file, cb) =>
+    cb(null, Date.now() + path.extname(file.originalname)),
+});
+const upload = multer({ storage });
+
+router.post(
+  "/upload-profile",
+  requireAuth,
+  upload.single("profilePic"),
+  async (req, res) => {
+    if (!req.file)
+      return res.status(400).json({ message: "No file uploaded" });
+
+    try {
+      const url = `/uploads/${req.file.filename}`;
+      const updated = await User.findByIdAndUpdate(
+        req.user._id,
+        { profilePicture: url },
+        { new: true }
+      );
+      res.json({ user: updated });
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ message: err.message });
+    }
+  }
+);
+
 
 export default router;
